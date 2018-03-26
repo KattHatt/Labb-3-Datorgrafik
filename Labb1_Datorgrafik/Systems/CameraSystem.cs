@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb1_Datorgrafik
 {
     class CameraSystem : ISystem
     {
