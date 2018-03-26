@@ -7,7 +7,7 @@ namespace Labb1_Datorgrafik
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Labb1 : Game
     {
         GraphicsDeviceManager graphics;
         GraphicsDevice gd;
@@ -24,7 +24,10 @@ namespace Labb1_Datorgrafik
         //Orbit
         bool orbit = false;
 
-        public Game1()
+        ComponentManager cm = ComponentManager.GetInstance();
+        SystemManager sm = SystemManager.GetInstance();
+
+        public Labb1()
         {
             graphics = new GraphicsDeviceManager(this);
             gd = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, new PresentationParameters());

@@ -14,7 +14,7 @@ namespace Labb1_Datorgrafik
         [STAThread]
         static void Main()
         {
-            using (var game = new Game1())
+            using (var game = new Labb1())
                 game.Run();
         }
     }
