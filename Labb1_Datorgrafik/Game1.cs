@@ -28,7 +28,7 @@ namespace Labb1_Datorgrafik
         {
             // TODO: Add your initialization logic here
 
-            base.Initialize();
+            base.Initialize(); //hej
         }
 
         /// <summary>
