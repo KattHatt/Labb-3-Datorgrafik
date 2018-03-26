@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Labb1_Datorgrafik
 {
-    class TransformComponent : IComponent
+    public class TransformComponent : IComponent
     {
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
