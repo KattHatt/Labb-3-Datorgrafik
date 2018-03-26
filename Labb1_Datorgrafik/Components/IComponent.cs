@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Labb1_Datorgrafik
 {
-    interface IComponent
+    public interface IComponent
     {
     }
 }

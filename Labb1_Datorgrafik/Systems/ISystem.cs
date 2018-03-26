@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Labb1_Datorgrafik
 {
-    interface ISystem
+    public interface ISystem
     {
+        void Start();
         void Update(GameTime gametime);
     }
 }
