@@ -12,7 +12,7 @@ namespace Labb1_Datorgrafik
         GraphicsDeviceManager graphics;
         GraphicsDevice gd;
         SpriteBatch spriteBatch;
-        Camera cam;
+        //CameraComponent cam;
 
         //BasicEffect for rendering
         BasicEffect basicEffect;
@@ -43,7 +43,7 @@ namespace Labb1_Datorgrafik
         protected override void Initialize()
         {
             // Camera
-            cam = new Camera(gd);
+            //cam = new Camera(gd);
 
 
             //BasicEffect
@@ -108,45 +108,45 @@ namespace Labb1_Datorgrafik
                 Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X -1f, cam.CamPosition.Y, cam.CamPosition.Z);
-                cam.CamTarget = new Vector3(cam.CamTarget.X - 1f, cam.CamTarget.Y, cam.CamTarget.Z);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X + 1f, cam.CamPosition.Y, cam.CamPosition.Z);
-                cam.CamTarget = new Vector3(cam.CamTarget.X + 1f, cam.CamTarget.Y, cam.CamTarget.Z);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X, cam.CamPosition.Y - 1f, cam.CamPosition.Z);
-                cam.CamTarget = new Vector3(cam.CamTarget.X, cam.CamTarget.Y - 1f, cam.CamTarget.Z);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X, cam.CamPosition.Y + 1f, cam.CamPosition.Z);
-                cam.CamTarget = new Vector3(cam.CamTarget.X, cam.CamTarget.Y + 1f, cam.CamTarget.Z);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X, cam.CamPosition.Y, cam.CamPosition.Z + 1f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
-            {
-                cam.CamPosition = new Vector3(cam.CamPosition.X, cam.CamPosition.Y, cam.CamPosition.Z - 1f);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                orbit = !orbit;
-            }
+            //if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X -1f, cam.Position.Y, cam.Position.Z);
+            //    cam.Target = new Vector3(cam.Target.X - 1f, cam.Target.Y, cam.Target.Z);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X + 1f, cam.Position.Y, cam.Position.Z);
+            //    cam.Target = new Vector3(cam.Target.X + 1f, cam.Target.Y, cam.Target.Z);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y - 1f, cam.Position.Z);
+            //    cam.Target = new Vector3(cam.Target.X, cam.Target.Y - 1f, cam.Target.Z);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y + 1f, cam.Position.Z);
+            //    cam.Target = new Vector3(cam.Target.X, cam.Target.Y + 1f, cam.Target.Z);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y, cam.Position.Z + 1f);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+            //{
+            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y, cam.Position.Z - 1f);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            //{
+            //    orbit = !orbit;
+            //}
 
-            if (orbit)
-            {
-                Matrix rotationMatrix = Matrix.CreateRotationY(MathHelper.ToRadians(1f));
-                cam.CamPosition = Vector3.Transform(cam.CamPosition, rotationMatrix);
-            }
-            cam.ViewMatrix = Matrix.CreateLookAt(cam.CamPosition, cam.CamTarget, Vector3.Up);
+            //if (orbit)
+            //{
+            //    Matrix rotationMatrix = Matrix.CreateRotationY(MathHelper.ToRadians(1f));
+            //    cam.Position = Vector3.Transform(cam.Position, rotationMatrix);
+            //}
+            //cam.ViewMatrix = Matrix.CreateLookAt(cam.Position, cam.Target, Vector3.Up);
 
             base.Update(gameTime);
         }
@@ -157,9 +157,9 @@ namespace Labb1_Datorgrafik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            basicEffect.Projection = cam.ProjectionMatrix;
-            basicEffect.View = cam.ViewMatrix;
-            basicEffect.World = cam.WorldMatrix;
+            //basicEffect.Projection = cam.ProjectionMatrix;
+            //basicEffect.View = cam.ViewMatrix;
+            //basicEffect.World = cam.WorldMatrix;
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
