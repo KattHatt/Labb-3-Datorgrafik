@@ -42,13 +42,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Labb1.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\HeightMapSystem.cs" />
     <Compile Include="Systems\ISystem.cs" />
+    <Compile Include="Systems\ModelSystem.cs" />
+    <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
