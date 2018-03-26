@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Labb1_Datorgrafik
@@ -16,7 +12,14 @@ namespace Labb1_Datorgrafik
 
         public void Update(GameTime gametime)
         {
-            throw new NotImplementedException();
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            foreach(var entity in cm.GetComponentsOfType<CameraComponent>())
+            {
+                CameraComponent cam = (CameraComponent)entity.Value;
+
+                // TODO
+            }
         }
     }
 }

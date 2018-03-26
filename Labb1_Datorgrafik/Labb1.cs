@@ -110,7 +110,7 @@ namespace Labb1_Datorgrafik
 
             //if (Keyboard.GetState().IsKeyDown(Keys.Left))
             //{
-            //    cam.Position = new Vector3(cam.Position.X -1f, cam.Position.Y, cam.Position.Z);
+            //    cam.Position = new Vector3(cam.Position.X - 1f, cam.Position.Y, cam.Position.Z);
             //    cam.Target = new Vector3(cam.Target.X - 1f, cam.Target.Y, cam.Target.Z);
             //}
             //if (Keyboard.GetState().IsKeyDown(Keys.Right))
