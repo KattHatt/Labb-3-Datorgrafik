@@ -18,5 +18,18 @@ namespace Labb1_Datorgrafik.Tools
 
             return cam;
         }
+
+        public static int CreateHeightMap(string heightMapFilePath, string textureFilePath)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            HeightMapComponent hmComp = new HeightMapComponent();
+            hmComp.HeightMapFilePath = heightMapFilePath;
+            hmComp.TextureFilePath = textureFilePath;
+            ModelComponent hmModel = new ModelComponent();
+            int hm = cm.AddEntityWithComponents(new IComponent[] { hmModel, new TransformComponent() });
+
+            return hm;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Labb1_Datorgrafik.Managers;
@@ -71,6 +72,11 @@ namespace Labb1_Datorgrafik.Systems
                 be.View = cam.ViewMatrix;
                 be.World = cam.WorldMatrix;
             }
+        }
+
+        public void Load(ContentManager content)
+        {
+            throw new NotImplementedException();
         }
     }
 }

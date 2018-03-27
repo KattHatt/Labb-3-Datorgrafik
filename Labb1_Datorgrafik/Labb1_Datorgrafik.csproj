@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\CameraComponent.cs" />
+    <Compile Include="Components\HeightMapComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
