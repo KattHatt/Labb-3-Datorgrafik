@@ -1,14 +1,10 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb1_Datorgrafik
 {
     public interface IRender
     {
-        void Render(GraphicsDevice gd, BasicEffect effect);
+        void Render(GraphicsDevice gd, Matrix worldMatrix);
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb1_Datorgrafik
 {
-    class ModelSystem : ISystem
+    class ModelSystem : ISystem, IRender
     {
         public void Start()
         {
@@ -35,6 +35,21 @@ namespace Labb1_Datorgrafik
             {
                 ModelComponent modelComp = (ModelComponent)entity.Value;
                 modelComp.Model = content.Load<Model>(modelComp.ModelPath);
+            }
+        }
+
+        public void Render(GraphicsDevice gd, Matrix worldMatrix)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+            {
+                ModelComponent modelComp = (ModelComponent)model.Value;
+                if (modelComp.isActive)
+                {
+
+
+                }
             }
         }
     }
