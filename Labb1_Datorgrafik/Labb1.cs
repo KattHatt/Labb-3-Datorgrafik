@@ -72,6 +72,13 @@ namespace Labb1_Datorgrafik
                            WriteOnly);
             vertexBuffer.SetData(triangleVertices);
 
+            //Create all systems
+            sm.AddSystem(new CameraSystem());
+
+            //Create all entities
+            int c = EntityFactory.CreateCamera(GraphicsDevice);
+
+
             base.Initialize();
         }
 
@@ -107,6 +114,8 @@ namespace Labb1_Datorgrafik
                 ButtonState.Pressed || Keyboard.GetState().IsKeyDown(
                 Keys.Escape))
                 Exit();
+
+            sm.Update<CameraSystem>(gameTime);
 
             //if (Keyboard.GetState().IsKeyDown(Keys.Left))
             //{
@@ -157,9 +166,11 @@ namespace Labb1_Datorgrafik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //basicEffect.Projection = cam.ProjectionMatrix;
-            //basicEffect.View = cam.ViewMatrix;
-            //basicEffect.World = cam.WorldMatrix;
+            CameraComponent cam = cm.GetComponentForEntity<CameraComponent>(0);
+
+            basicEffect.Projection = cam.ProjectionMatrix;
+            basicEffect.View = cam.ViewMatrix;
+            basicEffect.World = cam.WorldMatrix;
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
