@@ -65,9 +65,9 @@ namespace Labb1_Datorgrafik
             {
                 CameraComponent cam = (CameraComponent)entity.Value;
 
-                effect.Projection = cam.ProjectionMatrix;
-                effect.View = cam.ViewMatrix;
-                effect.World = cam.WorldMatrix;
+                be.Projection = cam.ProjectionMatrix;
+                be.View = cam.ViewMatrix;
+                be.World = cam.WorldMatrix;
             }
         }
     }
