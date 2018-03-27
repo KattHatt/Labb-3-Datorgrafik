@@ -15,13 +15,6 @@ namespace Labb1_Datorgrafik.Components
             IsActive = false;
         }
 
-        public ModelComponent()
-        {
-            Model = null;
-            ModelPath = null;
-            isActive = false;
-        }
-
         public ModelComponent(string modelPath)
         {
             Model = null;

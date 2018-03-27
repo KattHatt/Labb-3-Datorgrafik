@@ -13,7 +13,7 @@ namespace Labb1_Datorgrafik.Components
         public string TextureFilePath;
         public Texture2D HeightMap;
         public Texture2D texture;
-        public VertexPositionTexture[] Vertices;
+        public VertexPositionColor[] Vertices;
         public int Width;
         public int Height;
         public int[] Indices;

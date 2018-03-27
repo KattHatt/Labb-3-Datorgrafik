@@ -77,6 +77,7 @@ namespace Labb1_Datorgrafik
 
             //Create all systems
             sm.AddSystem(new CameraSystem());
+            sm.AddSystem(new HeightMapSystem());
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
@@ -93,6 +94,8 @@ namespace Labb1_Datorgrafik
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            sm.GetSystem<HeightMapSystem>().Load(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -169,8 +172,8 @@ namespace Labb1_Datorgrafik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
             sm.Render<CameraSystem>(gd, basicEffect);
+            sm.Render<HeightMapSystem>(gd, basicEffect);
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);

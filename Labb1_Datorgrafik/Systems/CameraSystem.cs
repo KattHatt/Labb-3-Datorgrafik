@@ -71,6 +71,7 @@ namespace Labb1_Datorgrafik.Systems
                 be.Projection = cam.ProjectionMatrix;
                 be.View = cam.ViewMatrix;
                 be.World = cam.WorldMatrix;
+
             }
         }
 

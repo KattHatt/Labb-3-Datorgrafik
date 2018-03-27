@@ -16,7 +16,7 @@ namespace Labb1_Datorgrafik.Components
             UpVector = Vector3.Up;
             Target = new Vector3(0f, 0f, 0f);
             float aspectRatio = gd.DisplayMode.AspectRatio;
-            Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.1f, 100.0f, out ProjectionMatrix);
+            Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.1f, 1000.0f, out ProjectionMatrix);
             WorldMatrix = Matrix.CreateWorld(Target, Vector3.Forward, Vector3.Up);
         }
     }

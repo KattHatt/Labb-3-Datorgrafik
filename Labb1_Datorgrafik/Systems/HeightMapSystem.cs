@@ -21,7 +21,15 @@ namespace Labb1_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
-            throw new NotImplementedException();
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            foreach (var entity in cm.GetComponentsOfType<HeightMapComponent>())
+            {
+                HeightMapComponent hmc = (HeightMapComponent)entity.Value;
+
+                gd.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, hmc.Vertices, 0, hmc.Vertices.Length, hmc.Indices, 0, hmc.Indices.Length / 3, VertexPositionColor.VertexDeclaration);
+                //be.Texture = hmc.texture;
+            }
         }
 
         public void Load(ContentManager content)
@@ -32,14 +40,27 @@ namespace Labb1_Datorgrafik.Systems
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
 
+                int terrainWidth = hmc.HeightMap.Width;
+                int terrainHeight = hmc.HeightMap.Height;
+
+                Color[] heightMapColors = new Color[terrainWidth * terrainHeight];
+                hmc.HeightMap.GetData(heightMapColors);
+
+                hmc.HeightMapData = new float[terrainWidth, terrainHeight];
+                for (int x = 0; x < terrainWidth; x++)
+                    for (int y = 0; y < terrainHeight; y++)
+                        hmc.HeightMapData[x, y] = heightMapColors[x + y * terrainWidth].R / 5.0f;
+
                 hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
                 hmc.texture = content.Load<Texture2D>(hmc.TextureFilePath);
                 hmc.Width = hmc.HeightMap.Width;
                 hmc.Height = hmc.HeightMap.Height;
-
+                hmc = SetHeights(hmc);
+                hmc = SetVertices(hmc);
+                hmc = SetIndices(hmc);
             }
         }
-        public void SetHeights(HeightMapComponent hmc)
+        HeightMapComponent SetHeights(HeightMapComponent hmc)
         {
             Color[] greyValues = new Color[hmc.Width * hmc.Height];
             hmc.HeightMap.GetData(greyValues);
@@ -51,9 +72,10 @@ namespace Labb1_Datorgrafik.Systems
                     hmc.HeightMapData[x, y] = greyValues[x + y * hmc.Width].G / 3.1f;
                 }
             }
+            return hmc;
         }
 
-        public void SetIndices(HeightMapComponent hmc)
+        HeightMapComponent SetIndices(HeightMapComponent hmc)
         {
             // amount of triangles
             hmc.Indices = new int[6 * (hmc.Width - 1) * (hmc.Height - 1)];
@@ -71,31 +93,22 @@ namespace Labb1_Datorgrafik.Systems
                     hmc.Indices[number + 5] = x + y * hmc.Width + 1;        // down right
                     number += 6;
                 }
+            return hmc;
         }
 
-        public void SetVertices(HeightMapComponent hmc)
+        HeightMapComponent SetVertices(HeightMapComponent hmc)
         {
-            hmc.Vertices = new VertexPositionTexture[hmc.Width * hmc.Height];
+            hmc.Vertices = new VertexPositionColor[hmc.Width * hmc.Height];
             Vector2 texturePosition;
             for (int x = 0; x < hmc.Width; x++)
             {
                 for (int y = 0; y < hmc.Height; y++)
                 {
-                    texturePosition = new Vector2((float)x / 25.5f, (float)y / 25.5f);
-                    hmc.Vertices[x + y * hmc.Width] = new VertexPositionTexture(new Vector3(x, hmc.HeightMapData[x, y], -y), texturePosition);
+                    hmc.Vertices[x + y * hmc.Width].Position = new Vector3(x, hmc.HeightMapData[x, y], -y);
+                    hmc.Vertices[x + y * hmc.Width].Color = Color.White;
                 }
             }
-        }
-
-
-
-        public BasicEffect SetEffects(HeightMapComponent hmc, GraphicsDevice gd)
-        {
-            BasicEffect basicEffect = new BasicEffect(gd);
-            basicEffect.Texture = hmc.texture;
-            basicEffect.TextureEnabled = true;
-
-            return basicEffect;
+            return hmc;
         }
     }
 }
