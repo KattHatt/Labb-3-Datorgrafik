@@ -57,7 +57,7 @@ namespace Labb1_Datorgrafik
             }
         }
 
-        public void Render(GraphicsDevice gd, Matrix worldMatrix)
+        public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
@@ -65,9 +65,9 @@ namespace Labb1_Datorgrafik
             {
                 CameraComponent cam = (CameraComponent)entity.Value;
 
-                //effect.Projection = cam.ProjectionMatrix;
-                //effect.View = cam.ViewMatrix;
-                //effect.World = cam.WorldMatrix;
+                effect.Projection = cam.ProjectionMatrix;
+                effect.View = cam.ViewMatrix;
+                effect.World = cam.WorldMatrix;
             }
         }
     }

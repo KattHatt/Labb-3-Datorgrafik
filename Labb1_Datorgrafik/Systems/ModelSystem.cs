@@ -38,7 +38,7 @@ namespace Labb1_Datorgrafik
             }
         }
 
-        public void Render(GraphicsDevice gd, Matrix worldMatrix)
+        public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
