@@ -22,7 +22,7 @@ namespace Labb1_Datorgrafik
                 ModelComponent modelComp = (ModelComponent)model.Value;
                 if (modelComp.isActive)
                 {
-                    
+                    // TODO?
                     
                 }               
             }
@@ -42,13 +42,28 @@ namespace Labb1_Datorgrafik
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+            foreach(var world in cm.GetComponentsOfType<WorldComponent>())
             {
-                ModelComponent modelComp = (ModelComponent)model.Value;
-                if (modelComp.isActive)
+                WorldComponent worldMatrixComponent = (WorldComponent)world.Value;
+
+                foreach (var model in cm.GetComponentsOfType<ModelComponent>())
                 {
-
-
+                    ModelComponent modelComp = (ModelComponent)model.Value;
+                    if (modelComp.isActive)
+                    {
+                        foreach (ModelMesh mesh in modelComp.Model.Meshes)
+                        {
+                            foreach (BasicEffect effect in mesh.Effects)
+                            {
+                                //effect.EnableDefaultLighting();
+                                effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                                //effect.View = viewMatrix;
+                                effect.World = worldMatrixComponent.WorldMatrix;
+                                //effect.Projection = projectionMatrix;
+                            }
+                            mesh.Draw();
+                        }
+                    }
                 }
             }
         }

@@ -39,11 +39,11 @@ namespace Labb1_Datorgrafik
             ((ISystem)system)?.Update(gameTime);
         }
 
-        public void Render<T>(GraphicsDevice gd, BasicEffect effect)
+        public void Render<T>(GraphicsDevice gd, BasicEffect be)
         {
             object system;
             systems.TryGetValue(typeof(T), out system);
-            ((IRender)system)?.Render(gd, effect);
+            ((IRender)system)?.Render(gd, be);
         }
 
         public void AddSystem(object system)
