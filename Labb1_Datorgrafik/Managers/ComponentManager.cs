@@ -25,10 +25,23 @@ namespace Labb1_Datorgrafik
             return componentManagerInstance;
         }
 
-        public void AddEntityWithComponents(params IComponent[] components)
+        public int AddEntityWithComponents(params IComponent[] components)
         {
             int entity = GetEntityId();
             AddComponentsToEntity(entity, components);
+            return entity;
+        }
+
+        public T GetComponentForEntity<T>(int entity) where T : IComponent
+        {
+            if (entityComponents.ContainsKey(entity))
+            {
+                var components = entityComponents[entity];
+                IComponent component;
+                components.TryGetValue(typeof(T), out component);
+                return (T)component;
+            }
+            return default(T);
         }
 
         static int nextId;
