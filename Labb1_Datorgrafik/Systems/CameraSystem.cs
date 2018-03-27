@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Labb1_Datorgrafik
 {
-    class CameraSystem : ISystem
+    class CameraSystem : ISystem, IRender
     {
         public void Start()
         {
@@ -15,7 +16,7 @@ namespace Labb1_Datorgrafik
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach(var entity in cm.GetComponentsOfType<CameraComponent>())
+            foreach (var entity in cm.GetComponentsOfType<CameraComponent>())
             {
                 CameraComponent cam = (CameraComponent)entity.Value;
                 TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(entity.Key);
@@ -53,6 +54,20 @@ namespace Labb1_Datorgrafik
 
                 //Console.WriteLine("hej" + transform.Position);
                 // TODO
+            }
+        }
+
+        public void Render(GraphicsDevice gd, BasicEffect effect)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            foreach (var entity in cm.GetComponentsOfType<CameraComponent>())
+            {
+                CameraComponent cam = (CameraComponent)entity.Value;
+
+                effect.Projection = cam.ProjectionMatrix;
+                effect.View = cam.ViewMatrix;
+                effect.World = cam.WorldMatrix;
             }
         }
     }

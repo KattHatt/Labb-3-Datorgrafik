@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
@@ -36,6 +37,13 @@ namespace Labb1_Datorgrafik
             object system;
             systems.TryGetValue(typeof(T), out system);
             ((ISystem)system)?.Update(gameTime);
+        }
+
+        public void Render<T>(GraphicsDevice gd, BasicEffect effect)
+        {
+            object system;
+            systems.TryGetValue(typeof(T), out system);
+            ((IRender)system)?.Render(gd, effect);
         }
 
         public void AddSystem(object system)

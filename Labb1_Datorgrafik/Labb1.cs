@@ -166,11 +166,8 @@ namespace Labb1_Datorgrafik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            CameraComponent cam = cm.GetComponentForEntity<CameraComponent>(0);
 
-            basicEffect.Projection = cam.ProjectionMatrix;
-            basicEffect.View = cam.ViewMatrix;
-            basicEffect.World = cam.WorldMatrix;
+            sm.Render<CameraSystem>(gd, basicEffect);
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
