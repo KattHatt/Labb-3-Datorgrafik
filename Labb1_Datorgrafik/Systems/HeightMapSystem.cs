@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Systems
 {
     class HeightMapSystem : ISystem
     {

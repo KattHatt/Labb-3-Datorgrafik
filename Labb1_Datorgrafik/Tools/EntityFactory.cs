@@ -1,12 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Labb1_Datorgrafik.Components;
+using Labb1_Datorgrafik.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Tools
 {
     public static class EntityFactory
     {

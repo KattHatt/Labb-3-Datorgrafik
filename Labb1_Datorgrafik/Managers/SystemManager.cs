@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Labb1_Datorgrafik.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Managers
 {
     class SystemManager
     {

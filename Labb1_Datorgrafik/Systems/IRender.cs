@@ -1,7 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Systems
 {
     public interface IRender
     {

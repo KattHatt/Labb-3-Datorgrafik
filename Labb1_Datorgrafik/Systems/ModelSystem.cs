@@ -1,10 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Labb1_Datorgrafik.Components;
+using Labb1_Datorgrafik.Managers;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Systems
 {
     class ModelSystem : ISystem, IRender
     {
@@ -23,7 +24,6 @@ namespace Labb1_Datorgrafik
                 if (modelComp.isActive)
                 {
                     // TODO?
-                    
                 }               
             }
         }

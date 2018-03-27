@@ -2,8 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Labb1_Datorgrafik.Managers;
+using Labb1_Datorgrafik.Components;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Systems
 {
     class CameraSystem : ISystem, IRender
     {

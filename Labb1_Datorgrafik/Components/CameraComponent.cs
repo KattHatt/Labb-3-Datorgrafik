@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Components
 {
     public class CameraComponent : IComponent
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Labb1_Datorgrafik
+namespace Labb1_Datorgrafik.Components
 {
     public class TransformComponent : IComponent
     {
