@@ -6,13 +6,20 @@ namespace Labb1_Datorgrafik.Components
     {
         public Model Model { get; set; }
         public string ModelPath { get; set; }
-        public bool isActive { get; set; }
+        public bool IsActive { get; set; }
+
+        public ModelComponent()
+        {
+            Model = null;
+            ModelPath = null;
+            IsActive = false;
+        }
 
         public ModelComponent(string modelPath)
         {
             Model = null;
             ModelPath = modelPath;
-            isActive = true;
+            IsActive = true;
         }
     }
 }

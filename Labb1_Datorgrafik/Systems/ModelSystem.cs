@@ -21,7 +21,7 @@ namespace Labb1_Datorgrafik.Systems
             foreach(var model in cm.GetComponentsOfType<ModelComponent>())
             {     
                 ModelComponent modelComp = (ModelComponent)model.Value;
-                if (modelComp.isActive)
+                if (modelComp.IsActive)
                 {
                     // TODO?
                 }               
@@ -49,7 +49,7 @@ namespace Labb1_Datorgrafik.Systems
                 foreach (var model in cm.GetComponentsOfType<ModelComponent>())
                 {
                     ModelComponent modelComp = (ModelComponent)model.Value;
-                    if (modelComp.isActive)
+                    if (modelComp.IsActive)
                     {
                         foreach (ModelMesh mesh in modelComp.Model.Meshes)
                         {
