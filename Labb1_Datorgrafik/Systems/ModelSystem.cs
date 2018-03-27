@@ -16,16 +16,7 @@ namespace Labb1_Datorgrafik.Systems
 
         public void Update(GameTime gametime)
         {
-            ComponentManager cm = ComponentManager.GetInstance();
-
-            foreach(var model in cm.GetComponentsOfType<ModelComponent>())
-            {     
-                ModelComponent modelComp = (ModelComponent)model.Value;
-                if (modelComp.IsActive)
-                {
-                    // TODO?
-                }               
-            }
+            throw new NotImplementedException();
         }
 
         public void Load(ContentManager content)

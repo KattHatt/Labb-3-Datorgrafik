@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Labb1_Datorgrafik.Components;
+using Labb1_Datorgrafik.Managers;
 
 namespace Labb1_Datorgrafik.Systems
 {
