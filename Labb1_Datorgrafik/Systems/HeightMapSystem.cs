@@ -26,8 +26,9 @@ namespace Labb1_Datorgrafik.Systems
             foreach (var entity in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
+                be.CurrentTechnique.Passes[0].Apply();
 
-                gd.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, hmc.Vertices, 0, hmc.Vertices.Length, hmc.Indices, 0, hmc.Indices.Length / 3, VertexPositionColor.VertexDeclaration);
+                gd.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, hmc.Vertices, 0, hmc.Vertices.Length, hmc.Indices, 0, hmc.Indices.Length / 3);
                 //be.Texture = hmc.texture;
             }
         }
@@ -40,6 +41,11 @@ namespace Labb1_Datorgrafik.Systems
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
 
+                hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
+                hmc.texture = content.Load<Texture2D>(hmc.TextureFilePath);
+                hmc.Width = hmc.HeightMap.Width;
+                hmc.Height = hmc.HeightMap.Height;
+
                 int terrainWidth = hmc.HeightMap.Width;
                 int terrainHeight = hmc.HeightMap.Height;
 
@@ -51,10 +57,6 @@ namespace Labb1_Datorgrafik.Systems
                     for (int y = 0; y < terrainHeight; y++)
                         hmc.HeightMapData[x, y] = heightMapColors[x + y * terrainWidth].R / 5.0f;
 
-                hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
-                hmc.texture = content.Load<Texture2D>(hmc.TextureFilePath);
-                hmc.Width = hmc.HeightMap.Width;
-                hmc.Height = hmc.HeightMap.Height;
                 hmc = SetHeights(hmc);
                 hmc = SetVertices(hmc);
                 hmc = SetIndices(hmc);

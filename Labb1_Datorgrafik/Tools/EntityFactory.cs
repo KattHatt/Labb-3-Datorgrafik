@@ -27,8 +27,9 @@ namespace Labb1_Datorgrafik.Tools
             HeightMapComponent hmComp = new HeightMapComponent();
             hmComp.HeightMapFilePath = heightMapFilePath;
             hmComp.TextureFilePath = textureFilePath;
-            ModelComponent hmModel = new ModelComponent();
-            int hm = cm.AddEntityWithComponents(new IComponent[] { hmModel, new TransformComponent() });
+            //ModelComponent hmModel = new ModelComponent();
+            //int hm = cm.AddEntityWithComponents(new IComponent[] { hmModel, new TransformComponent() });
+            int hm = cm.AddEntityWithComponents(hmComp);
 
             return hm;
         }

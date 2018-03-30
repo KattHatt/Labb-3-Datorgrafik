@@ -4,6 +4,7 @@ using Labb1_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Labb1_Datorgrafik.Components;
 
 namespace Labb1_Datorgrafik
 {
@@ -13,7 +14,7 @@ namespace Labb1_Datorgrafik
     public class Labb1 : Game
     {
         GraphicsDeviceManager graphics;
-        GraphicsDevice gd;
+        //GraphicsDevice gd;
         SpriteBatch spriteBatch;
         //CameraComponent cam;
 
@@ -33,7 +34,7 @@ namespace Labb1_Datorgrafik
         public Labb1()
         {
             graphics = new GraphicsDeviceManager(this);
-            gd = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, new PresentationParameters());
+            //gd = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, new PresentationParameters());
             Content.RootDirectory = "Content";
         }
 
@@ -45,6 +46,8 @@ namespace Labb1_Datorgrafik
         /// </summary>
         protected override void Initialize()
         {
+            ComponentManager cm = ComponentManager.GetInstance();
+
             // Camera
             //cam = new Camera(gd);
 
@@ -81,6 +84,7 @@ namespace Labb1_Datorgrafik
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
+            EntityFactory.CreateHeightMap("US_Canyon", "US_Canyon");
 
 
             base.Initialize();
@@ -121,7 +125,7 @@ namespace Labb1_Datorgrafik
                 Keys.Escape))
                 Exit();
 
-            sm.Update<CameraSystem>(gameTime);
+            //sm.Update<CameraSystem>(gameTime);
 
             //if (Keyboard.GetState().IsKeyDown(Keys.Left))
             //{
@@ -172,9 +176,6 @@ namespace Labb1_Datorgrafik
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            sm.Render<CameraSystem>(gd, basicEffect);
-            sm.Render<HeightMapSystem>(gd, basicEffect);
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
@@ -183,10 +184,23 @@ namespace Labb1_Datorgrafik
             rasterizerState.CullMode = CullMode.None;
             GraphicsDevice.RasterizerState = rasterizerState;
 
+            //sm.Render<CameraSystem>(gd, basicEffect);
+            sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
+
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
+                //GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
+
+                VertexPositionColor[] vertices = new VertexPositionColor[3];
+                vertices[0].Position = new Vector3(-0.5f, -0.5f, 0f);
+                vertices[0].Color = Color.Red;
+                vertices[1].Position = new Vector3(0, 0.5f, 0f);
+                vertices[1].Color = Color.Green;
+                vertices[2].Position = new Vector3(0.5f, -0.5f, 0f);
+                vertices[2].Color = Color.Yellow;
+                int[] indices = { 0, 1, 2 };
+                GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, 3, indices, 0, 1);
             }
 
             base.Draw(gameTime);

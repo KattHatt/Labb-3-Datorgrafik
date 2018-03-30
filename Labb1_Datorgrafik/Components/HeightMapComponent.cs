@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Labb1_Datorgrafik.Components
 {
-    class HeightMapComponent
+    public class HeightMapComponent : IComponent
     {
         public string HeightMapFilePath;
         public string TextureFilePath;
