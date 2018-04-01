@@ -14,7 +14,6 @@ namespace Labb1_Datorgrafik
     public class Labb1 : Game
     {
         GraphicsDeviceManager graphics;
-        //GraphicsDevice gd;
         SpriteBatch spriteBatch;
         //CameraComponent cam;
 
@@ -34,7 +33,6 @@ namespace Labb1_Datorgrafik
         public Labb1()
         {
             graphics = new GraphicsDeviceManager(this);
-            //gd = new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, new PresentationParameters());
             Content.RootDirectory = "Content";
         }
 
@@ -55,6 +53,8 @@ namespace Labb1_Datorgrafik
             //BasicEffect
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;
+            basicEffect.Projection = Matrix.CreatePerspective(100, 100, 0.1f, 100);
+            basicEffect.View = Matrix.CreateLookAt(Vector3.Zero, new Vector3(0, 0, -20), Vector3.Up);
 
             // Want to see the colors of the vertices, this needs to be on
             basicEffect.VertexColorEnabled = true;
@@ -76,7 +76,7 @@ namespace Labb1_Datorgrafik
             vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(
                            VertexPositionColor), 3, BufferUsage.
                            WriteOnly);
-            vertexBuffer.SetData(triangleVertices);
+            vertexBuffer.SetData(triangleVertices);            
 
             //Create all systems
             sm.AddSystem(new CameraSystem());
@@ -182,6 +182,7 @@ namespace Labb1_Datorgrafik
             //Turn off culling so we see both sides of our rendered triangle
             RasterizerState rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.None;
+            rasterizerState.FillMode = FillMode.Solid;
             GraphicsDevice.RasterizerState = rasterizerState;
 
             //sm.Render<CameraSystem>(gd, basicEffect);
@@ -192,7 +193,7 @@ namespace Labb1_Datorgrafik
                 pass.Apply();
                 //GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
 
-                VertexPositionColor[] vertices = new VertexPositionColor[3];
+                /*VertexPositionColor[] vertices = new VertexPositionColor[3];
                 vertices[0].Position = new Vector3(-0.5f, -0.5f, 0f);
                 vertices[0].Color = Color.Red;
                 vertices[1].Position = new Vector3(0, 0.5f, 0f);
@@ -200,7 +201,7 @@ namespace Labb1_Datorgrafik
                 vertices[2].Position = new Vector3(0.5f, -0.5f, 0f);
                 vertices[2].Color = Color.Yellow;
                 int[] indices = { 0, 1, 2 };
-                GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, 3, indices, 0, 1);
+                GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, 3, indices, 0, 1);*/
             }
 
             base.Draw(gameTime);
