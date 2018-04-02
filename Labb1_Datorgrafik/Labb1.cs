@@ -70,7 +70,7 @@ namespace Labb1_Datorgrafik
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
-            EntityFactory.CreateHeightMap("US_Canyon", "US_Canyon");
+            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "US_Canyon");
 
 
             base.Initialize();

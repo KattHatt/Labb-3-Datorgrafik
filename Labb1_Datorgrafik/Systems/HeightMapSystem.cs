@@ -28,9 +28,10 @@ namespace Labb1_Datorgrafik.Systems
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
                 be.CurrentTechnique.Passes[0].Apply();
-
-                gd.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, hmc.Vertices, 0, hmc.Vertices.Length, hmc.Indices, 0, hmc.Indices.Length / 3);
-                //be.Texture = hmc.texture;
+                
+                gd.SetVertexBuffer(hmc.vertexBuffer);
+                gd.Indices = hmc.indexBuffer;
+                gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.indexBuffer.IndexCount / 3);
             }
         }
 
@@ -54,7 +55,8 @@ namespace Labb1_Datorgrafik.Systems
 
         void CreateVertices(HeightMapComponent hmc)
         {
-            hmc.Vertices = new VertexPositionColor[hmc.Width * hmc.Height];
+            hmc.vertexBuffer = new VertexBuffer(hmc.graphicsDevice, VertexPositionColor.VertexDeclaration, hmc.Width * hmc.Height, BufferUsage.WriteOnly);
+            VertexPositionColor[] vertices = new VertexPositionColor[hmc.Width * hmc.Height];
             Color[] data = new Color[hmc.Width * hmc.Height];
             hmc.HeightMap.GetData(data);
             Random rand = new Random(0);
@@ -65,14 +67,17 @@ namespace Labb1_Datorgrafik.Systems
                 {
                     float z = 1 + data[y * hmc.Width + x].R / 255f;
                     Color color = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
-                    hmc.Vertices[y * hmc.Width + x] = new VertexPositionColor(new Vector3(x - 500, z, y - 500), color);
+                    vertices[y * hmc.Width + x] = new VertexPositionColor(new Vector3(x - 500, z, y - 500), color);
                 }
             }
+
+            hmc.vertexBuffer.SetData(vertices);
         }
 
         void CreateIndices(HeightMapComponent hmc)
         {
             List<int> indices = new List<int>();
+            hmc.indexBuffer = new IndexBuffer(hmc.graphicsDevice, IndexElementSize.ThirtyTwoBits, hmc.Width * hmc.Height * 6, BufferUsage.WriteOnly);
 
             int q1, q2, q3, q4;        
             for (int y = 0; y < hmc.Height - 1; y++)
@@ -92,7 +97,7 @@ namespace Labb1_Datorgrafik.Systems
                 }
             }
 
-            hmc.Indices = indices.ToArray();
+            hmc.indexBuffer.SetData(indices.ToArray());
         }
     }
 }

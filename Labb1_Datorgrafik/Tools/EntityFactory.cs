@@ -20,11 +20,11 @@ namespace Labb1_Datorgrafik.Tools
             return cam;
         }
 
-        public static int CreateHeightMap(string heightMapFilePath, string textureFilePath)
+        public static int CreateHeightMap(GraphicsDevice gd, string heightMapFilePath, string textureFilePath)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            HeightMapComponent hmComp = new HeightMapComponent();
+            HeightMapComponent hmComp = new HeightMapComponent(gd);
             hmComp.HeightMapFilePath = heightMapFilePath;
             hmComp.TextureFilePath = textureFilePath;
             //ModelComponent hmModel = new ModelComponent();

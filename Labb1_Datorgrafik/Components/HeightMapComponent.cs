@@ -13,10 +13,15 @@ namespace Labb1_Datorgrafik.Components
         public string TextureFilePath;
         public Texture2D HeightMap;
         public Texture2D texture;
-        public VertexPositionColor[] Vertices;
         public int Width;
         public int Height;
-        public int[] Indices;
-        public float[,] HeightMapData;
+        public GraphicsDevice graphicsDevice;
+        public VertexBuffer vertexBuffer;
+        public IndexBuffer indexBuffer;
+
+        public HeightMapComponent(GraphicsDevice graphicsDevice)
+        {
+            this.graphicsDevice = graphicsDevice;
+        }
     }
 }
