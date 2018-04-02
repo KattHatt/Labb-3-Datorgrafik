@@ -38,6 +38,11 @@ namespace Labb1_Datorgrafik
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
+
+        Vector3 target = Vector3.Zero;
+        Vector3 location = new Vector3(-10, -350, -170);
+        Vector3 up = new Vector3(0, 0, 1);
+
         protected override void Initialize()
         {
             ComponentManager cm = ComponentManager.GetInstance();
@@ -49,13 +54,10 @@ namespace Labb1_Datorgrafik
             //BasicEffect
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;
-            basicEffect.Projection = Matrix.CreatePerspective(5, 5, 0.1f, 10000);
+            //basicEffect.Projection = Matrix.CreatePerspective(10, 7, 0.1f, 10000);
+            basicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), graphics.GraphicsDevice.Viewport.Width / graphics.GraphicsDevice.Viewport.Height, .1f, 10000);
 
-            Vector3 target = Vector3.Zero;
-            Vector3 location = new Vector3(1, 100, 0);
-            Vector3 up = new Vector3(1, 0, 1);
-
-            basicEffect.View = Matrix.CreateLookAt(target, location, up);
+            basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
 
             // Want to see the colors of the vertices, this needs to be on
             basicEffect.VertexColorEnabled = true;
@@ -113,26 +115,47 @@ namespace Labb1_Datorgrafik
 
             //sm.Update<CameraSystem>(gameTime);
 
-            //if (Keyboard.GetState().IsKeyDown(Keys.Left))
-            //{
-            //    cam.Position = new Vector3(cam.Position.X - 1f, cam.Position.Y, cam.Position.Z);
-            //    cam.Target = new Vector3(cam.Target.X - 1f, cam.Target.Y, cam.Target.Z);
-            //}
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                /*basicEffect.View *= Matrix.CreateTranslation()
+                cam.Position = new Vector3(cam.Position.X - 1f, cam.Position.Y, cam.Position.Z);
+                cam.Target = new Vector3(cam.Target.X - 1f, cam.Target.Y, cam.Target.Z);*/
+            }
             //if (Keyboard.GetState().IsKeyDown(Keys.Right))
             //{
             //    cam.Position = new Vector3(cam.Position.X + 1f, cam.Position.Y, cam.Position.Z);
             //    cam.Target = new Vector3(cam.Target.X + 1f, cam.Target.Y, cam.Target.Z);
             //}
-            //if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            //{
-            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y - 1f, cam.Position.Z);
-            //    cam.Target = new Vector3(cam.Target.X, cam.Target.Y - 1f, cam.Target.Z);
-            //}
-            //if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            //{
-            //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y + 1f, cam.Position.Z);
-            //    cam.Target = new Vector3(cam.Target.X, cam.Target.Y + 1f, cam.Target.Z);
-            //}
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                location += new Vector3(0, -1, 0);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                location += new Vector3(0, 1, 0);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                location += new Vector3(1, 0, 0);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                location += new Vector3(-1, 0, 0);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                location += new Vector3(0, 0, 1);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                location += new Vector3(0, 0, -1);
+                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            }
             //if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             //{
             //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y, cam.Position.Z + 1f);
@@ -166,13 +189,14 @@ namespace Labb1_Datorgrafik
 
             //Turn off culling so we see both sides of our rendered triangle
             RasterizerState rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = CullMode.None;
-            rasterizerState.FillMode = FillMode.WireFrame;
+            rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
+            rasterizerState.FillMode = FillMode.Solid;
+            rasterizerState.MultiSampleAntiAlias = false;
             GraphicsDevice.RasterizerState = rasterizerState;
 
             //sm.Render<CameraSystem>(gd, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
-
+            
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
