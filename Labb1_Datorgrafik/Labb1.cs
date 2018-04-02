@@ -20,10 +20,6 @@ namespace Labb1_Datorgrafik
         //BasicEffect for rendering
         BasicEffect basicEffect;
 
-        //Geometric info
-        VertexPositionColor[] triangleVertices;
-        VertexBuffer vertexBuffer;
-
         //Orbit
         bool orbit = false;
 
@@ -53,30 +49,20 @@ namespace Labb1_Datorgrafik
             //BasicEffect
             basicEffect = new BasicEffect(GraphicsDevice);
             basicEffect.Alpha = 1f;
-            basicEffect.Projection = Matrix.CreatePerspective(100, 100, 0.1f, 100);
-            basicEffect.View = Matrix.CreateLookAt(Vector3.Zero, new Vector3(0, 0, -20), Vector3.Up);
+            basicEffect.Projection = Matrix.CreatePerspective(5, 5, 0.1f, 10000);
+
+            Vector3 target = Vector3.Zero;
+            Vector3 location = new Vector3(1, 100, 0);
+            Vector3 up = new Vector3(1, 0, 1);
+
+            basicEffect.View = Matrix.CreateLookAt(target, location, up);
 
             // Want to see the colors of the vertices, this needs to be on
             basicEffect.VertexColorEnabled = true;
 
             //Lighting requires normal information which VertexPositionColor does not have
             //If you want to use lighting and VPC you need to create a  custom def
-            basicEffect.LightingEnabled = false;
-
-            //Geometry  - a simple triangle about the origin
-            triangleVertices = new VertexPositionColor[3];
-            triangleVertices[0] = new VertexPositionColor(new Vector3(
-                                  0, 20, 0), Color.Red);
-            triangleVertices[1] = new VertexPositionColor(new Vector3(-
-                                  20, -20, 0), Color.Green);
-            triangleVertices[2] = new VertexPositionColor(new Vector3(
-                                  20, -20, 0), Color.Blue);
-
-            //Vert buffer
-            vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(
-                           VertexPositionColor), 3, BufferUsage.
-                           WriteOnly);
-            vertexBuffer.SetData(triangleVertices);            
+            basicEffect.LightingEnabled = false;        
 
             //Create all systems
             sm.AddSystem(new CameraSystem());
@@ -177,12 +163,11 @@ namespace Labb1_Datorgrafik
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.SetVertexBuffer(vertexBuffer);
 
             //Turn off culling so we see both sides of our rendered triangle
             RasterizerState rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.None;
-            rasterizerState.FillMode = FillMode.Solid;
+            rasterizerState.FillMode = FillMode.WireFrame;
             GraphicsDevice.RasterizerState = rasterizerState;
 
             //sm.Render<CameraSystem>(gd, basicEffect);

@@ -57,13 +57,15 @@ namespace Labb1_Datorgrafik.Systems
             hmc.Vertices = new VertexPositionColor[hmc.Width * hmc.Height];
             Color[] data = new Color[hmc.Width * hmc.Height];
             hmc.HeightMap.GetData(data);
+            Random rand = new Random(0);
 
             for (int x = 0; x < hmc.Width; x++)
             {
-                for (int z = 0; z < hmc.Height; z++)
+                for (int y = 0; y < hmc.Height; y++)
                 {
-                    float y = data[z * hmc.Width + x].R / 3.1f;
-                    hmc.Vertices[z * hmc.Width + x] = new VertexPositionColor(new Vector3(x, y, -z), Color.White);
+                    float z = 1 + data[y * hmc.Width + x].R / 255f;
+                    Color color = new Color(rand.Next(255), rand.Next(255), rand.Next(255));
+                    hmc.Vertices[y * hmc.Width + x] = new VertexPositionColor(new Vector3(x - 500, z, y - 500), color);
                 }
             }
         }
@@ -72,28 +74,22 @@ namespace Labb1_Datorgrafik.Systems
         {
             List<int> indices = new List<int>();
 
-            /*
-             * Index into the vertex list like a quadrant with a single for loop,
-             * this makes the logic easier with the index creation.
-             * 
-             * q1       q2
-             *   +-----+
-             *   |     |
-             *   |     |
-             *   +-----+
-             * q3       q4
-             */
-
-            int q1 = 0;
-            int q2 = 1;
-            int q3 = hmc.Width;
-            int q4 = hmc.Width + 1;
-            for (; q4 < hmc.Width * hmc.Height; q1++, q2++, q3++, q4++)
+            int q1, q2, q3, q4;        
+            for (int y = 0; y < hmc.Height - 1; y++)
             {
-                indices.AddRange(new[] {
+                for (int x = 0; x < hmc.Width - 1; x++)
+                {
+                    // Calculate the four corners
+                    q1 = y * hmc.Width + x;
+                    q2 = y * hmc.Width + x + 1;
+                    q3 = (y + 1) * hmc.Width + x;
+                    q4 = (y + 1) * hmc.Width + x + 1;
+                    // Add indices
+                    indices.AddRange(new[] {
                     q1, q2, q3, // First triangle
                     q2, q4, q3, // Second triangle
                 });
+                }
             }
 
             hmc.Indices = indices.ToArray();
