@@ -72,7 +72,7 @@ namespace Labb1_Datorgrafik
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
-            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "US_Canyon");
+            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon");
 
 
             base.Initialize();
@@ -191,7 +191,6 @@ namespace Labb1_Datorgrafik
             RasterizerState rasterizerState = new RasterizerState();
             rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
             rasterizerState.FillMode = FillMode.Solid;
-            rasterizerState.MultiSampleAntiAlias = false;
             GraphicsDevice.RasterizerState = rasterizerState;
 
             //sm.Render<CameraSystem>(gd, basicEffect);
