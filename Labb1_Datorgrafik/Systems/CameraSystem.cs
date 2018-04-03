@@ -10,11 +10,6 @@ namespace Labb1_Datorgrafik.Systems
 {
     class CameraSystem : ISystem, IRender
     {
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(GameTime gametime)
         {
             ComponentManager cm = ComponentManager.GetInstance();
@@ -24,7 +19,49 @@ namespace Labb1_Datorgrafik.Systems
                 CameraComponent cam = (CameraComponent)entity.Value;
                 TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(entity.Key);
 
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                {
+                    //cam.Orientation *= Quaternion.CreateFromAxisAngle(cam.X, MathHelper.ToRadians(1));
+                    cam.Orientation *= Quaternion.CreateFromYawPitchRoll(0, MathHelper.ToRadians(1), 0);
+                    Matrix rotation = Matrix.CreateFromQuaternion(cam.Orientation);
+                    //cam.View = Matrix.CreateTranslation(cam.Position) * rotation;
+                    /*cam.X = Vector3.Transform(cam.X, rotation);
+                    cam.Y = Vector3.Transform(cam.Y, rotation);
+                    cam.Z = Vector3.Transform(cam.Z, rotation);*/
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                {
+                    //cam.Orientation *= Quaternion.CreateFromAxisAngle(cam.X, MathHelper.ToRadians(-1));
+                    cam.Orientation *= Quaternion.CreateFromYawPitchRoll(0, MathHelper.ToRadians(-1), 0);
+                    Matrix rotation = Matrix.CreateFromQuaternion(cam.Orientation);
+                    //cam.View = Matrix.CreateTranslation(cam.Position) * rotation;
+                    /*cam.X = Vector3.Transform(cam.X, rotation);
+                    cam.Y = Vector3.Transform(cam.Y, rotation);
+                    cam.Z = Vector3.Transform(cam.Z, rotation);*/
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                {
+                    //cam.Orientation *= Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(-1));
+                    cam.Orientation *= Quaternion.CreateFromYawPitchRoll(MathHelper.ToRadians(1), 0, 0);
+                    Matrix rotation = Matrix.CreateFromQuaternion(cam.Orientation);
+                    cam.View = Matrix.CreateTranslation(cam.Position) * rotation;
+                    //cam.X = Vector3.Transform(cam.X, rotation);
+                    /*cam.Y = Vector3.Transform(cam.Y, rotation);
+                    cam.Z = Vector3.Transform(cam.Z, rotation);*/
+                }
+                else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                {
+                    //cam.Orientation *= Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(1));
+                    cam.Orientation *= Quaternion.CreateFromYawPitchRoll(MathHelper.ToRadians(-1), 0, 0);
+                    Matrix rotation = Matrix.CreateFromQuaternion(cam.Orientation);
+                    cam.View = Matrix.CreateTranslation(cam.Position) * rotation;
+                    //cam.X = Vector3.Transform(cam.X, rotation);
+                    /*cam.Y = Vector3.Transform(cam.Y, rotation);
+                    cam.Z = Vector3.Transform(cam.Z, rotation);*/
+                }
+
+                /*if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
                     transform.Position = new Vector3(transform.Position.X - 1f, transform.Position.Y, transform.Position.Z);
                     cam.Target = new Vector3(cam.Target.X - 1f, cam.Target.Y, cam.Target.Z);
@@ -53,10 +90,7 @@ namespace Labb1_Datorgrafik.Systems
                     transform.Position = new Vector3(transform.Position.X, transform.Position.Y, transform.Position.Z - 1f);
                 }
 
-                cam.ViewMatrix = Matrix.CreateLookAt(transform.Position, cam.Target, cam.UpVector);
-
-                //Console.WriteLine("hej" + transform.Position);
-                // TODO
+                cam.ViewMatrix = Matrix.CreateLookAt(transform.Position, cam.Target, cam.UpVector);*/
             }
         }
 
@@ -68,16 +102,15 @@ namespace Labb1_Datorgrafik.Systems
             {
                 CameraComponent cam = (CameraComponent)entity.Value;
 
-                be.Projection = cam.ProjectionMatrix;
-                be.View = cam.ViewMatrix;
-                be.World = cam.WorldMatrix;
+                be.Projection = cam.Projection;
+                be.View = cam.View;
+                be.World = Matrix.Identity;
 
             }
         }
 
         public void Load(ContentManager content)
         {
-            throw new NotImplementedException();
         }
     }
 }

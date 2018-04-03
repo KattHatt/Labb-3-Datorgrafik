@@ -57,6 +57,8 @@ namespace Labb1_Datorgrafik
             //basicEffect.Projection = Matrix.CreatePerspective(10, 7, 0.1f, 10000);
             basicEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), graphics.GraphicsDevice.Viewport.Width / graphics.GraphicsDevice.Viewport.Height, .1f, 10000);
 
+            //Matrix rotation = Matrix.CreateFromQuaternion(Quaternion.CreateFromAxisAngle(Vector3.UnitX, 45));
+            //basicEffect.View = rotation * Matrix.CreateTranslation(location);
             basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
 
             // Want to see the colors of the vertices, this needs to be on
@@ -113,7 +115,7 @@ namespace Labb1_Datorgrafik
                 Keys.Escape))
                 Exit();
 
-            //sm.Update<CameraSystem>(gameTime);
+            sm.Update<CameraSystem>(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
@@ -126,7 +128,7 @@ namespace Labb1_Datorgrafik
             //    cam.Position = new Vector3(cam.Position.X + 1f, cam.Position.Y, cam.Position.Z);
             //    cam.Target = new Vector3(cam.Target.X + 1f, cam.Target.Y, cam.Target.Z);
             //}
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            /*if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
                 location += new Vector3(0, -1, 0);
                 basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
@@ -155,7 +157,7 @@ namespace Labb1_Datorgrafik
             {
                 location += new Vector3(0, 0, -1);
                 basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
+            }*/
             //if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             //{
             //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y, cam.Position.Z + 1f);
@@ -193,7 +195,7 @@ namespace Labb1_Datorgrafik
             rasterizerState.FillMode = FillMode.Solid;
             GraphicsDevice.RasterizerState = rasterizerState;
 
-            //sm.Render<CameraSystem>(gd, basicEffect);
+            sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
