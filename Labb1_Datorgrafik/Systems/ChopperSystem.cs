@@ -57,6 +57,11 @@ namespace Labb1_Datorgrafik.Systems
 
                             // Update top and back rotor on chopper.. (TODO)
 
+                            // Top rotor
+                            modelComp.Model.Bones[1].Transform *= Matrix.CreateRotationY(1f * (float)gametime.ElapsedGameTime.TotalSeconds);
+
+                            // Back rotor
+                            modelComp.Model.Bones[3].Transform *= Matrix.CreateRotationX(1f * (float)gametime.ElapsedGameTime.TotalSeconds);
 
 
                             break;

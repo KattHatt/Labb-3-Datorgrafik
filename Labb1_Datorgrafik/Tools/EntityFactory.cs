@@ -41,8 +41,11 @@ namespace Labb1_Datorgrafik.Tools
             {
                 IsActive = true
             };
+            TransformComponent transComp = new TransformComponent();
+            NameComponent nameComp = new NameComponent("Chopper");
 
-            int chop = cm.AddEntityWithComponents(modComp);
+
+            int chop = cm.AddEntityWithComponents(modComp, transComp, nameComp);
 
             return chop;
         }

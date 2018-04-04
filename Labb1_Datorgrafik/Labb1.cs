@@ -67,6 +67,7 @@ namespace Labb1_Datorgrafik
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
+            sm.AddSystem(new ChopperSystem());
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
@@ -114,6 +115,7 @@ namespace Labb1_Datorgrafik
                 Exit();
 
             //sm.Update<CameraSystem>(gameTime);
+            sm.Update<ChopperSystem>(gameTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {

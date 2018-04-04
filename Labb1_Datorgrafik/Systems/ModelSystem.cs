@@ -39,6 +39,8 @@ namespace Labb1_Datorgrafik.Systems
                 ModelComponent modelComp = (ModelComponent)model.Value;
                 if (modelComp.IsActive)
                 {
+                    TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
+
                     Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                     float aspectRatio = gd.Viewport.AspectRatio;
                     modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
@@ -47,6 +49,7 @@ namespace Labb1_Datorgrafik.Systems
                         aspectRatio,
                         1.0f,
                         10000.0f);
+
                     Matrix view = Matrix.CreateLookAt(
                         new Vector3(0.0f, 50.0f, 1.0f),
                         Vector3.Zero,
@@ -59,10 +62,15 @@ namespace Labb1_Datorgrafik.Systems
                             effect.EnableDefaultLighting();
                             effect.View = view;
                             effect.Projection = projection;
-                            effect.World = Matrix.Identity;
+                            effect.World = Matrix.Identity * transforms[mesh.ParentBone.Index];
                             effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                            {
+                                pass.Apply();
+                            }
+                            mesh.Draw();
                         }
-                        mesh.Draw();
+                        
                     }
                 }
             }
