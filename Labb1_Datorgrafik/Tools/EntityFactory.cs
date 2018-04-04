@@ -32,5 +32,19 @@ namespace Labb1_Datorgrafik.Tools
 
             return hm;
         }
+
+        public static int CreateChopper(GraphicsDevice gd, string modelPath)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            ModelComponent modComp = new ModelComponent(modelPath)
+            {
+                IsActive = true
+            };
+
+            int chop = cm.AddEntityWithComponents(modComp);
+
+            return chop;
+        }
     }
 }

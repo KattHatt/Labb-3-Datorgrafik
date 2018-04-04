@@ -33,30 +33,27 @@ namespace Labb1_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach(var world in cm.GetComponentsOfType<WorldComponent>())
-            {
-                WorldComponent worldMatrixComponent = (WorldComponent)world.Value;
 
-                foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+            foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+            {
+                ModelComponent modelComp = (ModelComponent)model.Value;
+                if (modelComp.IsActive)
                 {
-                    ModelComponent modelComp = (ModelComponent)model.Value;
-                    if (modelComp.IsActive)
+                    foreach (ModelMesh mesh in modelComp.Model.Meshes)
                     {
-                        foreach (ModelMesh mesh in modelComp.Model.Meshes)
+                        foreach (BasicEffect effect in mesh.Effects)
                         {
-                            foreach (BasicEffect effect in mesh.Effects)
-                            {
-                                //effect.EnableDefaultLighting();
-                                effect.AmbientLightColor = new Vector3(1f, 0, 0);
-                                //effect.View = viewMatrix;
-                                effect.World = worldMatrixComponent.WorldMatrix;
-                                //effect.Projection = projectionMatrix;
-                            }
-                            mesh.Draw();
+                            //effect.EnableDefaultLighting();
+                            effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                            //effect.View = viewMatrix;
+                            effect.World = Matrix.Identity;
+                            //effect.Projection = projectionMatrix;
                         }
+                        mesh.Draw();
                     }
                 }
             }
+
         }
     }
 }

@@ -20,9 +20,6 @@ namespace Labb1_Datorgrafik
         //BasicEffect for rendering
         BasicEffect basicEffect;
 
-        //Orbit
-        bool orbit = false;
-
         ComponentManager cm = ComponentManager.GetInstance();
         SystemManager sm = SystemManager.GetInstance();
 
