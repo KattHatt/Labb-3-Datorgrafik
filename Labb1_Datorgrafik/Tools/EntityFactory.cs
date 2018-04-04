@@ -12,11 +12,6 @@ namespace Labb1_Datorgrafik.Tools
             ComponentManager cm = ComponentManager.GetInstance();
 
             int cam = cm.AddEntityWithComponents( new IComponent[] { new CameraComponent(gd), new TransformComponent() });
-            TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(cam);
-            CameraComponent camComp = cm.GetComponentForEntity<CameraComponent>(cam);
-            //Matrix.CreateLookAt(ref transform.Position, ref camComp.Target, ref camComp.UpVector, out camComp.ViewMatrix);
-            camComp.ViewMatrix = Matrix.CreateLookAt(new Vector3(60, 80, -80), new Vector3(0, 0, 0), new Vector3(0, 1, 0));
-
             return cam;
         }
 

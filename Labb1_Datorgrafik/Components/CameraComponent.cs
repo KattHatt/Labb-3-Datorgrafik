@@ -5,19 +5,36 @@ namespace Labb1_Datorgrafik.Components
 {
     public class CameraComponent : IComponent
     {
-        public Vector3 Target;
-        public Matrix ProjectionMatrix;
-        public Matrix ViewMatrix;
-        public Matrix WorldMatrix;
-        public Vector3 UpVector;
+        public Vector3 Position;
+        public Vector3 Up;
+        public Vector3 Direction;
+        
+        public Matrix Projection;
+        public Matrix View;
 
         public CameraComponent(GraphicsDevice gd)
         {
-            UpVector = Vector3.Up;
-            Target = new Vector3(0f, 0f, 0f);
-            float aspectRatio = gd.DisplayMode.AspectRatio;
-            Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.1f, 1000.0f, out ProjectionMatrix);
-            WorldMatrix = Matrix.CreateWorld(Target, Vector3.Forward, Vector3.Up);
+            Position = new Vector3(-10, 350, -170);
+            Direction = Vector3.Right;
+            Up = Vector3.Up;
+
+            Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), gd.DisplayMode.AspectRatio, 0.1f, 10000);
+            View = Matrix.CreateLookAt(Position, Position + Direction, Up);
+        }
+
+        public void Pitch(float angle)
+        {
+            Matrix rotation = Matrix.CreateFromAxisAngle(Vector3.Cross(Direction, Up), MathHelper.ToRadians(angle));
+            Direction = Vector3.Transform(Direction, rotation);
+            Up = Vector3.Transform(Up, rotation);
+            View = Matrix.CreateLookAt(Position, Position + Direction, Up);
+        }
+
+        public void Yaw(float angle)
+        {
+            Matrix rotation = Matrix.CreateFromAxisAngle(Up, MathHelper.ToRadians(angle));
+            Direction = Vector3.Transform(Direction, rotation);
+            View = Matrix.CreateLookAt(Position, Position + Direction, Up);
         }
     }
 }
