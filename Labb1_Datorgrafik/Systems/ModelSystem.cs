@@ -32,7 +32,8 @@ namespace Labb1_Datorgrafik.Systems
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
-
+            Matrix world = Matrix.Identity;
+            Matrix objectWorld;
 
             foreach (var model in cm.GetComponentsOfType<ModelComponent>())
             {
@@ -41,9 +42,12 @@ namespace Labb1_Datorgrafik.Systems
                 {
                     TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
 
+                    objectWorld = Matrix.CreateScale(transComp.Scale) * Matrix.CreateTranslation(transComp.Position);
+
                     Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                     float aspectRatio = gd.Viewport.AspectRatio;
                     modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
+
                     Matrix projection = Matrix.CreatePerspectiveFieldOfView(
                         MathHelper.ToRadians(45.0f),
                         aspectRatio,
@@ -51,7 +55,7 @@ namespace Labb1_Datorgrafik.Systems
                         10000.0f);
 
                     Matrix view = Matrix.CreateLookAt(
-                        new Vector3(0.0f, 50.0f, 1.0f),
+                        new Vector3(0.0f, 30.0f, 1.0f),
                         Vector3.Zero,
                         Vector3.Up);
 
@@ -62,7 +66,12 @@ namespace Labb1_Datorgrafik.Systems
                             effect.EnableDefaultLighting();
                             effect.View = view;
                             effect.Projection = projection;
-                            effect.World = Matrix.Identity * transforms[mesh.ParentBone.Index];
+                            effect.World = 
+                                Matrix.Identity * 
+                                transforms[mesh.ParentBone.Index] * 
+                                Matrix.CreateTranslation(transComp.Position);
+                            //* Matrix.CreateFromQuaternion(Quaternion.CreateFromYawPitchRoll(transComp.Rotation.X, transComp.Rotation.Y, transComp.Rotation.Z)
+
                             effect.AmbientLightColor = new Vector3(1f, 0, 0);
                             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                             {
@@ -70,11 +79,9 @@ namespace Labb1_Datorgrafik.Systems
                             }
                             mesh.Draw();
                         }
-                        
                     }
                 }
             }
-
         }
     }
 }

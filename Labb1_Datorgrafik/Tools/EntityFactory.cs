@@ -41,7 +41,12 @@ namespace Labb1_Datorgrafik.Tools
             {
                 IsActive = true
             };
-            TransformComponent transComp = new TransformComponent();
+            TransformComponent transComp = new TransformComponent()
+            {
+                Position = Vector3.Zero,
+                Rotation = Vector3.Zero,
+                Scale = Vector3.Zero
+            };
             NameComponent nameComp = new NameComponent("Chopper");
 
 

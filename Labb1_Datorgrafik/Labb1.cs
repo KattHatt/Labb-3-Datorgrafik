@@ -128,36 +128,36 @@ namespace Labb1_Datorgrafik
             //    cam.Position = new Vector3(cam.Position.X + 1f, cam.Position.Y, cam.Position.Z);
             //    cam.Target = new Vector3(cam.Target.X + 1f, cam.Target.Y, cam.Target.Z);
             //}
-            if (Keyboard.GetState().IsKeyDown(Keys.Q))
-            {
-                location += new Vector3(0, -1, 0);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.E))
-            {
-                location += new Vector3(0, 1, 0);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                location += new Vector3(1, 0, 0);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                location += new Vector3(-1, 0, 0);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                location += new Vector3(0, 0, 1);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                location += new Vector3(0, 0, -1);
-                basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
-            }
+            //if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            //{
+            //    location += new Vector3(0, -1, 0);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.E))
+            //{
+            //    location += new Vector3(0, 1, 0);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.W))
+            //{
+            //    location += new Vector3(1, 0, 0);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.S))
+            //{
+            //    location += new Vector3(-1, 0, 0);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.A))
+            //{
+            //    location += new Vector3(0, 0, 1);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
+            //if (Keyboard.GetState().IsKeyDown(Keys.D))
+            //{
+            //    location += new Vector3(0, 0, -1);
+            //    basicEffect.View = Matrix.CreateRotationX(MathHelper.ToRadians(45)) * Matrix.CreateTranslation(location);
+            //}
             //if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
             //{
             //    cam.Position = new Vector3(cam.Position.X, cam.Position.Y, cam.Position.Z + 1f);
