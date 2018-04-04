@@ -20,9 +20,6 @@ namespace Labb1_Datorgrafik
         //BasicEffect for rendering
         BasicEffect basicEffect;
 
-        //Orbit
-        bool orbit = false;
-
         ComponentManager cm = ComponentManager.GetInstance();
         SystemManager sm = SystemManager.GetInstance();
 
@@ -61,10 +58,13 @@ namespace Labb1_Datorgrafik
             //Create all systems
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
+            sm.AddSystem(new ModelSystem());
+            sm.AddSystem(new ChopperSystem());
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
             EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon");
+            EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
 
             base.Initialize();
         }
@@ -79,6 +79,7 @@ namespace Labb1_Datorgrafik
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sm.GetSystem<HeightMapSystem>().Load(Content);
+            sm.GetSystem<ModelSystem>().Load(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -105,6 +106,7 @@ namespace Labb1_Datorgrafik
                 Exit();
 
             sm.Update<CameraSystem>(gameTime);
+            sm.Update<ChopperSystem>(gameTime);
 
             base.Update(gameTime);
         }
@@ -125,6 +127,7 @@ namespace Labb1_Datorgrafik
 
             sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
+            sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
             
             foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
             {

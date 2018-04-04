@@ -32,25 +32,50 @@ namespace Labb1_Datorgrafik.Systems
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
+            Matrix world = Matrix.Identity;
+            Matrix objectWorld;
 
-            foreach(var world in cm.GetComponentsOfType<WorldComponent>())
+            foreach (var model in cm.GetComponentsOfType<ModelComponent>())
             {
-                WorldComponent worldMatrixComponent = (WorldComponent)world.Value;
-
-                foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+                ModelComponent modelComp = (ModelComponent)model.Value;
+                if (modelComp.IsActive)
                 {
-                    ModelComponent modelComp = (ModelComponent)model.Value;
-                    if (modelComp.IsActive)
+                    TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
+
+                    objectWorld = Matrix.CreateScale(transComp.Scale) * Matrix.CreateTranslation(transComp.Position);
+
+                    Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
+                    float aspectRatio = gd.Viewport.AspectRatio;
+                    modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
+
+                    Matrix projection = Matrix.CreatePerspectiveFieldOfView(
+                        MathHelper.ToRadians(45.0f),
+                        aspectRatio,
+                        1.0f,
+                        10000.0f);
+
+                    Matrix view = Matrix.CreateLookAt(
+                        new Vector3(0.0f, 30.0f, 1.0f),
+                        Vector3.Zero,
+                        Vector3.Up);
+
+                    foreach (ModelMesh mesh in modelComp.Model.Meshes)
                     {
-                        foreach (ModelMesh mesh in modelComp.Model.Meshes)
+                        foreach (BasicEffect effect in mesh.Effects)
                         {
-                            foreach (BasicEffect effect in mesh.Effects)
+                            effect.EnableDefaultLighting();
+                            effect.View = view;
+                            effect.Projection = projection;
+                            effect.World = 
+                                Matrix.Identity * 
+                                transforms[mesh.ParentBone.Index] * 
+                                Matrix.CreateTranslation(transComp.Position);
+                            //* Matrix.CreateFromQuaternion(Quaternion.CreateFromYawPitchRoll(transComp.Rotation.X, transComp.Rotation.Y, transComp.Rotation.Z)
+
+                            effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                             {
-                                //effect.EnableDefaultLighting();
-                                effect.AmbientLightColor = new Vector3(1f, 0, 0);
-                                //effect.View = viewMatrix;
-                                effect.World = worldMatrixComponent.WorldMatrix;
-                                //effect.Projection = projectionMatrix;
+                                pass.Apply();
                             }
                             mesh.Draw();
                         }
