@@ -44,42 +44,19 @@ namespace Labb1_Datorgrafik.Systems
                     Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                     modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
 
-                    Matrix projection = Matrix.CreatePerspectiveFieldOfView(
-                        MathHelper.ToRadians(45.0f),
-                        aspectRatio,
-                        1.0f,
-                        10000.0f);
-
-                    Matrix view = Matrix.CreateLookAt(
-                        new Vector3(0.0f, 30.0f, 1.0f),
-                        Vector3.Zero,
-                        Vector3.Up);
-
                     foreach (ModelMesh mesh in modelComp.Model.Meshes)
                     {
                         foreach (BasicEffect effect in mesh.Effects)
                         {
 
                             effect.EnableDefaultLighting();
-                            effect.View = view;
-                            effect.Projection = projection;
-                            effect.World =
-                            Matrix.Identity *
-                            transforms[mesh.ParentBone.Index] *
-                            Matrix.CreateTranslation(transComp.Position);
-                            
-                            effect.AmbientLightColor = new Vector3(1f, 0, 0);
-                            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                            {
-                                pass.Apply();
-                            }
-                            mesh.Draw();
-
-                            /*effect.View = be.View;
+                            effect.View = be.View;
                             effect.Projection = be.Projection;
-                            effect.World = Matrix.CreateTranslation(transComp.Position);
+                            effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(transComp.Position);
+
+                            effect.AmbientLightColor = new Vector3(1f, 0, 0);
                             effect.CurrentTechnique.Passes[0].Apply();
-                            mesh.Draw();*/
+                            mesh.Draw();
                         }
                     }
                 }
