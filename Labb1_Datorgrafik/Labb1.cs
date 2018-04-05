@@ -14,13 +14,7 @@ namespace Labb1_Datorgrafik
     public class Labb1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        //CameraComponent cam;
-
-        //BasicEffect for rendering
         BasicEffect basicEffect;
-
-        ComponentManager cm = ComponentManager.GetInstance();
         SystemManager sm = SystemManager.GetInstance();
 
         public Labb1()
@@ -40,16 +34,17 @@ namespace Labb1_Datorgrafik
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            //BasicEffect
-            basicEffect = new BasicEffect(GraphicsDevice);
-            basicEffect.Alpha = 1f;
+            basicEffect = new BasicEffect(GraphicsDevice)
+            {
+                Alpha = 1f,
 
-            // Want to see the colors of the vertices, this needs to be on
-            basicEffect.VertexColorEnabled = true;
+                // Want to see the colors of the vertices, this needs to be on
+                VertexColorEnabled = true,
 
-            //Lighting requires normal information which VertexPositionColor does not have
-            //If you want to use lighting and VPC you need to create a  custom def
-            basicEffect.LightingEnabled = false;
+                //Lighting requires normal information which VertexPositionColor does not have
+                //If you want to use lighting and VPC you need to create a  custom def
+                LightingEnabled = false
+            };
 
             //Create all systems
             sm.AddSystem(new TransformSystem());
@@ -74,13 +69,8 @@ namespace Labb1_Datorgrafik
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             sm.GetSystem<HeightMapSystem>().Load(Content);
             sm.GetSystem<ModelSystem>().Load(Content);
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
