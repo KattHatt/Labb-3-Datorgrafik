@@ -31,27 +31,27 @@ namespace Labb1_Datorgrafik.Systems
                     {
                         // Move chopper on x,y,z axis
 
-                        if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                        if (Keyboard.GetState().IsKeyDown(Keys.A))
                         {
                             transComp.Position += Vector3.Left;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                        if (Keyboard.GetState().IsKeyDown(Keys.D))
                         {
                             transComp.Position += Vector3.Right;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                        if (Keyboard.GetState().IsKeyDown(Keys.Q))
                         {
                             transComp.Position += Vector3.Up;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                        if (Keyboard.GetState().IsKeyDown(Keys.E))
                         {
                             transComp.Position += Vector3.Down;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+                        if (Keyboard.GetState().IsKeyDown(Keys.W))
                         {
                             transComp.Position += Vector3.Forward;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+                        if (Keyboard.GetState().IsKeyDown(Keys.S))
                         {
                             transComp.Position += Vector3.Backward;
                         }
