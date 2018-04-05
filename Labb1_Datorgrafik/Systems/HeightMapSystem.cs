@@ -8,14 +8,9 @@ using System.Collections.Generic;
 
 namespace Labb1_Datorgrafik.Systems
 {
-    class HeightMapSystem : ISystem, IRender
+    class HeightMapSystem : IRender
     {
         ComponentManager cm = ComponentManager.GetInstance();
-
-        public void Update(GameTime gametime)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {

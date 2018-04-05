@@ -66,8 +66,6 @@ namespace Labb1_Datorgrafik.Systems
                     }
                 }
             }
-        }
-
-        
+        }        
     }
 }

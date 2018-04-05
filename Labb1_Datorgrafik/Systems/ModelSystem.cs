@@ -7,18 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb1_Datorgrafik.Systems
 {
-    class ModelSystem : ISystem, IRender
+    class ModelSystem : IRender
     {
-        public void Start()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(GameTime gametime)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Load(ContentManager content)
         {
             ComponentManager cm = ComponentManager.GetInstance();
@@ -36,28 +26,27 @@ namespace Labb1_Datorgrafik.Systems
             foreach (var model in cm.GetComponentsOfType<ModelComponent>())
             {
                 ModelComponent modelComp = (ModelComponent)model.Value;
-                if (modelComp.IsActive)
+                if (!modelComp.IsActive)
+                    continue;
+
+                TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
+
+                Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
+                modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
+
+                foreach (ModelMesh mesh in modelComp.Model.Meshes)
                 {
-                    TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
-
-                    float aspectRatio = gd.Viewport.AspectRatio;
-                    Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
-                    modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
-
-                    foreach (ModelMesh mesh in modelComp.Model.Meshes)
+                    foreach (BasicEffect effect in mesh.Effects)
                     {
-                        foreach (BasicEffect effect in mesh.Effects)
-                        {
 
-                            effect.EnableDefaultLighting();
-                            effect.View = be.View;
-                            effect.Projection = be.Projection;
-                            effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(transComp.Position);
+                        effect.EnableDefaultLighting();
+                        effect.View = be.View;
+                        effect.Projection = be.Projection;
+                        effect.World = transforms[mesh.ParentBone.Index] * transComp.World;
 
-                            effect.AmbientLightColor = new Vector3(1f, 0, 0);
-                            effect.CurrentTechnique.Passes[0].Apply();
-                            mesh.Draw();
-                        }
+                        effect.AmbientLightColor = new Vector3(1f, 0, 0);
+                        effect.CurrentTechnique.Passes[0].Apply();
+                        mesh.Draw();
                     }
                 }
             }
