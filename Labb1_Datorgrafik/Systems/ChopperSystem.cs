@@ -3,11 +3,14 @@ using Microsoft.Xna.Framework;
 using Labb1_Datorgrafik.Managers;
 using Labb1_Datorgrafik.Components;
 using Microsoft.Xna.Framework.Input;
+using Labb1_Datorgrafik.Tools;
 
 namespace Labb1_Datorgrafik.Systems
 {
     public class ChopperSystem : ISystem
     {
+        ModelHelper mh = new ModelHelper();
+
         public void Start()
         {
             throw new NotImplementedException();
@@ -56,16 +59,15 @@ namespace Labb1_Datorgrafik.Systems
                         // Rotate the heli rotors
 
                         // Top rotor
-                        modelComp.Model.Bones[1].Transform *= Matrix.CreateRotationY(1f * (float)gametime.ElapsedGameTime.TotalSeconds);
+                        modelComp.Model.Bones[1].Transform = mh.rotateModel(modelComp.Model.Bones[1].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
 
                         // Back rotor
-
-                        modelComp.Model.Bones[3].Transform *= Matrix.CreateRotationX(-1f * (float)gametime.ElapsedGameTime.TotalSeconds);
-
-
+                        modelComp.Model.Bones[3].Transform = mh.rotateModel(modelComp.Model.Bones[3].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
                     }
                 }
             }
         }
+
+        
     }
 }

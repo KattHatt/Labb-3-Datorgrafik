@@ -62,6 +62,7 @@
     <Compile Include="Systems\ModelSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
     <Compile Include="Tools\EntityFactory.cs" />
+    <Compile Include="Tools\ModelHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

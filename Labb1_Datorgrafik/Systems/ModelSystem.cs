@@ -32,8 +32,6 @@ namespace Labb1_Datorgrafik.Systems
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
-            Matrix world = Matrix.Identity;
-            Matrix objectWorld;
 
             foreach (var model in cm.GetComponentsOfType<ModelComponent>())
             {
@@ -42,10 +40,8 @@ namespace Labb1_Datorgrafik.Systems
                 {
                     TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
 
-                    objectWorld = Matrix.CreateScale(transComp.Scale) * Matrix.CreateTranslation(transComp.Position);
-
-                    Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                     float aspectRatio = gd.Viewport.AspectRatio;
+                    Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                     modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);
 
                     Matrix projection = Matrix.CreatePerspectiveFieldOfView(
@@ -65,14 +61,13 @@ namespace Labb1_Datorgrafik.Systems
                         {
 
                             effect.EnableDefaultLighting();
-                            effect.View = be.View;
-                            effect.Projection = be.Projection;
-                            effect.World = 
-                                Matrix.Identity * 
-                                transforms[mesh.ParentBone.Index] * 
-                                Matrix.CreateTranslation(transComp.Position);
-                            //* Matrix.CreateFromQuaternion(Quaternion.CreateFromYawPitchRoll(transComp.Rotation.X, transComp.Rotation.Y, transComp.Rotation.Z)
-
+                            effect.View = view;
+                            effect.Projection = projection;
+                            effect.World =
+                            Matrix.Identity *
+                            transforms[mesh.ParentBone.Index] *
+                            Matrix.CreateTranslation(transComp.Position);
+                            
                             effect.AmbientLightColor = new Vector3(1f, 0, 0);
                             foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                             {
