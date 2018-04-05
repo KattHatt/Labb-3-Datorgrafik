@@ -11,7 +11,7 @@ namespace Labb1_Datorgrafik.Tools
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            int cam = cm.AddEntityWithComponents( new IComponent[] { new CameraComponent(gd), new TransformComponent() });
+            int cam = cm.AddEntityWithComponents(new CameraComponent(gd), new TransformComponent());
             return cam;
         }
 

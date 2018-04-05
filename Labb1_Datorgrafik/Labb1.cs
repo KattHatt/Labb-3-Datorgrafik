@@ -60,11 +60,13 @@ namespace Labb1_Datorgrafik
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new ChopperSystem());
+            sm.AddSystem(new TrackingCameraSystem());
 
             //Create all entities
             int c = EntityFactory.CreateCamera(GraphicsDevice);
             EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon");
-            EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
+            int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
+            cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
 
             base.Initialize();
         }
@@ -107,6 +109,7 @@ namespace Labb1_Datorgrafik
 
             sm.Update<CameraSystem>(gameTime);
             sm.Update<ChopperSystem>(gameTime);
+            sm.Update<TrackingCameraSystem>(gameTime);
 
             base.Update(gameTime);
         }
@@ -128,22 +131,6 @@ namespace Labb1_Datorgrafik
             sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
-            
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                //GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 3);
-
-                /*VertexPositionColor[] vertices = new VertexPositionColor[3];
-                vertices[0].Position = new Vector3(-0.5f, -0.5f, 0f);
-                vertices[0].Color = Color.Red;
-                vertices[1].Position = new Vector3(0, 0.5f, 0f);
-                vertices[1].Color = Color.Green;
-                vertices[2].Position = new Vector3(0.5f, -0.5f, 0f);
-                vertices[2].Color = Color.Yellow;
-                int[] indices = { 0, 1, 2 };
-                GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, 3, indices, 0, 1);*/
-            }
 
             base.Draw(gameTime);
         }
