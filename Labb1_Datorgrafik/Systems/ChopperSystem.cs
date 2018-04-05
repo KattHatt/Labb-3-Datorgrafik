@@ -55,6 +55,22 @@ namespace Labb1_Datorgrafik.Systems
                         {
                             transComp.Position += Vector3.Backward;
                         }
+                        if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        {
+                            transComp.Rotation.X += .1f;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.F))
+                        {
+                            transComp.Rotation.X -= .1f;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Add))
+                        {
+                            transComp.Scale *= 1.1f;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Subtract))
+                        {
+                            transComp.Scale *= 0.9f;
+                        }
 
                         // Rotate the heli rotors
 
