@@ -53,9 +53,10 @@ namespace Labb1_Datorgrafik
 
             //Lighting requires normal information which VertexPositionColor does not have
             //If you want to use lighting and VPC you need to create a  custom def
-            basicEffect.LightingEnabled = false;        
+            basicEffect.LightingEnabled = false;
 
             //Create all systems
+            sm.AddSystem(new TransformSystem());
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
@@ -107,6 +108,7 @@ namespace Labb1_Datorgrafik
                 Keys.Escape))
                 Exit();
 
+            sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
             sm.Update<ChopperSystem>(gameTime);
             sm.Update<TrackingCameraSystem>(gameTime);

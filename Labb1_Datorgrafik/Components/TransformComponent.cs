@@ -7,12 +7,13 @@ namespace Labb1_Datorgrafik.Components
         public Vector3 Position;
         public Vector3 Rotation;
         public Vector3 Scale;
+        public Matrix World;
 
         public TransformComponent()
         {
             Position = Vector3.Zero;
             Rotation = Vector3.Zero;
-            Scale = Vector3.Zero;
+            Scale = Vector3.One;
         }
     }
 }
