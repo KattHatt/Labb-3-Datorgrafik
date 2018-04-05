@@ -17,7 +17,9 @@ namespace Labb1_Datorgrafik.Systems
             foreach (var entity in cm.GetComponentsOfType<CameraComponent>())
             {
                 CameraComponent cam = (CameraComponent)entity.Value;
-                TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(entity.Key);
+
+                cam.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(cam.FieldOfView), cam.AspectRatio, cam.NearPlaneDistance, cam.FarPlaneDistance);
+                cam.View = Matrix.CreateLookAt(cam.Position, cam.Position + cam.Direction, cam.Up);
 
                 /*if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
@@ -53,6 +55,21 @@ namespace Labb1_Datorgrafik.Systems
 
         public void Load(ContentManager content)
         {
+        }
+
+        private void Pitch(CameraComponent cam, float angle)
+        {
+            Matrix rotation = Matrix.CreateFromAxisAngle(Vector3.Cross(cam.Direction, cam.Up), MathHelper.ToRadians(angle));
+            cam.Direction = Vector3.Transform(cam.Direction, rotation);
+            cam.Up = Vector3.Transform(cam.Up, rotation);
+            cam.View = Matrix.CreateLookAt(cam.Position, cam.Position + cam.Direction, cam.Up);
+        }
+
+        private void Yaw(CameraComponent cam, float angle)
+        {
+            Matrix rotation = Matrix.CreateFromAxisAngle(cam.Up, MathHelper.ToRadians(angle));
+            cam.Direction = Vector3.Transform(cam.Direction, rotation);
+            cam.View = Matrix.CreateLookAt(cam.Position, cam.Position + cam.Direction, cam.Up);
         }
     }
 }

@@ -36,10 +36,6 @@ namespace Labb1_Datorgrafik
         /// and initialize them as well.
         /// </summary>
 
-        Vector3 target = Vector3.Zero;
-        Vector3 location = new Vector3(-10, -350, -170);
-        Vector3 up = new Vector3(0, 0, 1);
-
         protected override void Initialize()
         {
             ComponentManager cm = ComponentManager.GetInstance();

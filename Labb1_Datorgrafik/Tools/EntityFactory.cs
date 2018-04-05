@@ -11,7 +11,18 @@ namespace Labb1_Datorgrafik.Tools
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            int cam = cm.AddEntityWithComponents(new CameraComponent(gd), new TransformComponent());
+            CameraComponent camera = new CameraComponent()
+            {
+                Position = new Vector3(-10, 350, -170),
+                Direction = Vector3.Right,
+                Up = Vector3.Up,
+                FieldOfView = 45,
+                NearPlaneDistance = 1,
+                FarPlaneDistance = 10000,
+                AspectRatio = gd.DisplayMode.AspectRatio,
+            };
+
+            int cam = cm.AddEntityWithComponents(camera);
             return cam;
         }
 
