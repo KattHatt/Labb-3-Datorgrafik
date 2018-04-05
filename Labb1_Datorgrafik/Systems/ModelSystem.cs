@@ -63,9 +63,10 @@ namespace Labb1_Datorgrafik.Systems
                     {
                         foreach (BasicEffect effect in mesh.Effects)
                         {
+
                             effect.EnableDefaultLighting();
-                            effect.View = view;
-                            effect.Projection = projection;
+                            effect.View = be.View;
+                            effect.Projection = be.Projection;
                             effect.World = 
                                 Matrix.Identity * 
                                 transforms[mesh.ParentBone.Index] * 
@@ -78,6 +79,12 @@ namespace Labb1_Datorgrafik.Systems
                                 pass.Apply();
                             }
                             mesh.Draw();
+
+                            /*effect.View = be.View;
+                            effect.Projection = be.Projection;
+                            effect.World = Matrix.CreateTranslation(transComp.Position);
+                            effect.CurrentTechnique.Passes[0].Apply();
+                            mesh.Draw();*/
                         }
                     }
                 }

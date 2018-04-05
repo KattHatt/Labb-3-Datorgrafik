@@ -38,7 +38,7 @@ namespace Labb1_Datorgrafik.Tools
             };
             TransformComponent transComp = new TransformComponent()
             {
-                Position = Vector3.Zero,
+                Position = new Vector3(20, 350, -170),
                 Rotation = Vector3.Zero,
                 Scale = Vector3.Zero
             };

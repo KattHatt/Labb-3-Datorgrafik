@@ -24,39 +24,39 @@ namespace Labb1_Datorgrafik.Systems
                 {
                     NameComponent nameComp = cm.GetComponentForEntity<NameComponent>(model.Key);
                     TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
-                    if(nameComp.Name == "Chopper")
+                    if (nameComp.Name == "Chopper")
                     {
-                            // Move chopper on x,y,z axis
+                        // Move chopper on x,y,z axis
 
-                            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                            {
-                                transComp.Position = new Vector3(transComp.Position.X - 1f, transComp.Position.Y, transComp.Position.Z);
-                            }
-                            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                            {
-                                transComp.Position = new Vector3(transComp.Position.X + 1f, transComp.Position.Y, transComp.Position.Z);
-                            }
-                            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                            {
-                                transComp.Position = new Vector3(transComp.Position.X, transComp.Position.Y - 1f, transComp.Position.Z);
-                            }
-                            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                            {
-                                transComp.Position = new Vector3(transComp.Position.X, transComp.Position.Y + 1f, transComp.Position.Z);
-                            }
-                            //if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
-                            //{
-                            //    transComp.Position = new Vector3(transComp.Position.X, transComp.Position.Y, transComp.Position.Z + 1f);
-                            //}
-                            //if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
-                            //{
-                            //    transComp.Position = new Vector3(transComp.Position.X, transComp.Position.Y, transComp.Position.Z - 1f);
-                            //}
+                        if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                        {
+                            transComp.Position += Vector3.Left;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                        {
+                            transComp.Position += Vector3.Right;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                        {
+                            transComp.Position += Vector3.Up;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                        {
+                            transComp.Position += Vector3.Down;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.OemPlus))
+                        {
+                            transComp.Position += Vector3.Forward;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.OemMinus))
+                        {
+                            transComp.Position += Vector3.Backward;
+                        }
 
-                            // Rotate the heli rotors
+                        // Rotate the heli rotors
 
-                            // Top rotor
-                            modelComp.Model.Bones[1].Transform *= Matrix.CreateRotationY(1f * (float)gametime.ElapsedGameTime.TotalSeconds);
+                        // Top rotor
+                        modelComp.Model.Bones[1].Transform *= Matrix.CreateRotationY(1f * (float)gametime.ElapsedGameTime.TotalSeconds);
 
                         // Back rotor
 

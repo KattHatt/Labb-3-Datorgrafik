@@ -19,7 +19,7 @@ namespace Labb1_Datorgrafik.Systems
                 CameraComponent cam = (CameraComponent)entity.Value;
                 TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(entity.Key);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                /*if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
                     cam.Pitch(1);
                 }
@@ -35,7 +35,7 @@ namespace Labb1_Datorgrafik.Systems
                 else if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
                     cam.Yaw(-1);
-                }
+                }*/
             }
         }
 
