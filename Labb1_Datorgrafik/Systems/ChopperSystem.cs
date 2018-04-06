@@ -60,7 +60,8 @@ namespace Labb1_Datorgrafik.Systems
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.S))
                         {
-                            transComp.Position += Vector3.Backward;
+                            transComp.Position += Vector3.Backward * speedzdouble;
+                            transComp.Position += Vector3.Right * speedxdouble;
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.A))
                         {
