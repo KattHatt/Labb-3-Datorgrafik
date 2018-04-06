@@ -7,7 +7,7 @@ namespace Labb1_Datorgrafik.Tools
 {
     public static class EntityFactory
     {
-        public static int CreateCamera(GraphicsDevice gd)
+        public static int CreateCamera(GraphicsDevice gd, int entityTrackId)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
@@ -22,7 +22,9 @@ namespace Labb1_Datorgrafik.Tools
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            int cam = cm.AddEntityWithComponents(camera);
+            TrackingCameraComponent trackComp = new TrackingCameraComponent(entityTrackId, new Vector3(0, 10, 20));
+
+            int cam = cm.AddEntityWithComponents(new IComponent[] { camera, trackComp } );
             return cam;
         }
 

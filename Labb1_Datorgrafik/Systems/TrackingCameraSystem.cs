@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Labb1_Datorgrafik.Managers;
+using Labb1_Datorgrafik.Components;
+using Labb1_Datorgrafik.Tools;
 
 namespace Labb1_Datorgrafik.Systems
 {
@@ -24,6 +26,17 @@ namespace Labb1_Datorgrafik.Systems
 
         public void Update(GameTime gametime)
         {
+            foreach(var tracker in cm.GetComponentsOfType<TrackingCameraComponent>())
+            {
+                TrackingCameraComponent trackComp = (TrackingCameraComponent)tracker.Value;
+                TransformComponent trackPos = cm.GetComponentForEntity<TransformComponent>(trackComp.Target);
+                CameraComponent camComp = cm.GetComponentForEntity<CameraComponent>(tracker.Key);
+
+                Matrix rotationMatrix = Matrix.CreateRotationY(trackPos.Rotation.X);
+                Vector3 transformedOffset = Vector3.Transform(trackComp.Offset, rotationMatrix);
+                camComp.Position = trackPos.Position + transformedOffset;
+                camComp.Direction = trackPos.Position - camComp.Position;
+            }
         }
     }
 }

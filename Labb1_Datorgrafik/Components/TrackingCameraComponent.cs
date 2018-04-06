@@ -11,10 +11,6 @@ namespace Labb1_Datorgrafik.Components
     {
         public int Target;
         public Vector3 Offset;
-        public float MaxDegreeSpeed;
-        public float Fov;
-        public float nearClipping;
-        public float farClipping;
 
         public TrackingCameraComponent(int target, Vector3 offset)
         {

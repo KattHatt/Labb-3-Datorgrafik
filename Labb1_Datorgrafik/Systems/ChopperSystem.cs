@@ -9,7 +9,6 @@ namespace Labb1_Datorgrafik.Systems
 {
     public class ChopperSystem : ISystem
     {
-        ModelHelper mh = new ModelHelper();
 
         public void Start()
         {
@@ -30,38 +29,46 @@ namespace Labb1_Datorgrafik.Systems
                     if (nameComp.Name == "Chopper")
                     {
                         // Move chopper on x,y,z axis
+                        double speedx = (Math.Sin(transComp.Rotation.X));
+                        double speedz = (Math.Cos(transComp.Rotation.X));
+                        float speedxdouble, speedzdouble;
+                        speedxdouble = (float)speedx;
+                        speedzdouble = (float)speedz;
 
-                        if (Keyboard.GetState().IsKeyDown(Keys.A))
-                        {
-                            transComp.Position += Vector3.Left;
-                        }
-                        if (Keyboard.GetState().IsKeyDown(Keys.D))
-                        {
-                            transComp.Position += Vector3.Right;
-                        }
                         if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                        {
+                            transComp.Position += Vector3.Left * speedzdouble;
+                            transComp.Position += Vector3.Backward * speedxdouble;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.E))
+                        {
+                            transComp.Position += Vector3.Right * speedzdouble;
+                            transComp.Position += Vector3.Forward * speedxdouble;
+                        }
+                        if (Keyboard.GetState().IsKeyDown(Keys.R))
                         {
                             transComp.Position += Vector3.Up;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.E))
+                        if (Keyboard.GetState().IsKeyDown(Keys.F))
                         {
                             transComp.Position += Vector3.Down;
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.W))
                         {
-                            transComp.Position += Vector3.Forward;
+                            transComp.Position += Vector3.Forward * speedzdouble;
+                            transComp.Position += Vector3.Left * speedxdouble;
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.S))
                         {
                             transComp.Position += Vector3.Backward;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        if (Keyboard.GetState().IsKeyDown(Keys.A))
                         {
-                            transComp.Rotation.X += .1f;
+                            transComp.Rotation.X += .03f;
                         }
-                        if (Keyboard.GetState().IsKeyDown(Keys.F))
+                        if (Keyboard.GetState().IsKeyDown(Keys.D))
                         {
-                            transComp.Rotation.X -= .1f;
+                            transComp.Rotation.X -= .03f;
                         }
                         if (Keyboard.GetState().IsKeyDown(Keys.Add))
                         {
@@ -75,10 +82,10 @@ namespace Labb1_Datorgrafik.Systems
                         // Rotate the heli rotors
 
                         // Top rotor
-                        modelComp.Model.Bones[1].Transform = mh.rotateModel(modelComp.Model.Bones[1].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
+                        modelComp.Model.Bones[1].Transform = ModelHelper.rotateModel(modelComp.Model.Bones[1].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
 
                         // Back rotor
-                        modelComp.Model.Bones[3].Transform = mh.rotateModel(modelComp.Model.Bones[3].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
+                        modelComp.Model.Bones[3].Transform = ModelHelper.rotateModel(modelComp.Model.Bones[3].Transform, Vector3.Up, gametime.ElapsedGameTime.Milliseconds);
                     }
                 }
             }
