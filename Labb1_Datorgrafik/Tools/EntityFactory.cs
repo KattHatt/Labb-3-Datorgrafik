@@ -11,11 +11,15 @@ namespace Labb1_Datorgrafik.Tools
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            CameraComponent camera = new CameraComponent()
+            TransformComponent transform = new TransformComponent()
             {
                 Position = new Vector3(-10, 350, -170),
-                Direction = Vector3.Right,
-                Up = Vector3.Up,
+                Rotation = Vector3.Right,
+                Up = Vector3.Up
+            };
+
+            CameraComponent camera = new CameraComponent()
+            {
                 FieldOfView = 45,
                 NearPlaneDistance = 1,
                 FarPlaneDistance = 10000,
@@ -24,7 +28,7 @@ namespace Labb1_Datorgrafik.Tools
 
             TrackingCameraComponent trackComp = new TrackingCameraComponent(entityTrackId, new Vector3(0, 10, 20));
 
-            int cam = cm.AddEntityWithComponents(new IComponent[] { camera, trackComp } );
+            int cam = cm.AddEntityWithComponents(new IComponent[] { camera, trackComp, transform } );
             return cam;
         }
 

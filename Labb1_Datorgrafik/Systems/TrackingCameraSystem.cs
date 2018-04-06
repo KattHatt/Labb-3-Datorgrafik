@@ -30,12 +30,13 @@ namespace Labb1_Datorgrafik.Systems
             {
                 TrackingCameraComponent trackComp = (TrackingCameraComponent)tracker.Value;
                 TransformComponent trackPos = cm.GetComponentForEntity<TransformComponent>(trackComp.Target);
+                TransformComponent camPos = cm.GetComponentForEntity<TransformComponent>(tracker.Key);
                 CameraComponent camComp = cm.GetComponentForEntity<CameraComponent>(tracker.Key);
 
                 Matrix rotationMatrix = Matrix.CreateRotationY(trackPos.Rotation.X);
                 Vector3 transformedOffset = Vector3.Transform(trackComp.Offset, rotationMatrix);
-                camComp.Position = trackPos.Position + transformedOffset;
-                camComp.Direction = trackPos.Position - camComp.Position;
+                camPos.Position = trackPos.Position + transformedOffset;
+                camPos.Rotation = trackPos.Position - camPos.Position;
             }
         }
     }
