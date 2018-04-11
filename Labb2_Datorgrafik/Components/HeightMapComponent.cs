@@ -9,8 +9,8 @@ namespace Labb2_Datorgrafik.Components
         public int Width;
         public int Height;
         public GraphicsDevice GraphicsDevice;
-        public VertexBuffer VertexBuffer;
-        public IndexBuffer IndexBuffer;
+        public VertexBuffer[] VertexBuffers;
+        public IndexBuffer[] IndexBuffers;
 
         public HeightMapComponent(GraphicsDevice graphicsDevice)
         {

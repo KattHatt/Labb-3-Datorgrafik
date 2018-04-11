@@ -17,10 +17,13 @@ namespace Labb2_Datorgrafik.Systems
             foreach (var entity in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
-                be.CurrentTechnique.Passes[0].Apply();                
-                gd.SetVertexBuffer(hmc.VertexBuffer);
-                gd.Indices = hmc.IndexBuffer;
-                gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffer.IndexCount / 3);
+                be.CurrentTechnique.Passes[0].Apply();
+                for (int i = 0; i < hmc.VertexBuffers.Length; i++)
+                {
+                    gd.SetVertexBuffer(hmc.VertexBuffers[i]);
+                    gd.Indices = hmc.IndexBuffers[i];
+                    gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
+                }
             }
         }
 
@@ -29,18 +32,63 @@ namespace Labb2_Datorgrafik.Systems
             foreach(var entity in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
+                List<VertexBuffer> vertexBuffers = new List<VertexBuffer>();
+                List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
 
                 hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
                 hmc.Width = hmc.HeightMap.Width;
                 hmc.Height = hmc.HeightMap.Height;
-
-                VertexPositionColor[] vertices = CreateVertices(hmc);
-                int[] indices = CreateIndicesAndUpdateColor(hmc, vertices);
                 
-                hmc.VertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionColor.VertexDeclaration, hmc.Width * hmc.Height, BufferUsage.WriteOnly);
-                hmc.VertexBuffer.SetData(vertices);
-                hmc.IndexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, hmc.Width * hmc.Height * 6, BufferUsage.WriteOnly);
-                hmc.IndexBuffer.SetData(indices);
+                foreach (var heights in Split(hmc))
+                {
+                    VertexPositionColor[] vertices = CreateVertices(heights.Value, heights.Key);
+                    int[] indices = CreateIndicesAndUpdateColor(vertices, heights.Value.GetLength(0), heights.Value.GetLength(1));
+
+                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionColor.VertexDeclaration, heights.Value.Length, BufferUsage.WriteOnly);
+                    vertexBuffer.SetData(vertices);
+                    vertexBuffers.Add(vertexBuffer);
+                    IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.WriteOnly);
+                    indexBuffer.SetData(indices);
+                    indexBuffers.Add(indexBuffer);
+                }
+
+                hmc.VertexBuffers = vertexBuffers.ToArray();
+                hmc.IndexBuffers = indexBuffers.ToArray();
+            }
+        }
+
+        private Dictionary<Vector3, float[,]> Split(HeightMapComponent hmc)
+        {
+            Dictionary<Vector3, float[,]> cells = new Dictionary<Vector3, float[,]>();
+            Color[] heightMapData = new Color[hmc.Width * hmc.Height];
+            hmc.HeightMap.GetData(heightMapData);
+
+            int rows = hmc.Height / 256;
+            int cols = hmc.Width / 256;
+
+            for (int z = 0; z < rows; z++)
+            {
+                for (int x = 0; x < cols; x++)
+                {
+                    cells.Add(new Vector3(x * 256, 0, z * 256), getCellHeights(x * 256, (x + 1) * 256, z * 256, (z + 1) * 256));
+                }
+            }
+
+            return cells;
+
+            float[,] getCellHeights(int x1, int x2, int y1, int y2)
+            {
+                float[,] heights = new float[256, 256];
+
+                for (int y = y1; y < y2; y++)
+                {
+                    for (int x = x1; x < x2; x++)
+                    {
+                        heights[x % 256, y % 256] = heightMapData[y * hmc.Width + x].R;
+                    }
+                }
+
+                return heights;
             }
         }
 
@@ -58,38 +106,35 @@ namespace Labb2_Datorgrafik.Systems
             return new Color(color);
         }
 
-        private VertexPositionColor[] CreateVertices(HeightMapComponent hmc)
+        private VertexPositionColor[] CreateVertices(float[,] heights, Vector3 offset)
         {
-            VertexPositionColor[] vertices = new VertexPositionColor[hmc.Width * hmc.Height];
-            Color[] heightMapData = new Color[hmc.Width * hmc.Height];
-            hmc.HeightMap.GetData(heightMapData);
+            VertexPositionColor[] vertices = new VertexPositionColor[heights.Length];
 
-            for (int x = 0; x < hmc.Width; x++)
+            for (int z = 0; z < heights.GetLength(1); z++)
             {
-                for (int z = 0; z < hmc.Height; z++)
+                for (int x = 0; x < heights.GetLength(0); x++)
                 {
-                    float y = heightMapData[z * hmc.Width + x].R;
-                    vertices[z * hmc.Width + x] = new VertexPositionColor(new Vector3(x - 500, y, z - 500), Color.White);
+                    vertices[z * heights.GetLength(0) + x] = new VertexPositionColor(new Vector3(z - 500, heights[z, x], x - 500) + offset, Color.White);
                 }
             }
-            
+
             return vertices;
         }
 
-        private int[] CreateIndicesAndUpdateColor(HeightMapComponent hmc, VertexPositionColor[] vertices)
+        private int[] CreateIndicesAndUpdateColor(VertexPositionColor[] vertices, int width, int height)
         {
             List<int> indices = new List<int>();
             int q1, q2, q3, q4;
 
-            for (int z = 0; z < hmc.Height - 1; z++)
+            for (int z = 0; z < height - 1; z++)
             {
-                for (int x = 0; x < hmc.Width - 1; x++)
+                for (int x = 0; x < width - 1; x++)
                 {
                     // Calculate the four corners
-                    q1 = z * hmc.Width + x;
-                    q2 = z * hmc.Width + x + 1;
-                    q3 = (z + 1) * hmc.Width + x;
-                    q4 = (z + 1) * hmc.Width + x + 1;
+                    q1 = z * width + x;
+                    q2 = z * width + x + 1;
+                    q3 = (z + 1) * width + x;
+                    q4 = (z + 1) * width + x + 1;
                     // Add indices
                     indices.AddRange(new[]
                     {
