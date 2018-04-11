@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     public interface ISystem
     {

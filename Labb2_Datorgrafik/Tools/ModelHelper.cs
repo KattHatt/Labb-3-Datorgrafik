@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Labb1_Datorgrafik.Tools
+namespace Labb2_Datorgrafik.Tools
 {
     public static class ModelHelper
     {

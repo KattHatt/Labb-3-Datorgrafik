@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Labb1_Datorgrafik.Managers
+namespace Labb2_Datorgrafik.Managers
 {
     class ComponentManager
     {

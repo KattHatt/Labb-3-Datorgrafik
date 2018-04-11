@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Labb1_Datorgrafik
+namespace Labb2_Datorgrafik
 {
 #if WINDOWS || LINUX
     /// <summary>
@@ -14,7 +14,7 @@ namespace Labb1_Datorgrafik
         [STAThread]
         static void Main()
         {
-            using (var game = new Labb1())
+            using (var game = new Labb2())
                 game.Run();
         }
     }

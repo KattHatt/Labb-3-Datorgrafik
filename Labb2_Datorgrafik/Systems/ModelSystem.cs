@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Labb1_Datorgrafik.Components;
-using Labb1_Datorgrafik.Managers;
+using Labb2_Datorgrafik.Components;
+using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     class ModelSystem : IRender
     {

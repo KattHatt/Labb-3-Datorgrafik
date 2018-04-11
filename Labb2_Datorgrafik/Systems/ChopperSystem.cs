@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Labb1_Datorgrafik.Managers;
-using Labb1_Datorgrafik.Components;
+using Labb2_Datorgrafik.Managers;
+using Labb2_Datorgrafik.Components;
 using Microsoft.Xna.Framework.Input;
-using Labb1_Datorgrafik.Tools;
+using Labb2_Datorgrafik.Tools;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     public class ChopperSystem : ISystem
     {

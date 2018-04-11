@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Labb1_Datorgrafik.Managers;
-using Labb1_Datorgrafik.Components;
+using Labb2_Datorgrafik.Managers;
+using Labb2_Datorgrafik.Components;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     class TransformSystem : ISystem
     {

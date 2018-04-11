@@ -1,9 +1,9 @@
-﻿using Labb1_Datorgrafik.Components;
-using Labb1_Datorgrafik.Managers;
+﻿using Labb2_Datorgrafik.Components;
+using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb1_Datorgrafik.Tools
+namespace Labb2_Datorgrafik.Tools
 {
     public static class EntityFactory
     {

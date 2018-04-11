@@ -1,23 +1,23 @@
-﻿using Labb1_Datorgrafik.Managers;
-using Labb1_Datorgrafik.Systems;
-using Labb1_Datorgrafik.Tools;
+﻿using Labb2_Datorgrafik.Managers;
+using Labb2_Datorgrafik.Systems;
+using Labb2_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Labb1_Datorgrafik.Components;
+using Labb2_Datorgrafik.Components;
 
-namespace Labb1_Datorgrafik
+namespace Labb2_Datorgrafik
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Labb1 : Game
+    public class Labb2 : Game
     {
         GraphicsDeviceManager graphics;
         BasicEffect basicEffect;
         SystemManager sm = SystemManager.GetInstance();
 
-        public Labb1()
+        public Labb2()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
