@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\ChopperSystem.cs" />
+    <Compile Include="Systems\RectangleSystem.cs" />
     <Compile Include="Systems\TrackingCameraSystem.cs" />
     <Compile Include="Systems\HeightMapSystem.cs" />
     <Compile Include="Systems\IRender.cs" />
