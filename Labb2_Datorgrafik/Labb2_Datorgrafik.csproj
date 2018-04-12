@@ -47,6 +47,7 @@
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
+    <Compile Include="Components\RectangleComponent.cs" />
     <Compile Include="Labb2.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
