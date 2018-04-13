@@ -1,5 +1,4 @@
-﻿using Labb1_Datorgrafik.Components;
-using Labb2_Datorgrafik.Components;
+﻿using Labb2_Datorgrafik.Components;
 using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,18 +32,17 @@ namespace Labb2_Datorgrafik.Tools
             return cam;
         }
 
-        public static int CreateHeightMap(GraphicsDevice gd, string heightMapFilePath, string textureFilePath)
+        public static int CreateTerrain(GraphicsDevice gd, string heightMapFile, string heightMapTextureFile, string vegetationModelFile, int vegetationNumInstances)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            HeightMapComponent hmComp = new HeightMapComponent(gd)
+            HeightMapComponent hmc = new HeightMapComponent(gd)
             {
-                HeightMapFilePath = heightMapFilePath,
-                TextureFilePath = textureFilePath,
+                HeightMapFilePath = heightMapFile,
+                TextureFilePath = heightMapTextureFile,
             };
-            int hm = cm.AddEntityWithComponents(hmComp);
-
-            return hm;
+            VegetationComponent vc = new VegetationComponent(vegetationModelFile, vegetationNumInstances);
+            return cm.AddEntityWithComponents(hmc, vc);
         }
 
         public static int CreateChopper(GraphicsDevice gd, string modelPath)
