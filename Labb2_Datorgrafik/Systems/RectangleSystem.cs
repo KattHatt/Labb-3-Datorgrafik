@@ -20,6 +20,13 @@ namespace Labb1_Datorgrafik.Systems
             {
                 RectangleComponent rect = (RectangleComponent)entity.Value;
 
+                if(rect.Parent != null)
+                {
+                    RectangleComponent rectParent = cm.GetComponentForEntity<RectangleComponent>((int)rect.Parent);
+
+                    rectParent.Children.Add(entity.Key);
+                }
+
                 SetupVertices(rect);
                 SetupIndices(rect);
                 rect.vertexBuffer = new VertexBuffer(rect.graphicsDevice, typeof(VertexPositionNormalTexture), rect.vertices.Length, BufferUsage.WriteOnly);
@@ -70,11 +77,12 @@ namespace Labb1_Datorgrafik.Systems
             {
                 RectangleComponent rect = (RectangleComponent)entity.Value;
                 TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
-                trans.Position.Z += 0.02f;
-                trans.Rotation.Y += 0.02f;
+                
 
-                if (rect.Parent != null)
+                if (rect.Parent == null)
                 {
+                    trans.Position.Z += 0.02f;
+                    trans.Rotation.Y += 0.02f;
                     fringe.Push(Tuple.Create(entity.Key, rect));
 
                     while (fringe.Count > 0)
@@ -85,6 +93,8 @@ namespace Labb1_Datorgrafik.Systems
                         {
                             TransformComponent parentTrans = cm.GetComponentForEntity<TransformComponent>((int)node.Item2.Parent);
                             TransformComponent kidTrans = cm.GetComponentForEntity<TransformComponent>(node.Item1);
+
+                            Console.WriteLine(kidTrans.Position);
 
                             kidTrans.World *= parentTrans.World;
                         }

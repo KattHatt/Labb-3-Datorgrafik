@@ -4,6 +4,7 @@ using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Components;
 using Microsoft.Xna.Framework.Input;
 using Labb2_Datorgrafik.Tools;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb2_Datorgrafik.Systems
 {
@@ -79,6 +80,18 @@ namespace Labb2_Datorgrafik.Systems
                         {
                             transComp.Scale *= 0.9f;
                         }
+
+                        //Console.WriteLine("1");
+                        //foreach (var hm in cm.GetComponentsOfType<HeightMapComponent>())
+                        //{
+                        //    HeightMapComponent hmc = (HeightMapComponent)hm.Value;
+
+                        //    Console.WriteLine("2");
+                        //    foreach (IndexBuffer ib in hmc.IndexBuffers)
+                        //    {
+                        //        Console.WriteLine(ib.);
+                        //    }
+                        //}
 
                         // Rotate the heli rotors
 
