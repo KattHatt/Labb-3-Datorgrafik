@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Labb2_Datorgrafik.Managers
 {
@@ -72,6 +73,44 @@ namespace Labb2_Datorgrafik.Managers
             componentGroups.TryGetValue(typeof(T), out components);
 
             return components ?? new Dictionary<int, IComponent>();
+        }
+
+        public IEnumerable<KeyValuePair<int, T>> GetComponentsOfType2<T>()
+        {
+            componentGroups.TryGetValue(typeof(T), out Dictionary<int, IComponent> components);
+            if (components == null)
+                yield break;
+
+            foreach (var component in components)
+            {
+                yield return new KeyValuePair<int, T>(component.Key, (T)component.Value);
+            }
+        }
+
+        public IEnumerable<(int, T1, T2)> GetComponentsOfType<T1, T2>()
+        {
+            componentGroups.TryGetValue(typeof(T1), out Dictionary<int, IComponent> components1);
+            if (components1 == null)
+                yield break;
+            componentGroups.TryGetValue(typeof(T2), out Dictionary<int, IComponent> components2);
+            if (components2 == null)
+                yield break;
+
+            int[] keys1 = new int[components1.Keys.Count];
+            components1.Keys.CopyTo(keys1, 0);
+
+            int[] keys2 = new int[components2.Keys.Count];
+            components2.Keys.CopyTo(keys2, 0);
+
+            int[] keys = keys1.Intersect(keys2).ToArray();
+
+            foreach (var entity in keys)
+            {
+                var components = GetComponentsForEntity(entity);
+                components.TryGetValue(typeof(T1), out IComponent component1);
+                components.TryGetValue(typeof(T2), out IComponent component2);
+                yield return (entity, (T1)component1, (T2)component2);
+            }
         }
 
         public Dictionary<Type, IComponent> GetComponentsForEntity(int entity)
