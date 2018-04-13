@@ -1,4 +1,5 @@
-﻿using Labb2_Datorgrafik.Components;
+﻿using Labb1_Datorgrafik.Components;
+using Labb2_Datorgrafik.Components;
 using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,6 +65,37 @@ namespace Labb2_Datorgrafik.Tools
             int chop = cm.AddEntityWithComponents(modComp, transComp, nameComp);
 
             return chop;
+        }
+
+        public static int CreateCubeParent(GraphicsDevice gd, string path, float size, Vector3 pos)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            RectangleComponent cubelord = new RectangleComponent(gd, false, size + 1, size, size, path);
+            TransformComponent trans = new TransformComponent()
+            {
+                Position = pos
+            };
+            int cube = cm.AddEntityWithComponents(cubelord, trans);
+
+            return cube;
+        }
+
+        public static int CreateCubeKid(GraphicsDevice gd, string path, float size, int parent, Vector3 pos)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            RectangleComponent cubekid = new RectangleComponent(gd, true, size, size, size, path);
+            cubekid.Parent = parent;
+            TransformComponent trans = new TransformComponent()
+            {
+                Position = pos
+            };
+
+
+            int cube = cm.AddEntityWithComponents(cubekid, trans);
+
+            return cube;
         }
     }
 }

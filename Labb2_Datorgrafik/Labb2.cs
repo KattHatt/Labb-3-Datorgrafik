@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Labb2_Datorgrafik.Components;
+using Labb1_Datorgrafik.Systems;
 
 namespace Labb2_Datorgrafik
 {
@@ -53,9 +54,13 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new ChopperSystem());
             sm.AddSystem(new TrackingCameraSystem());
+            sm.AddSystem(new RectangleSystem());
 
             //Create all entities
             int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
+            
+            int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
+            int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
             int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
             EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
             
@@ -72,6 +77,7 @@ namespace Labb2_Datorgrafik
         {
             sm.GetSystem<HeightMapSystem>().Load(Content);
             sm.GetSystem<ModelSystem>().Load(Content);
+            sm.GetSystem<RectangleSystem>().Load(Content);
         }
 
         /// <summary>
@@ -99,6 +105,7 @@ namespace Labb2_Datorgrafik
             sm.Update<CameraSystem>(gameTime);
             sm.Update<ChopperSystem>(gameTime);
             sm.Update<TrackingCameraSystem>(gameTime);
+            sm.Update<RectangleSystem>(gameTime);
 
             base.Update(gameTime);
         }
@@ -120,6 +127,7 @@ namespace Labb2_Datorgrafik
             sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
+            sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
 
             base.Draw(gameTime);
         }

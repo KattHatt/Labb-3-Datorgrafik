@@ -16,26 +16,27 @@ namespace Labb1_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach(var entity in cm.GetComponentsOfType<RectangleComponent>())
+            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
             {
                 RectangleComponent rect = (RectangleComponent)entity.Value;
 
                 SetupVertices(rect);
+                SetupIndices(rect);
+                rect.vertexBuffer = new VertexBuffer(rect.graphicsDevice, typeof(VertexPositionNormalTexture), rect.vertices.Length, BufferUsage.WriteOnly);
+                rect.vertexBuffer.SetData(rect.vertices);
+                rect.indexBuffers = new IndexBuffer(rect.graphicsDevice, typeof(short), rect.indices.Length, BufferUsage.WriteOnly);
+                rect.indexBuffers.SetData(rect.indices);
 
-                foreach(string tp in rect.TexturePaths)
+                foreach (string tp in rect.TexturePaths)
                 {
                     rect.Textures.Add(content.Load<Texture2D>(tp));
                 }
-                SetupIndices(rect);
-                SetupIndexBuffer(rect);
+                
             }
         }
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
-            be.TextureEnabled = true;
-
-
             ComponentManager cm = ComponentManager.GetInstance();
 
             foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
@@ -43,35 +44,57 @@ namespace Labb1_Datorgrafik.Systems
                 RectangleComponent rect = (RectangleComponent)entity.Value;
                 TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
 
-                Matrix[] transforms = new Matrix[rect.Children.Count];
-                // Vill ha typ "CopyAbsoluteBoneTransformsTo(transforms)" här
-                // vet inte hur jag ska få tag i alla childrens transform komponenter.
-
-                // något i stil med: 
-                foreach(var child in rect.Children)
+                be.TextureEnabled = true;
+                be.World = trans.World;
+                foreach (Texture2D txt in rect.Textures)
                 {
-                    // få tag i childens transformcomponent och lägg till i "transforms" listan ovan
+                    be.Texture = txt;
                 }
-              
+                be.CurrentTechnique.Passes[0].Apply();
+               
 
+                gd.SetVertexBuffer(rect.vertexBuffer);
+                gd.Indices = rect.indexBuffers;
+                gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, rect.indexBuffers.IndexCount / 3);
 
-                // sedan efterlikna modelsystem och rita ut barnens och föräldramodellen. 
-
-                // Jag kanske krånglar till det i dunno
-
-                foreach(Texture2D texture in rect.Textures)
-                {
-                    be.Texture = texture;
-
-                }
-
-                
             }
         }
 
         public void Update(GameTime gametime)
         {
-            throw new NotImplementedException();
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            Stack<Tuple<int, RectangleComponent>> fringe = new Stack<Tuple<int, RectangleComponent>>();
+
+            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
+            {
+                RectangleComponent rect = (RectangleComponent)entity.Value;
+                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
+                trans.Position.Z += 0.02f;
+                trans.Rotation.Y += 0.02f;
+
+                if (rect.Parent != null)
+                {
+                    fringe.Push(Tuple.Create(entity.Key, rect));
+
+                    while (fringe.Count > 0)
+                    {
+                        Tuple<int, RectangleComponent> node = fringe.Pop();
+
+                        if (node.Item2.Parent != null)
+                        {
+                            TransformComponent parentTrans = cm.GetComponentForEntity<TransformComponent>((int)node.Item2.Parent);
+                            TransformComponent kidTrans = cm.GetComponentForEntity<TransformComponent>(node.Item1);
+
+                            kidTrans.World *= parentTrans.World;
+                        }
+                        foreach (int kid in node.Item2.Children)
+                        {
+                            fringe.Push(Tuple.Create(kid, cm.GetComponentForEntity<RectangleComponent>(kid)));
+                        }
+                    }
+                }
+            }
         }
 
         // Fill rectangle vertex list
@@ -133,19 +156,12 @@ namespace Labb1_Datorgrafik.Systems
         // Fills a rectangles index list
         private void SetupIndices(RectangleComponent r)
         {
-            List<int> indexList = new List<int>(36);
+            List<short> indexList = new List<short>(36);
 
-            for (int i = 0; i < 36; ++i)
+            for (short i = 0; i < 36; ++i)
                 indexList.Add(i);
 
             r.indices = indexList.ToArray();
-        }
-
-        // Set Index buffer
-        private void SetupIndexBuffer(RectangleComponent r)
-        {
-            r.indexBuffer = new IndexBuffer(r.graphicsDevice, typeof(short), r.indices.Length, BufferUsage.None);
-            r.indexBuffer.SetData(r.indices);
         }
     }
 }

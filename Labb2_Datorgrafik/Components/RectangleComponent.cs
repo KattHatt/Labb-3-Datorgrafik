@@ -27,16 +27,19 @@ namespace Labb1_Datorgrafik.Components
         public VertexBuffer vertexBuffer;
 
         // Indices
-        public int[] indices;
+        public short[] indices;
 
         // Index buffer
-        public IndexBuffer indexBuffer;
+        public IndexBuffer indexBuffers;
         
         // Children objecs
-        public List<RectangleComponent> Children { get; set; }
+        public List<int> Children { get; set; }
+
+        // Child flag
+        public bool IsChild { get; set; }
 
         // Parent object
-        public RectangleComponent Parent { get; set; }
+        public int? Parent { get; set; }
 
         // Textures
         public List<Texture2D> Textures { get; set; }
@@ -55,15 +58,17 @@ namespace Labb1_Datorgrafik.Components
         // Custom Rectangle with one texture
         public RectangleComponent(
             GraphicsDevice gd,
+            bool isChild,
             float height,
             float width,
             float depth,
             string texturePath)
         {
-            Children = new List<RectangleComponent>();
+            Children = new List<int>();
             Textures = new List<Texture2D>();
             TexturePaths = new List<string>();
 
+            IsChild = isChild;
             graphicsDevice = gd;
             TexturePaths.Add(texturePath);
 
@@ -80,6 +85,7 @@ namespace Labb1_Datorgrafik.Components
         // Custom Rectangle with different textures
         public RectangleComponent(
             GraphicsDevice gd,
+            bool isChild,
             float height,
             float width,
             float depth,
@@ -91,7 +97,7 @@ namespace Labb1_Datorgrafik.Components
             string backTP)
         {
             graphicsDevice = gd;
-            Children = new List<RectangleComponent>();
+            Children = new List<int>();
             Textures = new List<Texture2D>();
             TexturePaths = new List<string>
             {
@@ -102,6 +108,7 @@ namespace Labb1_Datorgrafik.Components
                 botTP,
                 backTP
             };
+            IsChild = isChild;
 
             FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
             FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
