@@ -100,20 +100,6 @@ namespace Labb2_Datorgrafik.Systems
             }
         }
 
-        private Color ToColor(VertexPositionColor v1, VertexPositionColor v2, VertexPositionColor v3)
-        {
-            Vector3 normal = Vector3.Cross(v1.Position - v2.Position, v1.Position - v3.Position);
-            normal.Normalize();
-
-            float dot = Vector3.Dot(normal, Vector3.Up);
-            Vector3 gray = Color.Gray.ToVector3();
-            Vector3 green = Color.Green.ToVector3();
-            dot = Math.Abs(dot);
-            Vector3 color = Vector3.Lerp(gray, green, dot);
-
-            return new Color(color);
-        }
-
         private VertexPositionTexture[] CreateVertices(float[,] heights, Vector3 offset)
         {
             VertexPositionTexture[] vertices = new VertexPositionTexture[heights.Length];
