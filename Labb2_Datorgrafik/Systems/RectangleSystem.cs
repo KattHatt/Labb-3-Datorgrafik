@@ -78,7 +78,6 @@ namespace Labb1_Datorgrafik.Systems
                 RectangleComponent rect = (RectangleComponent)entity.Value;
                 TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
                 
-
                 if (rect.Parent == null)
                 {
                     trans.Position.Z += 0.02f;
@@ -93,9 +92,8 @@ namespace Labb1_Datorgrafik.Systems
                         {
                             TransformComponent parentTrans = cm.GetComponentForEntity<TransformComponent>((int)node.Item2.Parent);
                             TransformComponent kidTrans = cm.GetComponentForEntity<TransformComponent>(node.Item1);
-
-                            Console.WriteLine(kidTrans.Position);
-
+                            kidTrans.Position.Z += 0.02f;
+                            kidTrans.Rotation.Y += 0.02f;
                             kidTrans.World *= parentTrans.World;
                         }
                         foreach (int kid in node.Item2.Children)

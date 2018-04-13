@@ -61,7 +61,8 @@ namespace Labb2_Datorgrafik
             
             int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
             int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
-            //int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 10, -50));
+            int cubekidddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 10, -50));
+            int cubekiddddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubekidddo, new Vector3(30, 10, -50));
             int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
             EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
             
