@@ -1,4 +1,5 @@
 ﻿using Labb1_Datorgrafik.Components;
+using Labb2_Datorgrafik.Components;
 using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Systems;
 using Microsoft.Xna.Framework;
@@ -20,23 +21,52 @@ namespace Labb1_Datorgrafik.Systems
                 RectangleComponent rect = (RectangleComponent)entity.Value;
 
                 SetupVertices(rect);
-                rect.frontFace = content.Load<Texture2D>(rect.FrontTexturePath);
-                rect.rightFace = content.Load<Texture2D>(rect.RightTexturePath);
-                rect.leftFace = content.Load<Texture2D>(rect.LeftTexturePath);
-                rect.topFace = content.Load<Texture2D>(rect.TopTexturePath);
-                rect.botFace = content.Load<Texture2D>(rect.BotTexturePath);
-                rect.backFace = content.Load<Texture2D>(rect.BackTexturePath);
 
+                foreach(string tp in rect.TexturePaths)
+                {
+                    rect.Textures.Add(content.Load<Texture2D>(tp));
+                }
                 SetupIndices(rect);
                 SetupIndexBuffer(rect);
-
-
             }
         }
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
-            throw new NotImplementedException();
+            be.TextureEnabled = true;
+
+
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
+            {
+                RectangleComponent rect = (RectangleComponent)entity.Value;
+                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
+
+                Matrix[] transforms = new Matrix[rect.Children.Count];
+                // Vill ha typ "CopyAbsoluteBoneTransformsTo(transforms)" här
+                // vet inte hur jag ska få tag i alla childrens transform komponenter.
+
+                // något i stil med: 
+                foreach(var child in rect.Children)
+                {
+                    // få tag i childens transformcomponent och lägg till i "transforms" listan ovan
+                }
+              
+
+
+                // sedan efterlikna modelsystem och rita ut barnens och föräldramodellen. 
+
+                // Jag kanske krånglar till det i dunno
+
+                foreach(Texture2D texture in rect.Textures)
+                {
+                    be.Texture = texture;
+
+                }
+
+                
+            }
         }
 
         public void Update(GameTime gametime)

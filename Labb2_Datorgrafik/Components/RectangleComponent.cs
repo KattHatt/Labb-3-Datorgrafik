@@ -1,6 +1,7 @@
 ﻿using Labb2_Datorgrafik;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Labb1_Datorgrafik.Components
 {
@@ -30,23 +31,18 @@ namespace Labb1_Datorgrafik.Components
 
         // Index buffer
         public IndexBuffer indexBuffer;
+        
+        // Children objecs
+        public List<RectangleComponent> Children { get; set; }
+
+        // Parent object
+        public RectangleComponent Parent { get; set; }
 
         // Textures
-        public Texture2D frontFace;
-        public Texture2D leftFace;
-        public Texture2D rightFace;
-        public Texture2D topFace;
-        public Texture2D botFace;
-        public Texture2D backFace;
+        public List<Texture2D> Textures { get; set; }
 
         // Texture paths
-        public string FrontTexturePath { set; get; }
-        public string LeftTexturePath { set; get; }
-        public string RightTexturePath { set; get; }
-        public string TopTexturePath { set; get; }
-        public string BotTexturePath { set; get; }
-        public string BackTexturePath { set; get; }
-
+        public List<string> TexturePaths { get; set; }
 
         // Rectangle normals
         public Vector3 RIGHT = new Vector3(1, 0, 0); // +X
@@ -56,20 +52,32 @@ namespace Labb1_Datorgrafik.Components
         public Vector3 FORWARD = new Vector3(0, 0, 1); // +Z
         public Vector3 BACKWARD = new Vector3(0, 0, -1); // -Z
 
-        // Cube with no texture
-        public RectangleComponent()
+        // Custom Rectangle with one texture
+        public RectangleComponent(
+            GraphicsDevice gd,
+            float height,
+            float width,
+            float depth,
+            string texturePath)
         {
-            FRONT_TOP_LEFT = new Vector3(-0.5f, 0.5f, 0.5f);
-            FRONT_TOP_RIGHT = new Vector3(0.5f, 0.5f, 0.5f);
-            FRONT_BOTTOM_LEFT = new Vector3(-0.5f, -0.5f, 0.5f);
-            FRONT_BOTTOM_RIGHT = new Vector3(0.5f, -0.5f, 0.5f);
-            BACK_TOP_LEFT = new Vector3(-0.5f, 0.5f, -0.5f);
-            BACK_TOP_RIGHT = new Vector3(0.5f, 0.5f, -0.5f);
-            BACK_BOTTOM_LEFT = new Vector3(-0.5f, -0.5f, -0.5f);
-            BACK_BOTTOM_RIGHT = new Vector3(0.5f, -0.5f, -0.5f);
+            Children = new List<RectangleComponent>();
+            Textures = new Dictionary<string, Texture2D>();
+            TexturePaths = new List<string>();
+
+            graphicsDevice = gd;
+            TexturePaths.Add(texturePath);
+
+            FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
+            FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
+            FRONT_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, depth / 2);
+            FRONT_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, depth / 2);
+            BACK_TOP_LEFT = new Vector3(-width / 2, height / 2, -depth / 2);
+            BACK_TOP_RIGHT = new Vector3(width / 2, height / 2, -depth / 2);
+            BACK_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, -depth / 2);
+            BACK_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, -depth / 2);
         }
 
-        // Custom Rectangle with texture
+        // Custom Rectangle with different textures
         public RectangleComponent(
             GraphicsDevice gd,
             float height,
@@ -83,13 +91,16 @@ namespace Labb1_Datorgrafik.Components
             string backTP)
         {
             graphicsDevice = gd;
+            Children = new List<RectangleComponent>();
+            Textures = new Dictionary<string, Texture2D>();
+            TexturePaths = new List<string>();
 
-            FrontTexturePath = frontTP;
-            LeftTexturePath = leftTP;
-            RightTexturePath = rightTP;
-            TopTexturePath = topTP;
-            BotTexturePath = botTP;
-            BackTexturePath = backTP;
+            TexturePaths.Add(frontTP);
+            TexturePaths.Add(rightTP);
+            TexturePaths.Add(leftTP);
+            TexturePaths.Add(topTP);
+            TexturePaths.Add(botTP);
+            TexturePaths.Add(backTP);
 
             FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
             FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
@@ -100,7 +111,5 @@ namespace Labb1_Datorgrafik.Components
             BACK_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, -depth / 2);
             BACK_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, -depth / 2);
         }
-
-       
     }
 }
