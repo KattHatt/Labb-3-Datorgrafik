@@ -70,7 +70,9 @@ namespace Labb2_Datorgrafik.Systems
             {
                 for (int x = 0; x < cols; x++)
                 {
-                    cells.Add(new Vector3(x * 256, 0, z * 256), getCellHeights(x * 256, (x + 1) * 256, z * 256, (z + 1) * 256));
+                    int x2 = MathHelper.Clamp((x + 1) * 256 + 1, 0, hmc.Width);
+                    int z2 = MathHelper.Clamp((z + 1) * 256 + 1, 0, hmc.Height);
+                    cells.Add(new Vector3(x * 256, 0, z * 256), getCellHeights(x * 256, x2, z * 256, z2));
                 }
             }
 
@@ -78,13 +80,13 @@ namespace Labb2_Datorgrafik.Systems
 
             float[,] getCellHeights(int x1, int x2, int y1, int y2)
             {
-                float[,] heights = new float[256, 256];
+                float[,] heights = new float[x2 - x1, y2 - y1];
 
                 for (int y = y1; y < y2; y++)
                 {
                     for (int x = x1; x < x2; x++)
                     {
-                        heights[x % 256, y % 256] = heightMapData[y * hmc.Width + x].R;
+                        heights[x - x1, y - y1] = heightMapData[y * hmc.Width + x].R;
                     }
                 }
 
@@ -114,7 +116,7 @@ namespace Labb2_Datorgrafik.Systems
             {
                 for (int x = 0; x < heights.GetLength(0); x++)
                 {
-                    vertices[z * heights.GetLength(0) + x] = new VertexPositionColor(new Vector3(z - 500, heights[z, x], x - 500) + offset, Color.White);
+                    vertices[z * heights.GetLength(0) + x] = new VertexPositionColor(new Vector3(x - 500, heights[x, z], z - 500) + offset, Color.White);
                 }
             }
 
