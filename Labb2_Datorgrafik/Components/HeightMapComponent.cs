@@ -15,6 +15,7 @@ namespace Labb2_Datorgrafik.Components
         public VertexBuffer[] VertexBuffers;
         public IndexBuffer[] IndexBuffers;
         public BoundingBox[] BoundingBoxes;
+        public bool RenderBoundingBoxes;
 
         public HeightMapComponent(GraphicsDevice graphicsDevice)
         {

@@ -3,6 +3,7 @@ using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,7 +30,33 @@ namespace Labb2_Datorgrafik.Systems
                     gd.Indices = hmc.IndexBuffers[i];
                     gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
                 }
+
+                if (!hmc.RenderBoundingBoxes)
+                    return;
+
+                foreach(var boundingBox in hmc.BoundingBoxes)
+                {
+                    Render(gd, be, boundingBox);
+                }
             }
+        }
+
+        private void Render(GraphicsDevice gd, BasicEffect be, BoundingBox box)
+        {
+            be.VertexColorEnabled = true;
+            be.TextureEnabled = false;
+            be.CurrentTechnique.Passes[0].Apply();
+
+            Vector3[] corners = box.GetCorners();
+            VertexPositionColor[] vertices = (from vertex in corners select new VertexPositionColor(vertex, Color.Green)).ToArray();
+            int[] indices =
+            {
+                0, 1, 1, 2, 2, 3, 3, 0,
+                4, 5, 5, 6, 6, 7, 7, 4,
+                0, 4, 1, 5, 2, 6, 3, 7,
+            };
+
+            gd.DrawUserIndexedPrimitives(PrimitiveType.LineList, vertices, 0, vertices.Length, indices, 0, indices.Length / 2);
         }
 
         public void Load(ContentManager content)
