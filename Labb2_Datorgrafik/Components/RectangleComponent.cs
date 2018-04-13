@@ -61,7 +61,7 @@ namespace Labb1_Datorgrafik.Components
             string texturePath)
         {
             Children = new List<RectangleComponent>();
-            Textures = new Dictionary<string, Texture2D>();
+            Textures = new List<Texture2D>();
             TexturePaths = new List<string>();
 
             graphicsDevice = gd;
@@ -92,15 +92,16 @@ namespace Labb1_Datorgrafik.Components
         {
             graphicsDevice = gd;
             Children = new List<RectangleComponent>();
-            Textures = new Dictionary<string, Texture2D>();
-            TexturePaths = new List<string>();
-
-            TexturePaths.Add(frontTP);
-            TexturePaths.Add(rightTP);
-            TexturePaths.Add(leftTP);
-            TexturePaths.Add(topTP);
-            TexturePaths.Add(botTP);
-            TexturePaths.Add(backTP);
+            Textures = new List<Texture2D>();
+            TexturePaths = new List<string>
+            {
+                frontTP,
+                rightTP,
+                leftTP,
+                topTP,
+                botTP,
+                backTP
+            };
 
             FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
             FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
