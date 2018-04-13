@@ -80,8 +80,6 @@ namespace Labb1_Datorgrafik.Systems
                 
                 if (rect.Parent == null)
                 {
-                    trans.Position.Z += 0.02f;
-                    trans.Rotation.Y += 0.02f;
                     fringe.Push(Tuple.Create(entity.Key, rect));
 
                     while (fringe.Count > 0)
@@ -92,8 +90,7 @@ namespace Labb1_Datorgrafik.Systems
                         {
                             TransformComponent parentTrans = cm.GetComponentForEntity<TransformComponent>((int)node.Item2.Parent);
                             TransformComponent kidTrans = cm.GetComponentForEntity<TransformComponent>(node.Item1);
-                            kidTrans.Position.Z += 0.02f;
-                            kidTrans.Rotation.Y += 0.02f;
+
                             kidTrans.World *= parentTrans.World;
                         }
                         foreach (int kid in node.Item2.Children)

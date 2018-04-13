@@ -55,18 +55,19 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new ChopperSystem());
             sm.AddSystem(new TrackingCameraSystem());
             sm.AddSystem(new RectangleSystem());
+            sm.AddSystem(new AnimationSystem());
 
             //Create all entities
             int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
             
-            int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
-            int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
-            int cubekidddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 10, -50));
-            int cubekiddddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubekidddo, new Vector3(30, 10, -50));
-            int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
-            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
             
+            
+            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
+
             //cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
+
+            int p = EntityFactory.CreatePlayerBody(GraphicsDevice);
+            int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
 
             base.Initialize();
         }
@@ -108,6 +109,7 @@ namespace Labb2_Datorgrafik
             sm.Update<ChopperSystem>(gameTime);
             sm.Update<TrackingCameraSystem>(gameTime);
             sm.Update<RectangleSystem>(gameTime);
+            sm.Update<AnimationSystem>(gameTime);
 
             base.Update(gameTime);
         }
