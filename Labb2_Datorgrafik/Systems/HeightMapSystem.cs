@@ -17,7 +17,12 @@ namespace Labb2_Datorgrafik.Systems
             foreach (var entity in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
+
+                be.VertexColorEnabled = false;
+                be.TextureEnabled = true;
+                be.Texture = hmc.Texture;
                 be.CurrentTechnique.Passes[0].Apply();
+
                 for (int i = 0; i < hmc.VertexBuffers.Length; i++)
                 {
                     gd.SetVertexBuffer(hmc.VertexBuffers[i]);
@@ -36,15 +41,16 @@ namespace Labb2_Datorgrafik.Systems
                 List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
 
                 hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
+                hmc.Texture = content.Load<Texture2D>(hmc.TextureFilePath);
                 hmc.Width = hmc.HeightMap.Width;
                 hmc.Height = hmc.HeightMap.Height;
                 
                 foreach (var heights in Split(hmc))
                 {
-                    VertexPositionColor[] vertices = CreateVertices(heights.Value, heights.Key);
-                    int[] indices = CreateIndicesAndUpdateColor(vertices, heights.Value.GetLength(0), heights.Value.GetLength(1));
+                    VertexPositionTexture[] vertices = CreateVertices(heights.Value, heights.Key);
+                    int[] indices = CreateIndices(heights.Value.GetLength(0), heights.Value.GetLength(1));
 
-                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionColor.VertexDeclaration, heights.Value.Length, BufferUsage.WriteOnly);
+                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionTexture.VertexDeclaration, heights.Value.Length, BufferUsage.WriteOnly);
                     vertexBuffer.SetData(vertices);
                     vertexBuffers.Add(vertexBuffer);
                     IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.WriteOnly);
@@ -108,22 +114,24 @@ namespace Labb2_Datorgrafik.Systems
             return new Color(color);
         }
 
-        private VertexPositionColor[] CreateVertices(float[,] heights, Vector3 offset)
+        private VertexPositionTexture[] CreateVertices(float[,] heights, Vector3 offset)
         {
-            VertexPositionColor[] vertices = new VertexPositionColor[heights.Length];
+            VertexPositionTexture[] vertices = new VertexPositionTexture[heights.Length];
 
             for (int z = 0; z < heights.GetLength(1); z++)
             {
                 for (int x = 0; x < heights.GetLength(0); x++)
                 {
-                    vertices[z * heights.GetLength(0) + x] = new VertexPositionColor(new Vector3(x - 500, heights[x, z], z - 500) + offset, Color.White);
+                    float u = (float)((x / 16.0) % 1);
+                    float v = (float)((z / 16.0) % 1);
+                    vertices[z * heights.GetLength(0) + x] = new VertexPositionTexture(new Vector3(x - 500, heights[x, z], z - 500) + offset, new Vector2(u, v));
                 }
             }
 
             return vertices;
         }
 
-        private int[] CreateIndicesAndUpdateColor(VertexPositionColor[] vertices, int width, int height)
+        private int[] CreateIndices(int width, int height)
         {
             List<int> indices = new List<int>();
             int q1, q2, q3, q4;
@@ -143,9 +151,6 @@ namespace Labb2_Datorgrafik.Systems
                         q1, q2, q3, // First triangle
                         q2, q4, q3, // Second triangle
                     });
-
-                    Color color = ToColor(vertices[q1], vertices[q2], vertices[q3]);
-                    vertices[q1].Color = vertices[q2].Color = vertices[q3].Color = vertices[q4].Color = color;
                 }
             }
 

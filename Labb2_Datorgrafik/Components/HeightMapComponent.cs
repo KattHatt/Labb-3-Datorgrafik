@@ -6,6 +6,8 @@ namespace Labb2_Datorgrafik.Components
     {
         public string HeightMapFilePath;
         public Texture2D HeightMap;
+        public string TextureFilePath;
+        public Texture2D Texture;
         public int Width;
         public int Height;
         public GraphicsDevice GraphicsDevice;

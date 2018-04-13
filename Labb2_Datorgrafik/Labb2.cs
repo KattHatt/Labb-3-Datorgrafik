@@ -57,7 +57,7 @@ namespace Labb2_Datorgrafik
             //Create all entities
             int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
             int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
-            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon");
+            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
             
             //cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
 
