@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb2_Datorgrafik.Components
 {
@@ -13,6 +14,7 @@ namespace Labb2_Datorgrafik.Components
         public GraphicsDevice GraphicsDevice;
         public VertexBuffer[] VertexBuffers;
         public IndexBuffer[] IndexBuffers;
+        public BoundingBox[] BoundingBoxes;
 
         public HeightMapComponent(GraphicsDevice graphicsDevice)
         {

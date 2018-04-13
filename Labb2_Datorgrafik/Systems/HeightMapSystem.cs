@@ -3,8 +3,8 @@ using Labb2_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Labb2_Datorgrafik.Systems
 {
@@ -39,6 +39,7 @@ namespace Labb2_Datorgrafik.Systems
                 HeightMapComponent hmc = (HeightMapComponent)entity.Value;
                 List<VertexBuffer> vertexBuffers = new List<VertexBuffer>();
                 List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
+                List<BoundingBox> boundingBoxes = new List<BoundingBox>();
 
                 hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
                 hmc.Texture = content.Load<Texture2D>(hmc.TextureFilePath);
@@ -56,10 +57,13 @@ namespace Labb2_Datorgrafik.Systems
                     IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.WriteOnly);
                     indexBuffer.SetData(indices);
                     indexBuffers.Add(indexBuffer);
+                    BoundingBox boundingBox = CreateBoundingBox(vertices);
+                    boundingBoxes.Add(boundingBox);
                 }
 
                 hmc.VertexBuffers = vertexBuffers.ToArray();
                 hmc.IndexBuffers = indexBuffers.ToArray();
+                hmc.BoundingBoxes = boundingBoxes.ToArray();
             }
         }
 
@@ -141,6 +145,11 @@ namespace Labb2_Datorgrafik.Systems
             }
 
             return indices.ToArray();
+        }
+
+        private BoundingBox CreateBoundingBox(VertexPositionTexture[] vertices)
+        {
+            return BoundingBox.CreateFromPoints(from vertex in vertices select vertex.Position);
         }
     }
 }
