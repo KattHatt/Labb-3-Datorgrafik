@@ -53,11 +53,23 @@ namespace Labb2_Datorgrafik.Systems
                     }
                 }
             }
-
         }
 
         public void Update(GameTime gametime)
         {
+        }
+
+        private Matrix GetRotation(Vector3 normal)
+        {
+            normal.Normalize();
+            normal *= -1;
+
+            Vector3 rotationAxis = Vector3.Cross(normal, Vector3.Up);
+            rotationAxis.Normalize();
+            float scalar = Vector3.Dot(normal, Vector3.Up);
+            float angle = (float)Math.Acos(scalar);
+
+            return Matrix.CreateFromAxisAngle(rotationAxis, angle);
         }
 
         private Matrix PlaceVegetation(VegetationComponent vc, HeightMapComponent hmc)
@@ -65,14 +77,18 @@ namespace Labb2_Datorgrafik.Systems
             Random random = new Random();
             VertexPositionTexture[] vertices;
             int[] indices;
-            int x = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.X), (int)hmc.BoundingBox.Max.X);
-            int y = (int)Math.Ceiling(hmc.BoundingBox.Max.Y);
-            int z = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.Z), (int)hmc.BoundingBox.Max.Z);
+
+            float x = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.X), (int)hmc.BoundingBox.Max.X);
+            float y = (float)Math.Ceiling(hmc.BoundingBox.Max.Y);
+            float z = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.Z), (int)hmc.BoundingBox.Max.Z);
+
+            float? distance;
+            Matrix rotation = Matrix.Identity;
 
             Ray ray = new Ray(new Vector3(x, y, z), Vector3.Down);
             for (int i = 0; i < hmc.BoundingBoxes.Length; i++)
             {
-                float? distance = ray.Intersects(hmc.BoundingBoxes[i]);
+                distance = ray.Intersects(hmc.BoundingBoxes[i]);
                 if (distance != null)
                 {
                     vertices = new VertexPositionTexture[hmc.VertexBuffers[i].VertexCount];
@@ -82,13 +98,24 @@ namespace Labb2_Datorgrafik.Systems
 
                     for (int j = 0; j < indices.Length; j += 3)
                     {
-                        Plane plane = new Plane(vertices[indices[j]].Position, vertices[indices[j + 1]].Position, vertices[indices[j + 2]].Position);
-                        ray.Intersects(plane);
+                        Vector3 vertex1 = vertices[indices[j]].Position;
+                        Vector3 vertex2 = vertices[indices[j + 1]].Position;
+                        Vector3 vertex3 = vertices[indices[j + 2]].Position;
+                        distance = ray.Intersects(vertex1, vertex2, vertex3);
+
+                        if (distance != null)
+                        {
+                            y = ray.Position.Y - distance.Value;
+                            //rotation = GetRotation(Vector3.Cross(vertex2 - vertex1, vertex3 - vertex1));
+                            break;
+                        }
                     }
+
+                    break;
                 }
             }
 
-            return Matrix.CreateScale(0.01f) * Matrix.CreateTranslation(x, y, z);
+            return Matrix.CreateScale(0.05f) * rotation * Matrix.CreateTranslation(x, y, z);
         }
     }
 }
