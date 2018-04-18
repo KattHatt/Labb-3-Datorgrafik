@@ -14,10 +14,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Update(GameTime gametime)
         {
-            foreach (var entity in cm.GetComponentsOfType<CameraComponent>())
+            foreach (var (_, cam, transform) in cm.GetComponentsOfType<CameraComponent, TransformComponent>())
             {
-                CameraComponent cam = (CameraComponent)entity.Value;
-                TransformComponent transform = cm.GetComponentForEntity<TransformComponent>(entity.Key);
                 cam.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(cam.FieldOfView), cam.AspectRatio, cam.NearPlaneDistance, cam.FarPlaneDistance);
                 cam.View = Matrix.CreateLookAt(transform.Position, transform.Position + transform.Rotation, transform.Up);
 
@@ -43,10 +41,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice graphicsDevice, BasicEffect basicEffect)
         {
-            foreach (var entity in cm.GetComponentsOfType<CameraComponent>())
+            foreach (var (_, cam) in cm.GetComponentsOfType<CameraComponent>())
             {
-                CameraComponent cam = (CameraComponent)entity.Value;
-
                 basicEffect.Projection = cam.Projection;
                 basicEffect.View = cam.View;
                 basicEffect.World = Matrix.Identity;

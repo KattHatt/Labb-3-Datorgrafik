@@ -12,9 +12,8 @@ namespace Labb2_Datorgrafik.Systems
         public void Load(ContentManager content)
         {
             ComponentManager cm = ComponentManager.GetInstance();
-            foreach (var entity in cm.GetComponentsOfType<ModelComponent>())
+            foreach (var (_, modelComp) in cm.GetComponentsOfType<ModelComponent>())
             {
-                ModelComponent modelComp = (ModelComponent)entity.Value;
                 modelComp.Model = content.Load<Model>(modelComp.ModelPath);
             }
         }
@@ -23,13 +22,10 @@ namespace Labb2_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach (var model in cm.GetComponentsOfType<ModelComponent>())
+            foreach (var (_, modelComp, transComp) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
-                ModelComponent modelComp = (ModelComponent)model.Value;
                 if (!modelComp.IsActive)
                     continue;
-
-                TransformComponent transComp = cm.GetComponentForEntity<TransformComponent>(model.Key);
 
                 Matrix[] transforms = new Matrix[modelComp.Model.Bones.Count];
                 modelComp.Model.CopyAbsoluteBoneTransformsTo(transforms);

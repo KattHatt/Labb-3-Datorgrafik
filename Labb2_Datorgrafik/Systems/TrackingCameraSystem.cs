@@ -26,12 +26,9 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Update(GameTime gametime)
         {
-            foreach(var tracker in cm.GetComponentsOfType<TrackingCameraComponent>())
+            foreach(var (_, trackComp, camPos, camComp) in cm.GetComponentsOfType<TrackingCameraComponent, TransformComponent, CameraComponent>())
             {
-                TrackingCameraComponent trackComp = (TrackingCameraComponent)tracker.Value;
                 TransformComponent trackPos = cm.GetComponentForEntity<TransformComponent>(trackComp.Target);
-                TransformComponent camPos = cm.GetComponentForEntity<TransformComponent>(tracker.Key);
-                CameraComponent camComp = cm.GetComponentForEntity<CameraComponent>(tracker.Key);
 
                 Matrix rotationMatrix = Matrix.CreateRotationY(trackPos.Rotation.X);
                 Vector3 transformedOffset = Vector3.Transform(trackComp.Offset, rotationMatrix);

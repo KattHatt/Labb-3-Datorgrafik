@@ -67,15 +67,7 @@ namespace Labb2_Datorgrafik.Managers
             }
         }
 
-        public Dictionary<int, IComponent> GetComponentsOfType<T>()
-        {
-            Dictionary<int, IComponent> components;
-            componentGroups.TryGetValue(typeof(T), out components);
-
-            return components ?? new Dictionary<int, IComponent>();
-        }
-
-        public IEnumerable<KeyValuePair<int, T>> GetComponentsOfType2<T>()
+        public IEnumerable<(int, T)> GetComponentsOfType<T>()
         {
             componentGroups.TryGetValue(typeof(T), out Dictionary<int, IComponent> components);
             if (components == null)
@@ -83,7 +75,7 @@ namespace Labb2_Datorgrafik.Managers
 
             foreach (var component in components)
             {
-                yield return new KeyValuePair<int, T>(component.Key, (T)component.Value);
+                yield return (component.Key, (T)component.Value);
             }
         }
 
@@ -110,6 +102,39 @@ namespace Labb2_Datorgrafik.Managers
                 components.TryGetValue(typeof(T1), out IComponent component1);
                 components.TryGetValue(typeof(T2), out IComponent component2);
                 yield return (entity, (T1)component1, (T2)component2);
+            }
+        }
+
+        public IEnumerable<(int, T1, T2, T3)> GetComponentsOfType<T1, T2, T3>()
+        {
+            componentGroups.TryGetValue(typeof(T1), out Dictionary<int, IComponent> components1);
+            if (components1 == null)
+                yield break;
+            componentGroups.TryGetValue(typeof(T2), out Dictionary<int, IComponent> components2);
+            if (components2 == null)
+                yield break;
+            componentGroups.TryGetValue(typeof(T3), out Dictionary<int, IComponent> components3);
+            if (components3 == null)
+                yield break;
+
+            int[] keys1 = new int[components1.Keys.Count];
+            components1.Keys.CopyTo(keys1, 0);
+
+            int[] keys2 = new int[components2.Keys.Count];
+            components2.Keys.CopyTo(keys2, 0);
+
+            int[] keys3 = new int[components3.Keys.Count];
+            components3.Keys.CopyTo(keys3, 0);
+
+            int[] keys = keys1.Intersect(keys2).Intersect(keys3).ToArray();
+
+            foreach (var entity in keys)
+            {
+                var components = GetComponentsForEntity(entity);
+                components.TryGetValue(typeof(T1), out IComponent component1);
+                components.TryGetValue(typeof(T2), out IComponent component2);
+                components.TryGetValue(typeof(T3), out IComponent component3);
+                yield return (entity, (T1)component1, (T2)component2, (T3)component3);
             }
         }
 

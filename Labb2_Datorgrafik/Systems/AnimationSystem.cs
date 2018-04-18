@@ -10,14 +10,10 @@ public class AnimationSystem : ISystem
     {
         ComponentManager cm = ComponentManager.GetInstance();
 
-        foreach(var entity in cm.GetComponentsOfType<AnimationComponent>())
+        foreach(var (_, animComp, body, bTrans) in cm.GetComponentsOfType<AnimationComponent, RectangleComponent, TransformComponent>())
         {
-            AnimationComponent animComp = (AnimationComponent)entity.Value;
-
             if (animComp.Animate)
             {
-                RectangleComponent body = cm.GetComponentForEntity<RectangleComponent>(entity.Key);
-                TransformComponent bTrans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
                 TransformComponent rightArm = null, leftArm = null, rightLeg = null, leftLeg = null;
 
                 foreach(int child in body.Children)

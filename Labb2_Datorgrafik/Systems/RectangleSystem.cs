@@ -14,15 +14,13 @@ namespace Labb2_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
+            foreach (var (id, rect) in cm.GetComponentsOfType<RectangleComponent>())
             {
-                RectangleComponent rect = (RectangleComponent)entity.Value;
-
                 if(rect.Parent != null)
                 {
                     RectangleComponent rectParent = cm.GetComponentForEntity<RectangleComponent>((int)rect.Parent);
 
-                    rectParent.Children.Add(entity.Key);
+                    rectParent.Children.Add(id);
                 }
 
                 SetupVertices(rect);
@@ -44,11 +42,8 @@ namespace Labb2_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
+            foreach (var (_, rect, trans) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
             {
-                RectangleComponent rect = (RectangleComponent)entity.Value;
-                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
-
                 be.TextureEnabled = true;
                 be.World = trans.World;
                 foreach (Texture2D txt in rect.Textures)
@@ -71,14 +66,13 @@ namespace Labb2_Datorgrafik.Systems
 
             Stack<Tuple<int, RectangleComponent>> fringe = new Stack<Tuple<int, RectangleComponent>>();
 
-            foreach (var entity in cm.GetComponentsOfType<RectangleComponent>())
+            foreach (var (id, rect) in cm.GetComponentsOfType<RectangleComponent>())
             {
-                RectangleComponent rect = (RectangleComponent)entity.Value;
-                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(entity.Key);
+                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(id);
                 
                 if (rect.Parent == null)
                 {
-                    fringe.Push(Tuple.Create(entity.Key, rect));
+                    fringe.Push(Tuple.Create(id, rect));
 
                     while (fringe.Count > 0)
                     {

@@ -15,10 +15,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
-            foreach (var entity in cm.GetComponentsOfType<HeightMapComponent>())
+            foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
-                HeightMapComponent hmc = (HeightMapComponent)entity.Value;
-
                 be.VertexColorEnabled = false;
                 be.TextureEnabled = true;
                 be.Texture = hmc.Texture;
@@ -61,9 +59,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Load(ContentManager content)
         {
-            foreach(var entity in cm.GetComponentsOfType<HeightMapComponent>())
+            foreach(var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
-                HeightMapComponent hmc = (HeightMapComponent)entity.Value;
                 List<VertexBuffer> vertexBuffers = new List<VertexBuffer>();
                 List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
                 List<BoundingBox> boundingBoxes = new List<BoundingBox>();

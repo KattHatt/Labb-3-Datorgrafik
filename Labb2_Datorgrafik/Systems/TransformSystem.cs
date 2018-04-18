@@ -10,9 +10,8 @@ namespace Labb2_Datorgrafik.Systems
         public void Update(GameTime gametime)
         {
             ComponentManager cm = ComponentManager.GetInstance();
-            foreach (var entity in cm.GetComponentsOfType<TransformComponent>())
+            foreach (var (_, transform) in cm.GetComponentsOfType<TransformComponent>())
             {
-                TransformComponent transform = (TransformComponent)entity.Value;
                 transform.World =
                     Matrix.CreateScale(transform.Scale) *
                     Matrix.CreateFromYawPitchRoll(transform.Rotation.X, transform.Rotation.Y, transform.Rotation.Z) *

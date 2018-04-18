@@ -30,7 +30,7 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
-            foreach (var (_, vc) in cm.GetComponentsOfType2<VegetationComponent>())
+            foreach (var (_, vc) in cm.GetComponentsOfType<VegetationComponent>())
             {
                 Matrix[] transforms = new Matrix[vc.Model.Bones.Count];
                 vc.Model.CopyAbsoluteBoneTransformsTo(transforms);
