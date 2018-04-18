@@ -1,7 +1,4 @@
-﻿
-using Labb1_Datorgrafik.Components;
-using Labb2_Datorgrafik;
-using System.Collections.Generic;
+﻿using Labb2_Datorgrafik;
 
 public class AnimationComponent : IComponent
 {
