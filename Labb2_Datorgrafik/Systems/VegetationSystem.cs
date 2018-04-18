@@ -64,6 +64,7 @@ namespace Labb2_Datorgrafik.Systems
         {
             Random random = new Random();
             VertexPositionTexture[] vertices;
+            int[] indices;
             int x = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.X), (int)hmc.BoundingBox.Max.X);
             int y = (int)Math.Ceiling(hmc.BoundingBox.Max.Y);
             int z = random.Next((int)Math.Ceiling(hmc.BoundingBox.Min.Z), (int)hmc.BoundingBox.Max.Z);
@@ -76,9 +77,12 @@ namespace Labb2_Datorgrafik.Systems
                 {
                     vertices = new VertexPositionTexture[hmc.VertexBuffers[i].VertexCount];
                     hmc.VertexBuffers[i].GetData(vertices);
-                    for (int j = 0; j < vertices.Length; j += 3)
+                    indices = new int[hmc.IndexBuffers[i].IndexCount];
+                    hmc.IndexBuffers[i].GetData(indices);
+
+                    for (int j = 0; j < indices.Length; j += 3)
                     {
-                        Plane plane = new Plane(vertices[j].Position, vertices[j + 1].Position, vertices[j + 2].Position);
+                        Plane plane = new Plane(vertices[indices[j]].Position, vertices[indices[j + 1]].Position, vertices[indices[j + 2]].Position);
                         ray.Intersects(plane);
                     }
                 }
