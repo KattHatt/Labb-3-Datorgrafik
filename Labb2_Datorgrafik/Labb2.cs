@@ -4,8 +4,6 @@ using Labb2_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Labb2_Datorgrafik.Components;
-using Labb1_Datorgrafik.Systems;
 
 namespace Labb2_Datorgrafik
 {
@@ -55,15 +53,17 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new ChopperSystem());
             sm.AddSystem(new TrackingCameraSystem());
             sm.AddSystem(new RectangleSystem());
+            sm.AddSystem(new VegetationSystem());
             sm.AddSystem(new AnimationSystem());
 
             //Create all entities
             int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
             
+            int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
+            int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
+            int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
+            EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard", "tree", 100);
             
-            
-            EntityFactory.CreateHeightMap(GraphicsDevice, "US_Canyon", "checkerboard");
-
             //cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
 
             int p = EntityFactory.CreatePlayerBody(GraphicsDevice);
@@ -81,6 +81,7 @@ namespace Labb2_Datorgrafik
             sm.GetSystem<HeightMapSystem>().Load(Content);
             sm.GetSystem<ModelSystem>().Load(Content);
             sm.GetSystem<RectangleSystem>().Load(Content);
+            sm.GetSystem<VegetationSystem>().Load(Content);
         }
 
         /// <summary>
@@ -132,6 +133,7 @@ namespace Labb2_Datorgrafik
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
             sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
+            sm.Render<VegetationSystem>(GraphicsDevice, basicEffect);
 
             base.Draw(gameTime);
         }

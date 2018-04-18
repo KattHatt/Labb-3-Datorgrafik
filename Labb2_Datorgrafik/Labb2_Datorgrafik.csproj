@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,8 @@
     <AssemblyName>Labb1_Datorgrafik</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -49,6 +50,7 @@
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\RectangleComponent.cs" />
+    <Compile Include="Components\VegetationComponent.cs" />
     <Compile Include="Labb2.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
@@ -65,7 +67,9 @@
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\ModelSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
+    <Compile Include="Systems\VegetationSystem.cs" />
     <Compile Include="Tools\EntityFactory.cs" />
+    <Compile Include="Tools\Extentions.cs" />
     <Compile Include="Tools\ModelHelper.cs" />
   </ItemGroup>
   <ItemGroup>

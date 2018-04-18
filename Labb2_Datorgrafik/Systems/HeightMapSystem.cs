@@ -78,14 +78,20 @@ namespace Labb2_Datorgrafik.Systems
                     VertexPositionTexture[] vertices = CreateVertices(heights.Value, heights.Key);
                     int[] indices = CreateIndices(heights.Value.GetLength(0), heights.Value.GetLength(1));
 
-                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionTexture.VertexDeclaration, heights.Value.Length, BufferUsage.WriteOnly);
+                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionTexture.VertexDeclaration, heights.Value.Length, BufferUsage.None);
                     vertexBuffer.SetData(vertices);
                     vertexBuffers.Add(vertexBuffer);
-                    IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.WriteOnly);
+                    IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.None);
                     indexBuffer.SetData(indices);
                     indexBuffers.Add(indexBuffer);
                     BoundingBox boundingBox = CreateBoundingBox(vertices);
                     boundingBoxes.Add(boundingBox);
+                }
+
+                hmc.BoundingBox = boundingBoxes[0];
+                for (int i = 1; i < boundingBoxes.Count; i++)
+                {
+                    hmc.BoundingBox = BoundingBox.CreateMerged(hmc.BoundingBox, boundingBoxes[i]);
                 }
 
                 hmc.VertexBuffers = vertexBuffers.ToArray();
