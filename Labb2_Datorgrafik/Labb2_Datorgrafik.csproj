@@ -60,6 +60,7 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\ChopperSystem.cs" />
+    <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\RectangleSystem.cs" />
     <Compile Include="Systems\TrackingCameraSystem.cs" />
     <Compile Include="Systems\HeightMapSystem.cs" />
