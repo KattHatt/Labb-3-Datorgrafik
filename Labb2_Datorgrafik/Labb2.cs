@@ -67,7 +67,6 @@ namespace Labb2_Datorgrafik
             //cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
 
             int p = EntityFactory.CreatePlayerBody(GraphicsDevice);
-            int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
 
             base.Initialize();
         }
