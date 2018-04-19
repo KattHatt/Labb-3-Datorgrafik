@@ -41,6 +41,9 @@ namespace Labb2_Datorgrafik.Components
         // Parent object
         public int? Parent { get; set; }
 
+        // Root rectangle
+        public int? Root { get; set; }
+
         // Textures
         public List<Texture2D> Textures { get; set; }
 

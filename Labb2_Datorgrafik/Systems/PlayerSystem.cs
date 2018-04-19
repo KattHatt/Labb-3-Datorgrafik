@@ -3,46 +3,83 @@ using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace Labb1_Datorgrafik.Systems
 {
     public class PlayerSystem : ISystem
     {
+        ComponentManager cm = ComponentManager.GetInstance();
+        int leftLegID;
+        int rightLegID;
+        int heightMapID;
+
         public void Update(GameTime gametime)
         {
-            ComponentManager cm = ComponentManager.GetInstance();
-            int leftLegID;
-            int rightLegID;
-            int heightMapID;
 
-            foreach(var nam in cm.GetComponentsOfType<NameComponent>())
+            foreach (var nam in cm.GetComponentsOfType<NameComponent>())
             {
                 NameComponent n = nam.Item2;
                 if (n.Name == "LeftLeg")
                     leftLegID = nam.Item1;
                 else if (n.Name == "RightLeg")
-                    rightLegID = nam.Item1; 
+                    rightLegID = nam.Item1;
             }
 
-            foreach(var h in cm.GetComponentsOfType<HeightMapComponent>())
+            foreach (var h in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 heightMapID = h.Item1;
             }
 
-            /// TODO ///
-            /// use the "TiltModelAccordingToTerrain" 
+            foreach (var (_,nameComp, transComp) in cm.GetComponentsOfType<NameComponent, TransformComponent>())
+            {
+                if (nameComp.Name == "Body")
+                {
+                    double speedx = (Math.Sin(transComp.Rotation.X));
+                    double speedz = (Math.Cos(transComp.Rotation.X));
+                    float speedxdouble, speedzdouble;
+                    speedxdouble = (float)speedx;
+                    speedzdouble = (float)speedz;
 
+                    if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    {
+                        transComp.Position += Vector3.Forward * speedzdouble;
+                        transComp.Position += Vector3.Left * speedxdouble;
+                    }
+                    else if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    {
+                        transComp.Position += Vector3.Backward * speedzdouble;
+                        transComp.Position += Vector3.Right * speedxdouble;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    {
+                        transComp.Rotation.X += .03f;
+                    }
+                    else if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    {
+                        transComp.Rotation.X -= .03f;
+                    }
+
+                    TiltModelAccordingToTerrain(heightMapID, leftLegID, rightLegID);
+                }
+            }
         }
 
 
-        private Matrix TiltModelAccordingToTerrain(int heightMapID, int leftLegID, int rightLegID)
+        private void TiltModelAccordingToTerrain(int heightMapID, int leftLegID, int rightLegID)
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
             TransformComponent leftTransComp = cm.GetComponentForEntity<TransformComponent>(leftLegID);
             TransformComponent rightTransComp = cm.GetComponentForEntity<TransformComponent>(rightLegID);
-            HeightMapComponent hmc = cm.GetComponentForEntity<HeightMapComponent>(heightMapID);
+
+            RectangleComponent child = cm.GetComponentForEntity<RectangleComponent>(leftLegID);
+            RectangleComponent rootRect = cm.GetComponentForEntity<RectangleComponent>((int)child.Root);
+
+            TransformComponent rootTransComp = cm.GetComponentForEntity<TransformComponent>((int)child.Root);
+
+            float[,] heightData = cm.GetComponentForEntity<HeightMapComponent>(heightMapID).HeightData;
 
             Vector3 leftLegOrigin = leftTransComp.Position;
             Vector3 rightLegOrigin = rightTransComp.Position;
@@ -55,8 +92,8 @@ namespace Labb1_Datorgrafik.Systems
 
             Vector3 middle = leftLeg + rightLeg / 2.0f;
 
-            float leftLegHeight = GetExactHeightAt(leftLeg.X, -leftLeg.Z, heightMapID);
-            float rightLegHeight = GetExactHeightAt(rightLeg.X, -rightLeg.Z, heightMapID);
+            float leftLegHeight = GetExactHeightAt(leftLeg.X, -leftLeg.Z, heightData);
+            float rightLegHeight = GetExactHeightAt(rightLeg.X, -rightLeg.Z, heightData);
             float lrHeightDiff = leftLegHeight - rightLegHeight;
 
             float lrAngle = (float)Math.Atan2(lrHeightDiff, middle.Length());
@@ -67,8 +104,8 @@ namespace Labb1_Datorgrafik.Systems
             Vector3 rotLeft = Vector3.Transform(leftLegOrigin, leftLegMatrix * rotatedModelWorld);
             Vector3 rotRight = Vector3.Transform(rightLegOrigin, rightLegMatrix * rotatedModelWorld);
 
-            float lTerHeight = GetExactHeightAt(rotLeft.X, -rotLeft.Z, heightMapID);
-            float rTerHeight = GetExactHeightAt(rotRight.X, -rotRight.Z, heightMapID);
+            float lTerHeight = GetExactHeightAt(rotLeft.X, -rotLeft.Z, heightData);
+            float rTerHeight = GetExactHeightAt(rotRight.X, -rotRight.Z, heightData);
 
             float lHeightDiff = rotLeft.Y - lTerHeight;
             float rHeightDiff = rotRight.Y - rTerHeight;
@@ -77,17 +114,17 @@ namespace Labb1_Datorgrafik.Systems
 
             Matrix worldMatrix = rotatedModelWorld * Matrix.CreateTranslation(new Vector3(0, -finalHeightDiff, 0));
 
-            return worldMatrix;
+
+            // mixtra med dessa
+            rootTransComp.World = worldMatrix;
+            leftTransComp.World = worldMatrix;
+            rightTransComp.World = worldMatrix;
+            
         }
 
-        public float GetExactHeightAt(float x, float z, int heightMapID)
+        // Gets the exact height at a sertain position in a heightmap texture
+        public float GetExactHeightAt(float x, float z, float[,] heightData)
         {
-            ComponentManager cm = ComponentManager.GetInstance();
-
-            Texture2D terrain = cm.GetComponentForEntity<HeightMapComponent>(heightMapID).Texture;
-
-            float[,] heightData = GetHeightData(terrain);
-
             bool invalid = x < 0;
             invalid |= z < 0;
             invalid |= x > heightData.GetLength(0) - 1;
@@ -125,42 +162,6 @@ namespace Labb1_Datorgrafik.Systems
             }
 
             return finalHeight;    
-        }
-
-
-        public float[,] GetHeightData(Texture2D heightmap)
-        {
-            float minimumHeight = 255;
-            float maximumHeight = 0;
-
-            int width = heightmap.Width;
-            int height = heightmap.Height;
-
-            Color[] heightMapColors = new Color[width * height];
-            heightmap.GetData<Color>(heightMapColors);
-
-            float[,] heightData = new float[width, height];
-
-            // kan vara fel här, kanske ta bort / lägga till vingar
-            for(int i = 0; i < width; i++)
-
-                for (int j = 0; j < height; j++)
-                {
-                    heightData[i, j] = heightMapColors[i + j * width].R;
-                    if (heightData[i, j] < minimumHeight) minimumHeight = heightData[i, j];
-                    if (heightData[i, j] > maximumHeight) maximumHeight = heightData[i, j];
-                }
-            
-            
-            for(int i = 0; i < width; i++)
-                for(int j = 0; j < height; j++)
-                {
-                    heightData[i, j] = (heightData[i, j] - minimumHeight) / 
-                        (maximumHeight - minimumHeight) * 30.0f;
-                }
-
-            return heightData;
-            
         }
     }
 }

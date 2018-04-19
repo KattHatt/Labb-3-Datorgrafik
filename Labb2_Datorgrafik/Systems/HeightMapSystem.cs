@@ -94,7 +94,43 @@ namespace Labb2_Datorgrafik.Systems
                 hmc.VertexBuffers = vertexBuffers.ToArray();
                 hmc.IndexBuffers = indexBuffers.ToArray();
                 hmc.BoundingBoxes = boundingBoxes.ToArray();
+
+                // Get heightmap data
+                hmc.HeightData = GetHeightData(hmc.HeightMap);
             }
+        }
+
+        public float[,] GetHeightData(Texture2D heightmap)
+        {
+            float minimumHeight = 255;
+            float maximumHeight = 0;
+
+            int width = heightmap.Width;
+            int height = heightmap.Height;
+
+            Color[] heightMapColors = new Color[width * height];
+            heightmap.GetData<Color>(heightMapColors);
+
+            float[,] heightData = new float[width, height];
+
+            // kan vara fel här, kanske ta bort / lägga till vingar i denna forloop
+            for (int i = 0; i < width; i++)
+
+                for (int j = 0; j < height; j++)
+                {
+                    heightData[i, j] = heightMapColors[i + j * width].R;
+                    if (heightData[i, j] < minimumHeight) minimumHeight = heightData[i, j];
+                    if (heightData[i, j] > maximumHeight) maximumHeight = heightData[i, j];
+                }
+
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
+                {
+                    heightData[i, j] = (heightData[i, j] - minimumHeight) /
+                        (maximumHeight - minimumHeight) * 30.0f;
+                }
+
+            return heightData;
         }
 
         private Dictionary<Vector3, float[,]> Split(HeightMapComponent hmc)

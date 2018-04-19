@@ -1,4 +1,5 @@
-﻿using Labb2_Datorgrafik.Managers;
+﻿using Labb1_Datorgrafik.Systems;
+using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Systems;
 using Labb2_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
@@ -55,18 +56,22 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new RectangleSystem());
             sm.AddSystem(new VegetationSystem());
             sm.AddSystem(new AnimationSystem());
+            sm.AddSystem(new PlayerSystem());
 
             //Create all entities
-            int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
+            //int chopperId = EntityFactory.CreateChopper(GraphicsDevice, "Chopper");
             
-            int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
-            int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
-            int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
+            //int cubedaddy = EntityFactory.CreateCubeParent(GraphicsDevice, "grass", 10.0f, new Vector3(20, 350, -170));
+            //int cubekiddo = EntityFactory.CreateCubeKid(GraphicsDevice, "checkerboard", 5.0f, cubedaddy, new Vector3(0, 0, -50));
+            //int c = EntityFactory.CreateCamera(GraphicsDevice, chopperId);
             EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard", "tree", 100);
-            
+
             //cm.AddEntityWithComponents(new TrackingCameraComponent(chopperId, new Vector3(10)));
 
-            int p = EntityFactory.CreatePlayerBody(GraphicsDevice);
+            //int p = EntityFactory.CreatePlayerBody(GraphicsDevice);
+
+            int q = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice);
+            int c = EntityFactory.CreateCamera(GraphicsDevice, q);
 
             base.Initialize();
         }
@@ -110,6 +115,7 @@ namespace Labb2_Datorgrafik
             sm.Update<TrackingCameraSystem>(gameTime);
             sm.Update<RectangleSystem>(gameTime);
             sm.Update<AnimationSystem>(gameTime);
+            sm.Update<PlayerSystem>(gameTime);
 
             base.Update(gameTime);
         }

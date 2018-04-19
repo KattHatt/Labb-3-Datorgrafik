@@ -17,6 +17,7 @@ namespace Labb2_Datorgrafik.Components
         public BoundingBox[] BoundingBoxes;
         public BoundingBox BoundingBox;
         public bool RenderBoundingBoxes;
+        public float[,] HeightData;
 
         public HeightMapComponent(GraphicsDevice graphicsDevice)
         {

@@ -127,20 +127,57 @@ namespace Labb2_Datorgrafik.Tools
             return cube;
         }
 
+        public static int CreateCube(GraphicsDevice gd, string path, Vector3 size, Vector3 pos, int? parent, string name, int root)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+
+            NameComponent nameComp = new NameComponent(name);
+            RectangleComponent cubekid = new RectangleComponent(gd, false, size.Y, size.X, size.Z, path);
+            cubekid.Parent = parent;
+            cubekid.Root = root;
+            TransformComponent trans = new TransformComponent()
+            {
+                Position = pos
+            };
+            int cube = cm.AddEntityWithComponents(cubekid, trans, nameComp);
+
+            return cube;
+        }
+
         public static int CreatePlayerBody(GraphicsDevice gd)
         {
+
+
             int body = CreateCube(gd, "grass", new Vector3(10, 10, 10), new Vector3(20, 350, -170), null, "Body");
             int head = CreateCube(gd, "checkerboard", new Vector3(6, 6, 6), new Vector3(0, 8, 0), body, "Head");
             int rightLegJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(3, -1, 0), body, "RightLegJoint");
             int leftLegJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(-3, -1, 0), body, "LeftLegJoint");
-            int rightLeg = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -9, 0), rightLegJoint, "RightLeg");
-            int leftLeg = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -9, 0), leftLegJoint, "LeftLeg");
+            int rightLeg = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -9, 0), rightLegJoint, "RightLeg", body);
+            int leftLeg = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -9, 0), leftLegJoint, "LeftLeg", body);
             int rightArmJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(6, 4.5f, 0), body, "RightArmJoint");
             int leftArmJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(-6, 4.5f, 0), body, "LeftArmJoint");
             int rightArm = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -5, 0), rightArmJoint, "RightArm");
             int leftArm = CreateCube(gd, "checkerboard", new Vector3(2, 10, 2), new Vector3(0, -5, 0), leftArmJoint, "LeftArm");
 
             AnimationComponent aComp = new AnimationComponent() { Animate = true };
+            ComponentManager.GetInstance().AddComponentsToEntity(body, aComp);
+            return body;
+        }
+
+        public static int CreatePlayerBodyLegs(GraphicsDevice gd)
+        {
+            int x = 20;
+            int y = 150;
+            int z = -170;
+
+            int body = CreateCube(gd, "grass", new Vector3(10, 10, 10), new Vector3(x, y, z), null, "Body");
+            int head = CreateCube(gd, "checkerboard", new Vector3(6, 6, 6), new Vector3(0, 8, 0), body, "Head");
+            int rightLegJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(3, -1, 0), body, "RightLegJoint");
+            int leftLegJoint = CreateCube(gd, "checkerboard", new Vector3(1, 1, 1), new Vector3(-3, -1, 0), body, "LeftLegJoint");
+            int rightLeg = CreateCube(gd, "grass", new Vector3(2, 10, 2), new Vector3(0, -9, 0), rightLegJoint, "RightLeg", body);
+            int leftLeg = CreateCube(gd, "grass", new Vector3(2, 10, 2), new Vector3(0, -9, 0), leftLegJoint, "LeftLeg", body);
+
+            AnimationComponent aComp = new AnimationComponent() { Animate = false };
             ComponentManager.GetInstance().AddComponentsToEntity(body, aComp);
             return body;
         }
