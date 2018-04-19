@@ -64,19 +64,17 @@ namespace Labb2_Datorgrafik.Systems
         {
             ComponentManager cm = ComponentManager.GetInstance();
 
-            Stack<Tuple<int, RectangleComponent>> fringe = new Stack<Tuple<int, RectangleComponent>>();
+            Stack<(int, RectangleComponent)> fringe = new Stack<(int, RectangleComponent)>();
 
-            foreach (var (id, rect) in cm.GetComponentsOfType<RectangleComponent>())
-            {
-                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(id);
-                
+            foreach (var (id, rect, trans) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
+            {                
                 if (rect.Parent == null)
                 {
-                    fringe.Push(Tuple.Create(id, rect));
+                    fringe.Push((id, rect));
 
                     while (fringe.Count > 0)
                     {
-                        Tuple<int, RectangleComponent> node = fringe.Pop();
+                        (int, RectangleComponent) node = fringe.Pop();
 
                         if (node.Item2.Parent != null)
                         {
@@ -87,7 +85,7 @@ namespace Labb2_Datorgrafik.Systems
                         }
                         foreach (int kid in node.Item2.Children)
                         {
-                            fringe.Push(Tuple.Create(kid, cm.GetComponentForEntity<RectangleComponent>(kid)));
+                            fringe.Push((kid, cm.GetComponentForEntity<RectangleComponent>(kid)));
                         }
                     }
                 }

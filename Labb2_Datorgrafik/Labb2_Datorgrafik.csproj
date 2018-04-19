@@ -9,8 +9,8 @@
     <ProjectGuid>{E8F756DA-96E8-443A-A9E0-239EF24D0AE3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Labb1_Datorgrafik</RootNamespace>
-    <AssemblyName>Labb1_Datorgrafik</AssemblyName>
+    <RootNamespace>Labb2_Datorgrafik</RootNamespace>
+    <AssemblyName>Labb2_Datorgrafik</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>

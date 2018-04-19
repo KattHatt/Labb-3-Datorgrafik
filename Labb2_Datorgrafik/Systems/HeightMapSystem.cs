@@ -64,12 +64,14 @@ namespace Labb2_Datorgrafik.Systems
                 List<VertexBuffer> vertexBuffers = new List<VertexBuffer>();
                 List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
                 List<BoundingBox> boundingBoxes = new List<BoundingBox>();
+                List<Vector3[]> verticesList = new List<Vector3[]>();
+                List<int[]> indicesList = new List<int[]>();
 
                 hmc.HeightMap = content.Load<Texture2D>(hmc.HeightMapFilePath);
                 hmc.Texture = content.Load<Texture2D>(hmc.TextureFilePath);
                 hmc.Width = hmc.HeightMap.Width;
                 hmc.Height = hmc.HeightMap.Height;
-                
+
                 foreach (var heights in Split(hmc))
                 {
                     VertexPositionTexture[] vertices = CreateVertices(heights.Value, heights.Key);
@@ -78,9 +80,11 @@ namespace Labb2_Datorgrafik.Systems
                     VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionTexture.VertexDeclaration, heights.Value.Length, BufferUsage.None);
                     vertexBuffer.SetData(vertices);
                     vertexBuffers.Add(vertexBuffer);
+                    verticesList.Add((from vertex in vertices select vertex.Position).ToArray());
                     IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.None);
                     indexBuffer.SetData(indices);
                     indexBuffers.Add(indexBuffer);
+                    indicesList.Add(indices);
                     BoundingBox boundingBox = CreateBoundingBox(vertices);
                     boundingBoxes.Add(boundingBox);
                 }
@@ -92,7 +96,9 @@ namespace Labb2_Datorgrafik.Systems
                 }
 
                 hmc.VertexBuffers = vertexBuffers.ToArray();
+                hmc.Vertices = verticesList.ToArray();
                 hmc.IndexBuffers = indexBuffers.ToArray();
+                hmc.Indices = indicesList.ToArray();
                 hmc.BoundingBoxes = boundingBoxes.ToArray();
 
                 // Get heightmap data

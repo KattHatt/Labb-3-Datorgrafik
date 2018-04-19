@@ -14,6 +14,8 @@ namespace Labb2_Datorgrafik.Components
         public GraphicsDevice GraphicsDevice;
         public VertexBuffer[] VertexBuffers;
         public IndexBuffer[] IndexBuffers;
+        public Vector3[][] Vertices;
+        public int[][] Indices;
         public BoundingBox[] BoundingBoxes;
         public BoundingBox BoundingBox;
         public bool RenderBoundingBoxes;

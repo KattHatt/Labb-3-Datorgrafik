@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Labb2_Datorgrafik.Components;
 using Labb2_Datorgrafik.Managers;
-using Labb2_Datorgrafik.Components;
+using Microsoft.Xna.Framework;
 
 namespace Labb2_Datorgrafik.Systems
 {

@@ -20,6 +20,9 @@ namespace Labb2_Datorgrafik.Components
         public Vector3 BACK_BOTTOM_LEFT;
         public Vector3 BACK_BOTTOM_RIGHT;
 
+        // Bounding box
+        public BoundingBox boundingBox;
+
         // Vertices
         public VertexPositionNormalTexture[] vertices;
 
@@ -62,9 +65,8 @@ namespace Labb2_Datorgrafik.Components
         public RectangleComponent(
             GraphicsDevice gd,
             bool isChild,
-            float height,
-            float width,
-            float depth,
+            Vector3 corner1,
+            Vector3 corner2,
             string texturePath)
         {
             Children = new List<int>();
@@ -75,14 +77,17 @@ namespace Labb2_Datorgrafik.Components
             graphicsDevice = gd;
             TexturePaths.Add(texturePath);
 
-            FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
-            FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
-            FRONT_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, depth / 2);
-            FRONT_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, depth / 2);
-            BACK_TOP_LEFT = new Vector3(-width / 2, height / 2, -depth / 2);
-            BACK_TOP_RIGHT = new Vector3(width / 2, height / 2, -depth / 2);
-            BACK_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, -depth / 2);
-            BACK_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, -depth / 2);
+            boundingBox = new BoundingBox(corner1, corner2);
+            Vector3[] corners = boundingBox.GetCorners();
+
+            FRONT_TOP_LEFT = corners[0];
+            FRONT_TOP_RIGHT = corners[1];
+            FRONT_BOTTOM_LEFT = corners[3];
+            FRONT_BOTTOM_RIGHT = corners[2];
+            BACK_TOP_LEFT = corners[4];
+            BACK_TOP_RIGHT = corners[5];
+            BACK_BOTTOM_LEFT = corners[7];
+            BACK_BOTTOM_RIGHT = corners[6];
         }
 
         // Custom Rectangle with different textures

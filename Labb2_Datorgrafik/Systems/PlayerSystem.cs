@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace Labb1_Datorgrafik.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     public class PlayerSystem : ISystem
     {
@@ -32,7 +32,7 @@ namespace Labb1_Datorgrafik.Systems
                 heightMapID = h.Item1;
             }
 
-            foreach (var (_,nameComp, transComp) in cm.GetComponentsOfType<NameComponent, TransformComponent>())
+            foreach (var (id, nameComp, transComp) in cm.GetComponentsOfType<NameComponent, TransformComponent>())
             {
                 if (nameComp.Name == "Body")
                 {
@@ -52,6 +52,7 @@ namespace Labb1_Datorgrafik.Systems
                         transComp.Position += Vector3.Backward * speedzdouble;
                         transComp.Position += Vector3.Right * speedxdouble;
                     }
+
                     if (Keyboard.GetState().IsKeyDown(Keys.A))
                     {
                         transComp.Rotation.X += .03f;
@@ -61,11 +62,70 @@ namespace Labb1_Datorgrafik.Systems
                         transComp.Rotation.X -= .03f;
                     }
 
-                    TiltModelAccordingToTerrain(heightMapID, leftLegID, rightLegID);
+                    if (Keyboard.GetState().IsKeyDown(Keys.Z))
+                    {
+                        transComp.Scale -= Vector3.One * 0.03f;
+                    }
+                    else if (Keyboard.GetState().IsKeyDown(Keys.X))
+                    {
+                        transComp.Scale += Vector3.One * 0.03f;
+                    }
+
+                    //TiltModelAccordingToTerrain(heightMapID, leftLegID, rightLegID);
+                    TiltModelAccordingToTerrain(heightMapID, id, leftLegID, false);
                 }
             }
         }
 
+        private void TiltModelAccordingToTerrain(int heightMapID, int bodyID, int legID, bool hej)
+        {
+            var bodyTransform = cm.GetComponentForEntity<TransformComponent>(bodyID);
+            var heightmap = cm.GetComponentForEntity<HeightMapComponent>(heightMapID);
+            var legTransform = cm.GetComponentForEntity<TransformComponent>(legID);
+            var legRectangle = cm.GetComponentForEntity<RectangleComponent>(legID);
+
+            Vector3 position = bodyTransform.Position;
+            position.Y += 10;
+            
+            Ray ray = new Ray(position, Vector3.Down);
+
+            int? index = GetIntersectingBoxIndex(heightmap, ray);
+            if (!index.HasValue)
+                return;
+
+            float? distance = GetIntersectingVertexDistance(heightmap, index.Value, ray);
+            if (!distance.HasValue)
+                return;
+
+            Console.WriteLine(distance.Value);
+
+            bodyTransform.Position.Y -= distance.Value;
+            bodyTransform.Position.Y += 20;
+        }
+
+        private int? GetIntersectingBoxIndex(HeightMapComponent heightmap, Ray ray)
+        {
+            for (int i = 0; i < heightmap.BoundingBoxes.Length; i++)
+            {
+                if (ray.Intersects(heightmap.BoundingBoxes[i]).HasValue)
+                    return i;
+            }
+            return null;
+        }
+
+        private float? GetIntersectingVertexDistance(HeightMapComponent heightmap, int index, Ray ray)
+        {
+            Vector3[] vertices = heightmap.Vertices[index];
+            int[] indices = heightmap.Indices[index];
+            
+            for (int i = 0; i < indices.Length; i += 3)
+            {
+                float? distance = ray.Intersects(vertices[indices[i]], vertices[indices[i + 1]], vertices[indices[i + 2]]);
+                if (distance.HasValue)
+                    return distance;
+            }
+            return null;
+        }
 
         private void TiltModelAccordingToTerrain(int heightMapID, int leftLegID, int rightLegID)
         {
