@@ -36,10 +36,8 @@ namespace Labb2_Datorgrafik
             basicEffect = new BasicEffect(GraphicsDevice)
             {
                 Alpha = 1f,
-
                 // Want to see the colors of the vertices, this needs to be on
                 VertexColorEnabled = true,
-
                 //Lighting requires normal information which VertexPositionColor does not have
                 //If you want to use lighting and VPC you need to create a  custom def
                 LightingEnabled = false
@@ -50,18 +48,15 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
-            sm.AddSystem(new ChopperSystem());
             sm.AddSystem(new TrackingCameraSystem());
             sm.AddSystem(new RectangleSystem());
             sm.AddSystem(new VegetationSystem());
             sm.AddSystem(new AnimationSystem());
             sm.AddSystem(new PlayerSystem());
-
-            EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard", "tree", 100);
             
             //Create all entities            
             EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard", "tree", 100);
-            int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 2f);
+            int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 0.05f);
             EntityFactory.CreateTrackingCamera(GraphicsDevice, player);
 
             base.Initialize();
@@ -102,7 +97,6 @@ namespace Labb2_Datorgrafik
 
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
-            sm.Update<ChopperSystem>(gameTime);
             sm.Update<TrackingCameraSystem>(gameTime);
             sm.Update<RectangleSystem>(gameTime);
             sm.Update<AnimationSystem>(gameTime);

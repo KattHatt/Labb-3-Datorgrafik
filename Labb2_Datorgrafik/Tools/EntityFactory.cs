@@ -26,7 +26,7 @@ namespace Labb2_Datorgrafik.Tools
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 30, 80));
+            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 2, 10));
 
             return cm.AddEntityWithComponents(camera, trackingCamera, transform);
         }
@@ -40,24 +40,6 @@ namespace Labb2_Datorgrafik.Tools
             };
             VegetationComponent vc = new VegetationComponent(vegetationModelFile, vegetationNumInstances);
             return cm.AddEntityWithComponents(hmc, vc);
-        }
-
-        public static int CreateChopper(GraphicsDevice gd, string modelPath)
-        {
-            ModelComponent modComp = new ModelComponent(modelPath)
-            {
-                IsActive = true
-            };
-            TransformComponent transComp = new TransformComponent()
-            {
-                Position = new Vector3(20, 350, -170)
-            };
-            NameComponent nameComp = new NameComponent("Chopper");
-
-
-            int chop = cm.AddEntityWithComponents(modComp, transComp, nameComp);
-
-            return chop;
         }
 
         /*public static int CreateCubeParent(GraphicsDevice gd, string path, float size, Vector3 pos)
@@ -109,6 +91,10 @@ namespace Labb2_Datorgrafik.Tools
             {
                 Position = position
             };
+
+            if (!parent.HasValue)
+                trans.Scale = scale;
+
             int cube = cm.AddEntityWithComponents(cubekid, trans, nameComp);
 
             return cube;

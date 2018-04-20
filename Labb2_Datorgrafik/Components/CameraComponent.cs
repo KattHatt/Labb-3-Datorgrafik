@@ -7,6 +7,7 @@ namespace Labb2_Datorgrafik.Components
     {     
         public Matrix Projection;
         public Matrix View;
+        public BoundingFrustum BoundingFrustum;
 
         public float FieldOfView;
         public float AspectRatio;

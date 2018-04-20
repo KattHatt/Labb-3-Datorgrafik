@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Labb2_Datorgrafik.Systems
@@ -30,6 +31,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
+            var frustum = cm.GetComponentsOfType<CameraComponent>().First().Item2.BoundingFrustum;
+
             foreach (var (_, vc) in cm.GetComponentsOfType<VegetationComponent>())
             {
                 Matrix[] transforms = new Matrix[vc.Model.Bones.Count];
@@ -46,9 +49,14 @@ namespace Labb2_Datorgrafik.Systems
                             effect.Projection = be.Projection;
                             effect.World = transforms[mesh.ParentBone.Index] * instance;
                             effect.AmbientLightColor = Color.DarkGreen.ToVector3();
-                            
-                            effect.CurrentTechnique.Passes[0].Apply();
-                            mesh.Draw();
+
+                            BoundingSphere sphere = mesh.BoundingSphere;
+                            //sphere.Transform(effect.World);
+                            if (frustum.Contains(sphere) != ContainmentType.Disjoint)
+                            {
+                                effect.CurrentTechnique.Passes[0].Apply();
+                                mesh.Draw();
+                            }
                         }
                     }
                 }

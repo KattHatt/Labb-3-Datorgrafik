@@ -39,8 +39,8 @@ namespace Labb2_Datorgrafik.Systems
                     double speedx = (Math.Sin(transComp.Rotation.X));
                     double speedz = (Math.Cos(transComp.Rotation.X));
                     float speedxdouble, speedzdouble;
-                    speedxdouble = (float)speedx;
-                    speedzdouble = (float)speedz;
+                    speedxdouble = (float)speedx * 0.1f;
+                    speedzdouble = (float)speedz * 0.1f;
 
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {
@@ -70,14 +70,13 @@ namespace Labb2_Datorgrafik.Systems
                     {
                         transComp.Scale += Vector3.One * 0.03f;
                     }
-
-                    //TiltModelAccordingToTerrain(heightMapID, leftLegID, rightLegID);
-                    TiltModelAccordingToTerrain(heightMapID, id, leftLegID, false);
+                    
+                    TiltModelAccordingToTerrain(heightMapID, id, leftLegID);
                 }
             }
         }
 
-        private void TiltModelAccordingToTerrain(int heightMapID, int bodyID, int legID, bool hej)
+        private void TiltModelAccordingToTerrain(int heightMapID, int bodyID, int legID)
         {
             var bodyTransform = cm.GetComponentForEntity<TransformComponent>(bodyID);
             var heightmap = cm.GetComponentForEntity<HeightMapComponent>(heightMapID);
@@ -100,7 +99,7 @@ namespace Labb2_Datorgrafik.Systems
             Console.WriteLine(distance.Value);
 
             bodyTransform.Position.Y -= distance.Value;
-            bodyTransform.Position.Y += 20;
+            bodyTransform.Position.Y += 10.5f;
         }
 
         private int? GetIntersectingBoxIndex(HeightMapComponent heightmap, Ray ray)
@@ -125,61 +124,6 @@ namespace Labb2_Datorgrafik.Systems
                     return distance;
             }
             return null;
-        }
-
-        private void TiltModelAccordingToTerrain(int heightMapID, int leftLegID, int rightLegID)
-        {
-            ComponentManager cm = ComponentManager.GetInstance();
-
-            TransformComponent leftTransComp = cm.GetComponentForEntity<TransformComponent>(leftLegID);
-            TransformComponent rightTransComp = cm.GetComponentForEntity<TransformComponent>(rightLegID);
-
-            RectangleComponent child = cm.GetComponentForEntity<RectangleComponent>(leftLegID);
-            RectangleComponent rootRect = cm.GetComponentForEntity<RectangleComponent>((int)child.Root);
-
-            TransformComponent rootTransComp = cm.GetComponentForEntity<TransformComponent>((int)child.Root);
-
-            float[,] heightData = cm.GetComponentForEntity<HeightMapComponent>(heightMapID).HeightData;
-
-            Vector3 leftLegOrigin = leftTransComp.Position;
-            Vector3 rightLegOrigin = rightTransComp.Position;
-
-            Matrix leftLegMatrix = leftTransComp.World;
-            Matrix rightLegMatrix = rightTransComp.World;
-
-            Vector3 leftLeg = Vector3.Transform(leftLegOrigin, leftLegMatrix * Matrix.Identity);
-            Vector3 rightLeg = Vector3.Transform(rightLegOrigin, rightLegMatrix * Matrix.Identity);
-
-            Vector3 middle = leftLeg + rightLeg / 2.0f;
-
-            float leftLegHeight = GetExactHeightAt(leftLeg.X, -leftLeg.Z, heightData);
-            float rightLegHeight = GetExactHeightAt(rightLeg.X, -rightLeg.Z, heightData);
-            float lrHeightDiff = leftLegHeight - rightLegHeight;
-
-            float lrAngle = (float)Math.Atan2(lrHeightDiff, middle.Length());
-            Quaternion lrRot = Quaternion.CreateFromAxisAngle(new Vector3(1, 0, 0), -lrAngle);
-
-            Matrix rotatedModelWorld = Matrix.CreateFromQuaternion(lrRot) * Matrix.Identity;
-
-            Vector3 rotLeft = Vector3.Transform(leftLegOrigin, leftLegMatrix * rotatedModelWorld);
-            Vector3 rotRight = Vector3.Transform(rightLegOrigin, rightLegMatrix * rotatedModelWorld);
-
-            float lTerHeight = GetExactHeightAt(rotLeft.X, -rotLeft.Z, heightData);
-            float rTerHeight = GetExactHeightAt(rotRight.X, -rotRight.Z, heightData);
-
-            float lHeightDiff = rotLeft.Y - lTerHeight;
-            float rHeightDiff = rotRight.Y - rTerHeight;
-
-            float finalHeightDiff = (lHeightDiff + rHeightDiff) / 2.0f;
-
-            Matrix worldMatrix = rotatedModelWorld * Matrix.CreateTranslation(new Vector3(0, -finalHeightDiff, 0));
-
-
-            // mixtra med dessa
-            rootTransComp.World = worldMatrix;
-            leftTransComp.World = worldMatrix;
-            rightTransComp.World = worldMatrix;
-            
         }
 
         // Gets the exact height at a sertain position in a heightmap texture
