@@ -39,18 +39,24 @@ namespace Labb2_Datorgrafik.Systems
                     double speedx = (Math.Sin(transComp.Rotation.X));
                     double speedz = (Math.Cos(transComp.Rotation.X));
                     float speedxdouble, speedzdouble;
-                    speedxdouble = (float)speedx * 0.1f;
-                    speedzdouble = (float)speedz * 0.1f;
+                    speedxdouble = (float)speedx * 0.2f;
+                    speedzdouble = (float)speedz * 0.2f;
+
+                    AnimationComponent animComp = cm.GetComponentForEntity<AnimationComponent>(id);
+
+                    animComp.Animate = false;
 
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {
                         transComp.Position += Vector3.Forward * speedzdouble;
                         transComp.Position += Vector3.Left * speedxdouble;
+                        animComp.Animate = true;
                     }
                     else if (Keyboard.GetState().IsKeyDown(Keys.S))
                     {
                         transComp.Position += Vector3.Backward * speedzdouble;
                         transComp.Position += Vector3.Right * speedxdouble;
+                        animComp.Animate = true;
                     }
 
                     if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -70,7 +76,8 @@ namespace Labb2_Datorgrafik.Systems
                     {
                         transComp.Scale += Vector3.One * 0.03f;
                     }
-                    
+
+
                     TiltModelAccordingToTerrain(heightMapID, id, leftLegID);
                 }
             }

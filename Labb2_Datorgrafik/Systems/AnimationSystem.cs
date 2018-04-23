@@ -44,8 +44,6 @@ public class AnimationSystem : ISystem
                 else
                     animComp.Progress += (float)gametime.ElapsedGameTime.TotalSeconds * 2;
 
-                Console.WriteLine(animComp.Progress);
-
                 if (animComp.Progress >= 1)
                 {
                     animComp.Reverse = true;

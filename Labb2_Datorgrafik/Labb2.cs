@@ -58,8 +58,12 @@ namespace Labb2_Datorgrafik
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard");
             //cm.AddEntityWithComponents(new VegetationComponent(heightmap, "tree", 100)); 
-            int apa = EntityFactory.CreateModel("stone_stele");
-            EntityFactory.CreateVeggies(GraphicsDevice, apa);
+            int apa1 = EntityFactory.CreateModel("stone_stele");
+            int apa2 = EntityFactory.CreateModel("tree");
+
+
+            EntityFactory.CreateVeggies(GraphicsDevice, apa1, 50);
+            EntityFactory.CreateVeggies(GraphicsDevice, apa2, 50);
 
             int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 0.05f);
             EntityFactory.CreateTrackingCamera(GraphicsDevice, player);

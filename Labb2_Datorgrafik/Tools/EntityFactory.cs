@@ -28,7 +28,7 @@ namespace Labb2_Datorgrafik.Tools
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 2, 10));
+            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 0.8f, 3));
 
             return cm.AddEntityWithComponents(camera, trackingCamera, transform);
         }
@@ -79,7 +79,7 @@ namespace Labb2_Datorgrafik.Tools
             int rightLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(1, 0, 0), new Vector3(2, 10, 2), rightLegJoint, "RightLeg");
             int leftLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(-1, 0, 0), new Vector3(-2, 10, 2), leftLegJoint, "LeftLeg");
 
-            AnimationComponent aComp = new AnimationComponent() { Animate = false };
+            AnimationComponent aComp = new AnimationComponent() { Animate = true };
             ComponentManager.GetInstance().AddComponentsToEntity(body, aComp);
             return body;
         }
@@ -102,9 +102,9 @@ namespace Labb2_Datorgrafik.Tools
             return cm.AddEntityWithComponents(m);
 
         }
-        public static void CreateVeggies(GraphicsDevice gd, int model)
+        public static void CreateVeggies(GraphicsDevice gd, int model, int count)
         {
-            for(int i = 0; i< 100; i++)
+            for(int i = 0; i< count; i++)
             {
                 cm.AddEntityWithComponents(new ModelInstanceComponent(model), new BoundingBoxComponent(gd) { BelongsToID = model, Render = true});
             }
