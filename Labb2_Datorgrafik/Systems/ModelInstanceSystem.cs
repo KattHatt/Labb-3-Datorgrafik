@@ -6,24 +6,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb2_Datorgrafik.Systems
 {
-    class ModelSystem : IRender
+    public class ModelInstanceSystem : IRender
     {
         public void Load(ContentManager content)
         {
-            ComponentManager cm = ComponentManager.GetInstance();
-            foreach (var (_, modelComp) in cm.GetComponentsOfType<ModelComponent>())
-            {
-                modelComp.Model = content.Load<Model>(modelComp.ModelPath);
-            }
         }
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
             ComponentManager cm = ComponentManager.GetInstance();
-
-            foreach (var (_, modelComp, transComp) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
+            foreach (var (_, mic) in cm.GetComponentsOfType<ModelInstanceComponent>())
             {
-                ModelHelper.Render(be, modelComp, transComp.World);
+                ModelComponent mc = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId);
+                ModelHelper.Render(be, mc, mic.Instance);
             }
         }
     }
