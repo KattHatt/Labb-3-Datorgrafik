@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Engine.Systems
+namespace Labb2_Datorgrafik.Systems
 {
     public class BoundingBoxSystem : ISystem, IRender
     {
@@ -18,10 +18,11 @@ namespace Engine.Systems
         {
             foreach (var (key, mic, bbc) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
             {
-                Model model = cm.GetComponentForEntity<ModelComponent>(mic.BelongToModel).Model;
+                Model model = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId).Model;
                 Matrix transform = mic.Instance;
 
-                bbc.BoundingBox = CreateBoundingBoxForVeg(model, transform);
+                //bbc.BoundingBox = CreateBoundingBoxForVeg(model, transform);
+                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId);
                 CreateBoundingBoxBuffers(bbc);
                 CreateBoundingBoxIndices(bbc);
             }
@@ -39,7 +40,7 @@ namespace Engine.Systems
                 if (!bb.Render)
                     continue;
 
-                TransformComponent trans = cm.GetComponentForEntity<TransformComponent>(bb.BelongsToID);
+                Matrix world = cm.GetComponentForEntity<ModelInstanceComponent>(key).Instance;
 
                 gd.SetVertexBuffer(bb.Vertices);
                 gd.Indices = bb.Indices;
@@ -48,7 +49,7 @@ namespace Engine.Systems
                 be.TextureEnabled = false;
                 be.VertexColorEnabled = true;
 
-                be.World = trans.World;
+                be.World = world;
 
                 foreach (EffectPass pass in be.CurrentTechnique.Passes)
                 {
