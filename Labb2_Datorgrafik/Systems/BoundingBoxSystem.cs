@@ -40,7 +40,7 @@ namespace Labb2_Datorgrafik.Systems
                 if (!bb.Render)
                     continue;
 
-                Matrix world = cm.GetComponentForEntity<ModelInstanceComponent>(key).Instance;
+                be.World = Matrix.Identity;
 
                 gd.SetVertexBuffer(bb.Vertices);
                 gd.Indices = bb.Indices;
@@ -49,8 +49,6 @@ namespace Labb2_Datorgrafik.Systems
                 be.TextureEnabled = false;
                 be.VertexColorEnabled = true;
 
-                be.World = world;
-
                 foreach (EffectPass pass in be.CurrentTechnique.Passes)
                 {
                     pass.Apply();
@@ -58,22 +56,6 @@ namespace Labb2_Datorgrafik.Systems
                 }
             }
         }
-
-        private BoundingBox CreateBoundingBoxForVeg(Model model, Matrix transform)
-        {
-            BoundingBox result = new BoundingBox();
-
-            foreach (ModelMesh mesh in model.Meshes)
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                {
-                    BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, transform);
-                    if (meshPartBoundingBox != null)
-                        result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
-                }
-
-            return result;
-        }
-
 
         // Creates a boundingbox for a model and its mesh parts
         private BoundingBox CreateBoundingBox(int modelID, Matrix instance)
@@ -89,7 +71,7 @@ namespace Labb2_Datorgrafik.Systems
                 foreach (ModelMesh mesh in model.Meshes)
                     foreach (ModelMeshPart meshPart in mesh.MeshParts)
                     {
-                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index] * instance);
+                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
                         if (meshPartBoundingBox != null)
                             result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
                     }
@@ -106,6 +88,10 @@ namespace Labb2_Datorgrafik.Systems
                             result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
                     }
             }
+
+            var corners = result.GetCorners();
+            corners = (from corner in corners select Vector3.Transform(corner, instance)).ToArray();
+            result = BoundingBox.CreateFromPoints(corners);
 
             return result;
         }
