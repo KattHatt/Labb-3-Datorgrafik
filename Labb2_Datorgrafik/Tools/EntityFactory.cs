@@ -31,15 +31,14 @@ namespace Labb2_Datorgrafik.Tools
             return cm.AddEntityWithComponents(camera, trackingCamera, transform);
         }
 
-        public static int CreateTerrain(GraphicsDevice gd, string heightMapFile, string heightMapTextureFile, string vegetationModelFile, int vegetationNumInstances)
+        public static int CreateTerrain(GraphicsDevice gd, string heightMapFile, string heightMapTextureFile)
         {
             HeightMapComponent hmc = new HeightMapComponent(gd)
             {
                 HeightMapFilePath = heightMapFile,
                 TextureFilePath = heightMapTextureFile,
             };
-            VegetationComponent vc = new VegetationComponent(vegetationModelFile, vegetationNumInstances);
-            return cm.AddEntityWithComponents(hmc, vc);
+            return cm.AddEntityWithComponents(hmc);
         }
 
         /*public static int CreateCubeParent(GraphicsDevice gd, string path, float size, Vector3 pos)

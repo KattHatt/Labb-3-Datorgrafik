@@ -1,4 +1,5 @@
-﻿using Labb2_Datorgrafik.Managers;
+﻿using Labb2_Datorgrafik.Components;
+using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Systems;
 using Labb2_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
@@ -55,7 +56,10 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new PlayerSystem());
             
             //Create all entities            
-            EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard", "tree", 100);
+            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard");
+            //cm.AddEntityWithComponents(new VegetationComponent(heightmap, "tree", 100));
+            cm.AddEntityWithComponents(new VegetationComponent(heightmap, "Stone_Stele", "dif", 100));
+
             int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 0.05f);
             EntityFactory.CreateTrackingCamera(GraphicsDevice, player);
 

@@ -10,11 +10,16 @@ namespace Labb2_Datorgrafik.Components
         public Model Model;
         public Matrix[] Instances;
         public int NumInstances;
+        public int HeightmapId;
+        public string TextureFile;
+        public Texture2D Texture;
 
-        public VegetationComponent(string modelFile, int numInstances)
+        public VegetationComponent(int heightmapId, string modelFile, string textureFile, int numInstances)
         {
+            HeightmapId = heightmapId;
             ModelFile = modelFile;
             NumInstances = numInstances;
+            TextureFile = textureFile;
         }
     }
 }

@@ -15,9 +15,11 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Load(ContentManager content)
         {
-            foreach (var (_, hmc, vc) in cm.GetComponentsOfType<HeightMapComponent, VegetationComponent>())
+            foreach (var (_, vc) in cm.GetComponentsOfType<VegetationComponent>())
             {
+                HeightMapComponent hmc = cm.GetComponentForEntity<HeightMapComponent>(vc.HeightmapId);
                 vc.Model = content.Load<Model>(vc.ModelFile);
+                vc.Texture = content.Load<Texture2D>(vc.TextureFile);
                 List<Matrix> instances = new List<Matrix>();
 
                 for (int i = 0; i < vc.NumInstances; i++)
@@ -48,15 +50,16 @@ namespace Labb2_Datorgrafik.Systems
                             effect.View = be.View;
                             effect.Projection = be.Projection;
                             effect.World = transforms[mesh.ParentBone.Index] * instance;
-                            effect.AmbientLightColor = Color.DarkGreen.ToVector3();
+                            effect.TextureEnabled = true;
+                            effect.Texture = vc.Texture;
 
                             BoundingSphere sphere = mesh.BoundingSphere;
                             //sphere.Transform(effect.World);
-                            if (frustum.Contains(sphere) != ContainmentType.Disjoint)
-                            {
+                            //if (frustum.Contains(sphere) != ContainmentType.Disjoint)
+                            //{
                                 effect.CurrentTechnique.Passes[0].Apply();
                                 mesh.Draw();
-                            }
+                            //}
                         }
                     }
                 }
