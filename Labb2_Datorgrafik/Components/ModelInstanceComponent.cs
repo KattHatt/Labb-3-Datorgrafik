@@ -2,7 +2,7 @@
 
 namespace Labb2_Datorgrafik.Components
 {
-    public class ModelInstanceComponent
+    public class ModelInstanceComponent : IComponent
     {
         public int ModelEntityId;
         public Matrix Instance;
@@ -11,6 +11,10 @@ namespace Labb2_Datorgrafik.Components
         {
             ModelEntityId = modelEntityId;
             Instance = instance;
+        }
+        public ModelInstanceComponent(int modelEntityId)
+        {
+            ModelEntityId = modelEntityId; 
         }
     }
 }
