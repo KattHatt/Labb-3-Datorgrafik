@@ -22,7 +22,7 @@ namespace Labb2_Datorgrafik.Systems
                 Matrix transform = mic.Instance;
 
                 //bbc.BoundingBox = CreateBoundingBoxForVeg(model, transform);
-                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId);
+                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId, transform);
                 CreateBoundingBoxBuffers(bbc);
                 CreateBoundingBoxIndices(bbc);
             }
@@ -76,7 +76,7 @@ namespace Labb2_Datorgrafik.Systems
 
 
         // Creates a boundingbox for a model and its mesh parts
-        private BoundingBox CreateBoundingBox(int modelID)
+        private BoundingBox CreateBoundingBox(int modelID, Matrix instance)
         {
             BoundingBox result = new BoundingBox();
             Model model = cm.GetComponentForEntity<ModelComponent>(modelID).Model;
@@ -89,7 +89,7 @@ namespace Labb2_Datorgrafik.Systems
                 foreach (ModelMesh mesh in model.Meshes)
                     foreach (ModelMeshPart meshPart in mesh.MeshParts)
                     {
-                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
+                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index] * instance);
                         if (meshPartBoundingBox != null)
                             result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
                     }
