@@ -25,11 +25,14 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
+            BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
+
             ComponentManager cm = ComponentManager.GetInstance();
-            foreach (var (_, mic) in cm.GetComponentsOfType<ModelInstanceComponent>())
+            foreach (var (_, mic, box) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
             {
                 ModelComponent mc = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId);
-                ModelHelper.Render(be, mc, mic.Instance);
+                if (frustum.Contains(box.BoundingBox) != ContainmentType.Disjoint)
+                    ModelHelper.Render(be, mc, mic.Instance);
             }
         }
 

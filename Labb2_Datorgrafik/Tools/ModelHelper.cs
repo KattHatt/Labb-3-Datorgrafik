@@ -43,5 +43,10 @@ namespace Labb2_Datorgrafik.Tools
                 }
             }
         }
+
+        public static bool ShouldRender(BoundingFrustum frustum, BoundingBox box)
+        {
+            return true;
+        }
     }
 }

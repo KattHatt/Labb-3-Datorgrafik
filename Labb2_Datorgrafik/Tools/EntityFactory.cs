@@ -28,7 +28,7 @@ namespace Labb2_Datorgrafik.Tools
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 0.8f, 3));
+            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 5, 20));
 
             return cm.AddEntityWithComponents(camera, trackingCamera, transform);
         }
