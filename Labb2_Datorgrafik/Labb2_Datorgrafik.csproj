@@ -52,7 +52,6 @@
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Components\RectangleComponent.cs" />
-    <Compile Include="Components\VegetationComponent.cs" />
     <Compile Include="Labb2.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
@@ -71,7 +70,6 @@
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\ModelSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
-    <Compile Include="Systems\VegetationSystem.cs" />
     <Compile Include="Tools\EntityFactory.cs" />
     <Compile Include="Tools\Extentions.cs" />
     <Compile Include="Tools\ModelHelper.cs" />

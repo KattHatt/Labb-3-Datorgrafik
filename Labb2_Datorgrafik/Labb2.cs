@@ -1,5 +1,4 @@
-﻿using Labb2_Datorgrafik.Components;
-using Labb2_Datorgrafik.Managers;
+﻿using Labb2_Datorgrafik.Managers;
 using Labb2_Datorgrafik.Systems;
 using Labb2_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
@@ -51,14 +50,16 @@ namespace Labb2_Datorgrafik
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new TrackingCameraSystem());
             sm.AddSystem(new RectangleSystem());
-            sm.AddSystem(new VegetationSystem());
             sm.AddSystem(new AnimationSystem());
             sm.AddSystem(new PlayerSystem());
+            sm.AddSystem(new ModelInstanceSystem());
+            sm.AddSystem(new BoundingBoxSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard");
-            //cm.AddEntityWithComponents(new VegetationComponent(heightmap, "tree", 100));
-            cm.AddEntityWithComponents(new VegetationComponent(heightmap, "Stone_Stele", "dif", 100));
+            //cm.AddEntityWithComponents(new VegetationComponent(heightmap, "tree", 100)); 
+            int apa = EntityFactory.CreateModel("stone_stele");
+            EntityFactory.CreateVeggies(GraphicsDevice, apa);
 
             int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 0.05f);
             EntityFactory.CreateTrackingCamera(GraphicsDevice, player);
@@ -75,7 +76,8 @@ namespace Labb2_Datorgrafik
             sm.GetSystem<HeightMapSystem>().Load(Content);
             sm.GetSystem<ModelSystem>().Load(Content);
             sm.GetSystem<RectangleSystem>().Load(Content);
-            sm.GetSystem<VegetationSystem>().Load(Content);
+            sm.GetSystem<ModelInstanceSystem>().Load(Content);
+            sm.GetSystem<BoundingBoxSystem>().Load(Content);
         }
 
         /// <summary>
@@ -105,6 +107,8 @@ namespace Labb2_Datorgrafik
             sm.Update<RectangleSystem>(gameTime);
             sm.Update<AnimationSystem>(gameTime);
             sm.Update<PlayerSystem>(gameTime);
+            
+
 
             base.Update(gameTime);
         }
@@ -127,7 +131,8 @@ namespace Labb2_Datorgrafik
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
             sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
-            sm.Render<VegetationSystem>(GraphicsDevice, basicEffect);
+            sm.Render<ModelInstanceSystem>(GraphicsDevice, basicEffect);
+            sm.Render<BoundingBoxSystem>(GraphicsDevice, basicEffect);
 
             base.Draw(gameTime);
         }
