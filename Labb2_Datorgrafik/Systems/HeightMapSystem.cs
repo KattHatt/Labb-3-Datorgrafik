@@ -15,6 +15,8 @@ namespace Labb2_Datorgrafik.Systems
 
         public void Render(GraphicsDevice gd, BasicEffect be)
         {
+            BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
+
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 be.VertexColorEnabled = false;
@@ -24,6 +26,9 @@ namespace Labb2_Datorgrafik.Systems
 
                 for (int i = 0; i < hmc.VertexBuffers.Length; i++)
                 {
+                    if (frustum.Contains(hmc.BoundingBoxes[i]) == ContainmentType.Disjoint)
+                        continue;
+
                     gd.SetVertexBuffer(hmc.VertexBuffers[i]);
                     gd.Indices = hmc.IndexBuffers[i];
                     gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
