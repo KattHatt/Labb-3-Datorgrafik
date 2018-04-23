@@ -91,7 +91,7 @@ namespace Labb2_Datorgrafik.Systems
             var legRectangle = cm.GetComponentForEntity<RectangleComponent>(legID);
 
             Vector3 position = bodyTransform.Position;
-            position.Y += 10;
+            position.Y += 9.5f;
             
             Ray ray = new Ray(position, Vector3.Down);
 

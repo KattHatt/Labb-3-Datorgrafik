@@ -28,7 +28,7 @@ namespace Labb2_Datorgrafik.Tools
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 5, 20));
+            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 3, 10));
 
             return cm.AddEntityWithComponents(camera, trackingCamera, transform);
         }
@@ -78,6 +78,10 @@ namespace Labb2_Datorgrafik.Tools
             int leftLegJoint = CreateCube(gd, "checkerboard", new Vector3(-5, 1, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 1), body, "LeftLegJoint");
             int rightLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(1, 0, 0), new Vector3(2, 10, 2), rightLegJoint, "RightLeg");
             int leftLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(-1, 0, 0), new Vector3(-2, 10, 2), leftLegJoint, "LeftLeg");
+            int rightArmJoint = CreateCube(gd, "checkerboard", new Vector3(3, -6, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1), body, "RightArmJoint");
+            int leftArmJoint = CreateCube(gd, "checkerboard", new Vector3(-3, -6, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1), body, "LeftArmJoint");
+            int rightArm = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(1, 0, 0), new Vector3(2, 10, 2), rightArmJoint, "RightArm");
+            int leftArm = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(-1, 0, 0), new Vector3(-2, 10, 2), leftArmJoint, "LeftArm");
 
             AnimationComponent aComp = new AnimationComponent() { Animate = true };
             ComponentManager.GetInstance().AddComponentsToEntity(body, aComp);
