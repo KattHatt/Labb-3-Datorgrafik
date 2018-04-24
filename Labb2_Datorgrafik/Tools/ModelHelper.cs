@@ -32,7 +32,7 @@ namespace Labb2_Datorgrafik.Tools
                 foreach (BasicEffect effect in mesh.Effects)
                 {
 
-                    effect.EnableDefaultLighting();
+                    //effect.EnableDefaultLighting();
                     effect.View = be.View;
                     effect.Projection = be.Projection;
                     effect.World = transforms[mesh.ParentBone.Index] * world;
