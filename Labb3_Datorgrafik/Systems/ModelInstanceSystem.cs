@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Labb3_Datorgrafik.Systems
 {
-    public class ModelInstanceSystem : IRender
+    public class ModelInstanceSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
 

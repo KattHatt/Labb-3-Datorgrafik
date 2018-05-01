@@ -1,16 +1,14 @@
 ﻿using Labb3_Datorgrafik.Components;
 using Labb3_Datorgrafik.Managers;
-using Labb3_Datorgrafik.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Labb3_Datorgrafik.Systems
 {
-    public class BoundingBoxSystem : ISystem, IRender
+    public class BoundingBoxSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
 
@@ -26,11 +24,6 @@ namespace Labb3_Datorgrafik.Systems
                 CreateBoundingBoxBuffers(bbc);
                 CreateBoundingBoxIndices(bbc);
             }
-        }
-
-        public void Update(GameTime gametime)
-        {
-            throw new NotImplementedException();
         }
 
         public void Render(GraphicsDevice gd, BasicEffect be)

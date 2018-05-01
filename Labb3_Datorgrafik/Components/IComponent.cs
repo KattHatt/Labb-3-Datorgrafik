@@ -1,4 +1,4 @@
-﻿namespace Labb3_Datorgrafik
+﻿namespace Labb3_Datorgrafik.Components
 {
     public interface IComponent
     {

@@ -2,7 +2,6 @@
 using Labb3_Datorgrafik.Managers;
 using Labb3_Datorgrafik.Systems;
 using Microsoft.Xna.Framework;
-using System;
 
 public class AnimationSystem : ISystem
 {

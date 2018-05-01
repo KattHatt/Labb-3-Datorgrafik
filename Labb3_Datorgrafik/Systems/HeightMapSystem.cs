@@ -3,13 +3,12 @@ using Labb3_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Labb3_Datorgrafik.Systems
 {
-    class HeightMapSystem : IRender
+    class HeightMapSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
 

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Labb3_Datorgrafik.Systems
 {
-    class ModelSystem : IRender
+    class ModelSystem : IRender, ILoad
     {
         public void Load(ContentManager content)
         {

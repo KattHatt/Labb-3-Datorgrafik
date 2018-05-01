@@ -9,8 +9,8 @@
     <ProjectGuid>{E8F756DA-96E8-443A-A9E0-239EF24D0AE3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Labb2_Datorgrafik</RootNamespace>
-    <AssemblyName>Labb2_Datorgrafik</AssemblyName>
+    <RootNamespace>Labb3_Datorgrafik</RootNamespace>
+    <AssemblyName>Labb3_Datorgrafik</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
@@ -46,7 +46,6 @@
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\AnimationComponent.cs" />
     <Compile Include="Components\ModelInstanceComponent.cs" />
-    <Compile Include="Components\TrackingCameraComponent.cs" />
     <Compile Include="Components\HeightMapComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
@@ -61,10 +60,10 @@
     <Compile Include="Systems\AnimationSystem.cs" />
     <Compile Include="Systems\BoundingBoxSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\ILoad.cs" />
     <Compile Include="Systems\ModelInstanceSystem.cs" />
     <Compile Include="Systems\PlayerSystem.cs" />
     <Compile Include="Systems\RectangleSystem.cs" />
-    <Compile Include="Systems\TrackingCameraSystem.cs" />
     <Compile Include="Systems\HeightMapSystem.cs" />
     <Compile Include="Systems\IRender.cs" />
     <Compile Include="Systems\ISystem.cs" />

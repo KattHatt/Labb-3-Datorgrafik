@@ -1,5 +1,6 @@
 ﻿using Labb3_Datorgrafik.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,13 @@ namespace Labb3_Datorgrafik.Managers
             object system;
             systems.TryGetValue(typeof(T), out system);
             return (T)system;
+        }
+
+        public void Load<T>(ContentManager content)
+        {
+            object system;
+            systems.TryGetValue(typeof(T), out system);
+            ((ILoad)system)?.Load(content);
         }
 
         public void Update<T>(GameTime gameTime)

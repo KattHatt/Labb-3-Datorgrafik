@@ -3,12 +3,11 @@ using Labb3_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace Labb3_Datorgrafik.Systems
 {
-    public class RectangleSystem : ISystem, IRender
+    public class RectangleSystem : ISystem, IRender, ILoad
     {
         public void Load(ContentManager content)
         {

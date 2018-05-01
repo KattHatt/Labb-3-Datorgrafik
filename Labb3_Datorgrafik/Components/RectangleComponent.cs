@@ -1,5 +1,4 @@
-﻿using Labb3_Datorgrafik;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
