@@ -1,12 +1,12 @@
-﻿using Labb3_Datorgrafik.Components;
-using Labb3_Datorgrafik.Managers;
-using Labb3_Datorgrafik.Tools;
+﻿using Engine.Components;
+using Engine.Managers;
+using Engine.Tools;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
-    class ModelSystem : IRender, ILoad
+    public class ModelSystem : IRender, ILoad
     {
         public void Load(ContentManager content)
         {

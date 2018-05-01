@@ -1,14 +1,14 @@
-﻿using Labb3_Datorgrafik.Components;
-using Labb3_Datorgrafik.Managers;
+﻿using Engine.Components;
+using Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
-    class HeightMapSystem : IRender, ILoad
+    public class HeightMapSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
 

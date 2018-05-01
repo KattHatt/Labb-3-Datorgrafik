@@ -1,4 +1,4 @@
-﻿namespace Labb3_Datorgrafik.Components
+﻿namespace Engine.Components
 {
     public class NameComponent : IComponent
     {

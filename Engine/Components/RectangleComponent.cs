@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Labb3_Datorgrafik.Components
+namespace Engine.Components
 {
     public class RectangleComponent : IComponent
     {

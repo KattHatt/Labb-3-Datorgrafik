@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Labb3_Datorgrafik.Components
+namespace Engine.Components
 {
     public class CameraComponent : IComponent
     {

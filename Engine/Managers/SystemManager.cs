@@ -1,13 +1,13 @@
-﻿using Labb3_Datorgrafik.Systems;
+﻿using Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace Labb3_Datorgrafik.Managers
+namespace Engine.Managers
 {
-    class SystemManager
+    public class SystemManager
     {
         private Dictionary<Type, object> systems;
         private static SystemManager systemManagerInstance;

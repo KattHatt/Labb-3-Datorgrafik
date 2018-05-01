@@ -1,11 +1,11 @@
-﻿using Labb3_Datorgrafik.Components;
+﻿using Engine.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Labb3_Datorgrafik.Managers
+namespace Engine.Managers
 {
-    class ComponentManager
+    public class ComponentManager
     {
         private Dictionary<int, Dictionary<Type, IComponent>> entityComponents;
         private Dictionary<Type, Dictionary<int, IComponent>> componentGroups;

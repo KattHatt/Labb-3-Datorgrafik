@@ -1,8 +1,8 @@
-﻿using Labb3_Datorgrafik.Components;
+﻿using Engine.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb3_Datorgrafik.Tools
+namespace Engine.Tools
 {
     public static class ModelHelper
     {

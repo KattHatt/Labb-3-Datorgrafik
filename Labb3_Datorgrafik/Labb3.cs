@@ -1,5 +1,5 @@
-﻿using Labb3_Datorgrafik.Managers;
-using Labb3_Datorgrafik.Systems;
+﻿using Engine.Managers;
+using Engine.Systems;
 using Labb3_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

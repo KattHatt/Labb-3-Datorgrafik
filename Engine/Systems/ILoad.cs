@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Content;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
     public interface ILoad
     {

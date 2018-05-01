@@ -1,11 +1,11 @@
-﻿using Labb3_Datorgrafik.Components;
-using Labb3_Datorgrafik.Managers;
+﻿using Engine.Components;
+using Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
     public class RectangleSystem : ISystem, IRender, ILoad
     {

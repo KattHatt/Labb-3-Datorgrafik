@@ -1,16 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 
-namespace Labb3_Datorgrafik
+namespace Engine.Tools
 {
     public static class Extensions
     {
-        public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue> source, out TKey key, out TValue value)
-        {
-            key = source.Key;
-            value = source.Value;
-        }
-
         /**
          * Möller-Trumbore intersection algorithm, taken from http://xbox.create.msdn.com/en-US/education/catalog/sample/picking_triangle
          */

@@ -1,12 +1,12 @@
-﻿using Labb3_Datorgrafik.Components;
-using Labb3_Datorgrafik.Managers;
+﻿using Engine.Components;
+using Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
-    class CameraSystem : ISystem, IRender
+    public class CameraSystem : ISystem, IRender
     {
         ComponentManager cm = ComponentManager.GetInstance();
 

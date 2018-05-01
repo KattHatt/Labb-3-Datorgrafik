@@ -42,36 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Components\BoundingBoxComponent.cs" />
-    <Compile Include="Components\CameraComponent.cs" />
-    <Compile Include="Components\AnimationComponent.cs" />
-    <Compile Include="Components\ModelInstanceComponent.cs" />
-    <Compile Include="Components\HeightMapComponent.cs" />
-    <Compile Include="Components\ModelComponent.cs" />
-    <Compile Include="Components\NameComponent.cs" />
-    <Compile Include="Components\TransformComponent.cs" />
-    <Compile Include="Components\RectangleComponent.cs" />
     <Compile Include="Labb3.cs" />
-    <Compile Include="Managers\ComponentManager.cs" />
-    <Compile Include="Managers\SystemManager.cs" />
-    <Compile Include="Components\IComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Systems\AnimationSystem.cs" />
-    <Compile Include="Systems\BoundingBoxSystem.cs" />
-    <Compile Include="Systems\CameraSystem.cs" />
-    <Compile Include="Systems\ILoad.cs" />
-    <Compile Include="Systems\ModelInstanceSystem.cs" />
-    <Compile Include="Systems\PlayerSystem.cs" />
-    <Compile Include="Systems\RectangleSystem.cs" />
-    <Compile Include="Systems\HeightMapSystem.cs" />
-    <Compile Include="Systems\IRender.cs" />
-    <Compile Include="Systems\ISystem.cs" />
-    <Compile Include="Systems\ModelSystem.cs" />
-    <Compile Include="Systems\TransformSystem.cs" />
     <Compile Include="Tools\EntityFactory.cs" />
-    <Compile Include="Tools\Extentions.cs" />
-    <Compile Include="Tools\ModelHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -87,7 +61,16 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Components\" />
+    <Folder Include="Systems\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Engine\Engine.csproj">
+      <Project>{b318b200-57b6-40f3-8c9a-6be107736ee1}</Project>
+      <Name>Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

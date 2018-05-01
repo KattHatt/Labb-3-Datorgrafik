@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
     public interface IRender
     {

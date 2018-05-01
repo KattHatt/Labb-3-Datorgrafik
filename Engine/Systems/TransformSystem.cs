@@ -1,10 +1,10 @@
-﻿using Labb3_Datorgrafik.Components;
-using Labb3_Datorgrafik.Managers;
+﻿using Engine.Components;
+using Engine.Managers;
 using Microsoft.Xna.Framework;
 
-namespace Labb3_Datorgrafik.Systems
+namespace Engine.Systems
 {
-    class TransformSystem : ISystem
+    public class TransformSystem : ISystem
     {
         public void Update(GameTime gametime)
         {
