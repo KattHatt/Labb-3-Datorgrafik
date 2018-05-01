@@ -48,7 +48,6 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
-            sm.AddSystem(new TrackingCameraSystem());
             sm.AddSystem(new RectangleSystem());
             sm.AddSystem(new AnimationSystem());
             sm.AddSystem(new PlayerSystem());
@@ -63,9 +62,8 @@ namespace Labb3_Datorgrafik
 
             EntityFactory.CreateVeggies(GraphicsDevice, apa1, 200);
             EntityFactory.CreateVeggies(GraphicsDevice, apa2, 200);
-
-            int player = EntityFactory.CreatePlayerBodyLegs(GraphicsDevice, Vector3.One * 0.05f);
-            EntityFactory.CreateTrackingCamera(GraphicsDevice, player);
+            
+            EntityFactory.CreateCamera(GraphicsDevice);
 
             base.Initialize();
         }
@@ -76,11 +74,11 @@ namespace Labb3_Datorgrafik
         /// </summary>
         protected override void LoadContent()
         {
-            sm.GetSystem<HeightMapSystem>().Load(Content);
-            sm.GetSystem<ModelSystem>().Load(Content);
-            sm.GetSystem<RectangleSystem>().Load(Content);
-            sm.GetSystem<ModelInstanceSystem>().Load(Content);
-            sm.GetSystem<BoundingBoxSystem>().Load(Content);
+            sm.Load<HeightMapSystem>(Content);
+            sm.Load<ModelSystem>(Content);
+            sm.Load<RectangleSystem>(Content);
+            sm.Load<ModelInstanceSystem>(Content);
+            sm.Load<BoundingBoxSystem>(Content);
         }
 
         /// <summary>
@@ -106,12 +104,9 @@ namespace Labb3_Datorgrafik
 
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
-            sm.Update<TrackingCameraSystem>(gameTime);
             sm.Update<RectangleSystem>(gameTime);
             sm.Update<AnimationSystem>(gameTime);
             sm.Update<PlayerSystem>(gameTime);
-            
-
 
             base.Update(gameTime);
         }

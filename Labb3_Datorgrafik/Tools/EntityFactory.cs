@@ -3,7 +3,6 @@ using Labb3_Datorgrafik.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
 
 namespace Labb3_Datorgrafik.Tools
 {
@@ -11,26 +10,20 @@ namespace Labb3_Datorgrafik.Tools
     {
         static ComponentManager cm = ComponentManager.GetInstance();
 
-        public static int CreateTrackingCamera(GraphicsDevice gd, int entityTrackId)
+        public static int CreateCamera(GraphicsDevice gd)
         {
-            TransformComponent transform = new TransformComponent()
-            {
-                Position = new Vector3(-10, 350, -170),
-                Rotation = Vector3.Right,
-                Up = Vector3.Up
-            };
-
             CameraComponent camera = new CameraComponent()
             {
+                Position = new Vector3(200, 300, 200),
+                Up = Vector3.Right,
+                Direction = Vector3.Down,
                 FieldOfView = 45,
                 NearPlaneDistance = 1,
                 FarPlaneDistance = 10000,
                 AspectRatio = gd.DisplayMode.AspectRatio,
             };
 
-            TrackingCameraComponent trackingCamera = new TrackingCameraComponent(entityTrackId, new Vector3(0, 3, 10));
-
-            return cm.AddEntityWithComponents(camera, trackingCamera, transform);
+            return cm.AddEntityWithComponents(camera);
         }
 
         public static int CreateTerrain(GraphicsDevice gd, string heightMapFile, string heightMapTextureFile)
@@ -64,28 +57,6 @@ namespace Labb3_Datorgrafik.Tools
         public static int CreateCube(GraphicsDevice gd, string path, Vector3 position, Vector3 corner1, Vector3 corner2, int? parent, string name)
         {
             return CreateCube(gd, path, position, corner1, corner2, Vector3.One, parent, name);
-        }
-
-        public static int CreatePlayerBodyLegs(GraphicsDevice gd, Vector3 scale)
-        {
-            int x = -400;
-            int y = 200;
-            int z = 120;
-
-            int body = CreateCube(gd, "grass", new Vector3(x, y, z), new Vector3(-5, -5, -5), new Vector3(5, 5, 5), scale, null, "Body");
-            int head = CreateCube(gd, "checkerboard", new Vector3(0, 5, 0), new Vector3(-3, 0, -3), new Vector3(3, 6, 3), body, "Head");
-            int rightLegJoint = CreateCube(gd, "checkerboard", new Vector3(5, 1, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1), body, "RightLegJoint");
-            int leftLegJoint = CreateCube(gd, "checkerboard", new Vector3(-5, 1, 0), new Vector3(-1, 0, 0), new Vector3(0, 1, 1), body, "LeftLegJoint");
-            int rightLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(1, 0, 0), new Vector3(2, 10, 2), rightLegJoint, "RightLeg");
-            int leftLeg = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(-1, 0, 0), new Vector3(-2, 10, 2), leftLegJoint, "LeftLeg");
-            int rightArmJoint = CreateCube(gd, "checkerboard", new Vector3(3, -6, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1), body, "RightArmJoint");
-            int leftArmJoint = CreateCube(gd, "checkerboard", new Vector3(-3, -6, 0), new Vector3(0, 0, 0), new Vector3(1, 1, 1), body, "LeftArmJoint");
-            int rightArm = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(1, 0, 0), new Vector3(2, 10, 2), rightArmJoint, "RightArm");
-            int leftArm = CreateCube(gd, "grass", new Vector3(0, -9, 0), new Vector3(-1, 0, 0), new Vector3(-2, 10, 2), leftArmJoint, "LeftArm");
-
-            AnimationComponent aComp = new AnimationComponent() { Animate = true };
-            ComponentManager.GetInstance().AddComponentsToEntity(body, aComp);
-            return body;
         }
 
         public static int CreateBoundingBoxForEnt(GraphicsDevice gd, int entity)
