@@ -44,7 +44,7 @@ namespace Engine.Tools
             }
         }
 
-        private static void DrawModelWithEffect(Model model, Matrix world, Matrix view, Matrix projection, Effect effect)
+        private static void DrawModelWithAmbientEffect(Model model, Matrix world, Matrix view, Matrix projection, Effect effect)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -54,6 +54,10 @@ namespace Engine.Tools
                     effect.Parameters["World"].SetValue(world * mesh.ParentBone.Transform);
                     effect.Parameters["View"].SetValue(view);
                     effect.Parameters["Projection"].SetValue(projection);
+
+                    // Optional, cuz there is default params in the shader
+                    //effect.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
+                    //effect.Parameters["AmbientIntensity"].SetValue(0.5f);
                 }
                 mesh.Draw();
             }
