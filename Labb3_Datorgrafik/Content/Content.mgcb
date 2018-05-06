@@ -123,9 +123,3 @@
 /processorParam:DebugMode=Auto
 /build:Ambient.fx
 
-#begin Blinn_Phong.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Blinn_Phong.fx
-
