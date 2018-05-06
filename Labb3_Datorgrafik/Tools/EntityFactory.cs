@@ -38,7 +38,7 @@ namespace Labb3_Datorgrafik.Tools
         }
 
         
-        public static int CreateModel(string texure, bool isActive)
+        public static int CreateModel(string texure, bool isActive, Vector3 pos)
         {
             ModelComponent m = new ModelComponent()
             {
@@ -46,18 +46,17 @@ namespace Labb3_Datorgrafik.Tools
                 ModelPath = texure
             };
 
-            TransformComponent t = new TransformComponent();
+            TransformComponent t = new TransformComponent()
+            {
+                Position = pos
+            };
 
             return cm.AddEntityWithComponents(m, t);
 
         }
-        public static void CreateVeggies(GraphicsDevice gd, int model, int count)
-        {
-            for(int i = 0; i< count; i++)
-            {
-                cm.AddEntityWithComponents(new ModelInstanceComponent(model), new BoundingBoxComponent(gd) { BelongsToID = model, Render = true});
-            }
-        }
+
+
+       
 
 
         private static  Matrix PlaceVegetation(HeightMapComponent hmc)

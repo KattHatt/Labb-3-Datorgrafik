@@ -13,7 +13,6 @@ namespace Labb3_Datorgrafik
     public class Labb3 : Game
     {
         GraphicsDeviceManager graphics;
-        Effect ambient;
 
         SystemManager sm = SystemManager.GetInstance();
 
@@ -36,32 +35,27 @@ namespace Labb3_Datorgrafik
             
             ComponentManager cm = ComponentManager.GetInstance();
 
-            ambient = Content.Load<Effect>("Ambient");
-
-
             //Create all systems
             sm.AddSystem(new TransformSystem());
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
-            sm.AddSystem(new ModelInstanceSystem());
             sm.AddSystem(new BoundingBoxSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
-            int apa1 = EntityFactory.CreateModel("column", true);
-            int apa2 = EntityFactory.CreateModel("roger", true);
 
 
-            EntityFactory.CreateVeggies(GraphicsDevice, apa1, 200);
-            EntityFactory.CreateVeggies(GraphicsDevice, apa2, 200);
+            int apa1 = EntityFactory.CreateModel("column", true, new Vector3(100, 100, 100));
+            int apa2 = EntityFactory.CreateModel("roger", true, new Vector3(100, 100, 120));
+
+
             EntityFactory.CreateCamera(GraphicsDevice);
 
 
             // Init all systems
             sm.Init<CameraSystem>(GraphicsDevice);
             sm.Init<HeightMapSystem>(GraphicsDevice);
-            sm.Init<ModelInstanceSystem>(GraphicsDevice);
             sm.Init<BoundingBoxSystem>(GraphicsDevice);
 
             base.Initialize();
@@ -71,7 +65,6 @@ namespace Labb3_Datorgrafik
         {
             sm.Load<HeightMapSystem>(Content);
             sm.Load<ModelSystem>(Content);
-            sm.Load<ModelInstanceSystem>(Content);
         }
 
 
@@ -106,7 +99,6 @@ namespace Labb3_Datorgrafik
             sm.Render<CameraSystem>(GraphicsDevice);
             sm.Render<HeightMapSystem>(GraphicsDevice);
             sm.Render<ModelSystem>(GraphicsDevice);
-            sm.Render<ModelInstanceSystem>(GraphicsDevice); 
 
             base.Draw(gameTime);
         }

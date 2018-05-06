@@ -15,19 +15,19 @@ namespace Engine.Systems
 
         public void Init(GraphicsDevice gd)
         {
-            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
             be = new BasicEffect(gd)
             {
-                VertexColorEnabled = false,
-                TextureEnabled = true
+                LightingEnabled = false,
+                TextureEnabled = false,
+                VertexColorEnabled = true
             };
         }
 
         public void Load(ContentManager content)
         {
-            foreach (var (key, mic, bbc) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
+            foreach (var (key, mc, bbc) in cm.GetComponentsOfType<ModelComponent, BoundingBoxComponent>())
             {
-                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId, mic.Instance);
+                InitBoxesFromModel(mc.Model, bbc);
                 CreateBoundingBoxBuffers(bbc);
                 CreateBoundingBoxIndices(bbc);
             }
@@ -60,11 +60,10 @@ namespace Engine.Systems
             }
         }
 
-        // Creates a boundingbox for a model and its mesh parts
-        private BoundingBox CreateBoundingBox(int modelID, Matrix instance)
+        // Init boxes
+        public void InitBoxesFromModel(Model model, BoundingBoxComponent cbc)
         {
-            BoundingBox result = new BoundingBox();
-            Model model = cm.GetComponentForEntity<ModelComponent>(modelID).Model;
+            BoundingBox root = new BoundingBox();
 
             if (model.Bones.Count > 0)
             {
@@ -74,31 +73,17 @@ namespace Engine.Systems
                 foreach (ModelMesh mesh in model.Meshes)
                     foreach (ModelMeshPart meshPart in mesh.MeshParts)
                     {
-                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
-                        if (meshPartBoundingBox != null)
-                            result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
+                        BoundingBox? meshPartBounding = GetBoundingBox(meshPart, boneTransforms[mesh.ParentBone.Index]);
+
+                        if (meshPartBounding != null)
+                        {
+                            root = BoundingBox.CreateMerged(root, meshPartBounding.Value);
+                        }
                     }
             }
-            else
-            {
-                Matrix transform = cm.GetComponentForEntity<TransformComponent>(modelID).World;
-
-                foreach (ModelMesh mesh in model.Meshes)
-                    foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                    {
-                        BoundingBox? meshPartBoundingBox = GetBoundingBox(meshPart, transform);
-                        if (meshPartBoundingBox != null)
-                            result = BoundingBox.CreateMerged(result, meshPartBoundingBox.Value);
-                    }
-            }
-
-            var corners = result.GetCorners();
-            corners = (from corner in corners select Vector3.Transform(corner, instance)).ToArray();
-            result = BoundingBox.CreateFromPoints(corners);
-
-            return result;
         }
 
+        
         // Get the boundingbox of a model mesh part
         private BoundingBox? GetBoundingBox(ModelMeshPart meshPart, Matrix transform)
         {
