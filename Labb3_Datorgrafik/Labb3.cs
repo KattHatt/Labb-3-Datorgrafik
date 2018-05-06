@@ -19,7 +19,9 @@ namespace Labb3_Datorgrafik
         public Labb3()
         {
             graphics = new GraphicsDeviceManager(this);
+            
             Content.RootDirectory = "Content";
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace Labb3_Datorgrafik
 
         protected override void Initialize()
         {
+            
             ComponentManager cm = ComponentManager.GetInstance();
 
             basicEffect = new BasicEffect(GraphicsDevice)
