@@ -46,7 +46,9 @@ namespace Labb3_Datorgrafik
                 LightingEnabled = false
             };
 
-            var effect = Content.Load<Effect>("shadow_pass1");
+            var effect_shadow1 = Content.Load<Effect>("shadow_pass1");
+            var effect_ambient1 = Content.Load<Effect>("Ambient");
+
 
             //Create all systems
             sm.AddSystem(new TransformSystem());

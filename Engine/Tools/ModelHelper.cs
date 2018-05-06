@@ -44,6 +44,21 @@ namespace Engine.Tools
             }
         }
 
+        private static void DrawModelWithEffect(Model model, Matrix world, Matrix view, Matrix projection, Effect effect)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (ModelMeshPart part in mesh.MeshParts)
+                {
+                    part.Effect = effect;
+                    effect.Parameters["World"].SetValue(world * mesh.ParentBone.Transform);
+                    effect.Parameters["View"].SetValue(view);
+                    effect.Parameters["Projection"].SetValue(projection);
+                }
+                mesh.Draw();
+            }
+        }
+
         public static bool ShouldRender(BoundingFrustum frustum, BoundingBox box)
         {
             return true;
