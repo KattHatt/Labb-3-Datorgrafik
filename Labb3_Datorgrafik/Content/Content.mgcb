@@ -99,3 +99,9 @@
 /processorParam:TextureFormat=Compressed
 /build:column.FBX
 
+#begin shadow_pass1.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shadow_pass1.fx
+

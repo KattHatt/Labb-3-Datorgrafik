@@ -43,6 +43,8 @@ namespace Labb3_Datorgrafik
                 LightingEnabled = false
             };
 
+            var effect = Content.Load<Effect>("shadow_pass1");
+
             //Create all systems
             sm.AddSystem(new TransformSystem());
             sm.AddSystem(new CameraSystem());

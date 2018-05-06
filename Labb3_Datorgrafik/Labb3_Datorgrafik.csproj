@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\shadow_pass2.fx" />
+    <Content Include="Content\shadow_pass1.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components\" />
+    <Folder Include="Effects\" />
     <Folder Include="Systems\" />
   </ItemGroup>
   <ItemGroup>
