@@ -36,6 +36,11 @@ namespace Engine.Systems
             }
         }
 
+        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
+        {
+            throw new NotImplementedException();
+        }
+
         private Matrix GetRotation(Vector3 normal)
         {
             normal.Normalize();

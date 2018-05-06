@@ -227,5 +227,10 @@ namespace Engine.Systems
         {
             return BoundingBox.CreateFromPoints(from vertex in vertices select vertex.Position);
         }
+
+        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -14,12 +14,13 @@ namespace Labb3_Datorgrafik
     {
         GraphicsDeviceManager graphics;
         BasicEffect basicEffect;
+        Effect ambient;
+
         SystemManager sm = SystemManager.GetInstance();
 
         public Labb3()
         {
             graphics = new GraphicsDeviceManager(this);
-            
             Content.RootDirectory = "Content";
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
@@ -47,7 +48,8 @@ namespace Labb3_Datorgrafik
             };
 
             var effect_shadow1 = Content.Load<Effect>("shadow_pass1");
-            var effect_ambient1 = Content.Load<Effect>("Ambient");
+
+            ambient = Content.Load<Effect>("Ambient");
 
 
             //Create all systems
@@ -134,7 +136,7 @@ namespace Labb3_Datorgrafik
 
             sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
-            sm.Render<ModelSystem>(GraphicsDevice, basicEffect);
+            sm.RenderWithEffect<ModelSystem>(GraphicsDevice, basicEffect);
             sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
             sm.Render<ModelInstanceSystem>(GraphicsDevice, basicEffect);
             sm.Render<BoundingBoxSystem>(GraphicsDevice, basicEffect);

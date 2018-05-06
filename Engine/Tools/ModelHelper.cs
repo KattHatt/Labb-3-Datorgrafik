@@ -44,7 +44,7 @@ namespace Engine.Tools
             }
         }
 
-        private static void DrawModelWithAmbientEffect(Model model, Matrix world, Matrix view, Matrix projection, Effect effect)
+        public static void DrawModelWithAmbientEffect(Model model, Matrix world, Matrix view, Matrix projection, Effect effect)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {

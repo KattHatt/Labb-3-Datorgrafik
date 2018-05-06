@@ -157,5 +157,10 @@ namespace Engine.Systems
 
             r.indices = indexList.ToArray();
         }
+
+        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

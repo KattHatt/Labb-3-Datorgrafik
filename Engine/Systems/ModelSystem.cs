@@ -3,6 +3,7 @@ using Engine.Managers;
 using Engine.Tools;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace Engine.Systems
 {
@@ -24,6 +25,17 @@ namespace Engine.Systems
             foreach (var (_, modelComp, transComp) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
                 ModelHelper.Render(be, modelComp, transComp.World);
+            }
+        }
+
+        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+
+            foreach (var (_, modelComp, transComp) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
+            {
+                ModelHelper.DrawModelWithAmbientEffect(modelComp.Model, transComp.World, cam.View, cam.Projection, ef);
             }
         }
     }

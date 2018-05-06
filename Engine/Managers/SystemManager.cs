@@ -55,6 +55,13 @@ namespace Engine.Managers
             ((IRender)system)?.Render(gd, be);
         }
 
+        public void RenderWithEffect<T>(GraphicsDevice gd, Effect ef)
+        {
+            object system;
+            systems.TryGetValue(typeof(T), out system);
+            ((IRender)system)?.RenderWithEffect(gd, ef);
+        }
+
         public void AddSystem(object system)
         {
             systems.Add(system.GetType(), system);

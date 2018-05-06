@@ -222,5 +222,10 @@ namespace Engine.Systems
             indexBuffer.SetData(Enumerable.Range(0, bbc.VertexCount).Select(i => (short)i).ToArray());
             bbc.Indices = indexBuffer;
         }
+
+        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
