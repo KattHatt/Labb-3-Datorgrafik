@@ -53,12 +53,7 @@ namespace Labb3_Datorgrafik.Tools
             };
 
             return cm.AddEntityWithComponents(m, t);
-
         }
-
-
-       
-
 
         private static  Matrix PlaceVegetation(HeightMapComponent hmc)
         {

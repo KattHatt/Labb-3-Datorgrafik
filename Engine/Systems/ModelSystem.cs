@@ -13,6 +13,7 @@ namespace Engine.Systems
         ComponentManager cm = ComponentManager.GetInstance();
         BasicEffect be;
         Effect ef;
+        Texture2D texture;
 
         public void Init(GraphicsDevice gd)
         {
@@ -34,8 +35,12 @@ namespace Engine.Systems
             }
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
-            ef = content.Load<Effect>("Ambient");
-            
+            //ef = content.Load<Effect>("Ambient");
+            ef = content.Load<Effect>("Fog");
+            //ef = content.Load<Effect>("DiffuseLight");
+
+            texture = content.Load<Texture2D>("grass");
+
         }
 
         public void Render(GraphicsDevice gd)
@@ -55,6 +60,7 @@ namespace Engine.Systems
                 {
                     foreach (ModelMeshPart part in mesh.MeshParts)
                     {
+                        // General stuff
                         part.Effect = ef;
                         ef.Parameters["World"].SetValue(tc.World * mesh.ParentBone.Transform);
                         ef.Parameters["View"].SetValue(cam.View);
@@ -62,11 +68,25 @@ namespace Engine.Systems
                         //ef.Parameters["ViewVector"].SetValue(cam.View.Translation);
                         //ef.Parameters["ModelTexture"].SetValue(mc.Texture);
 
-                        // Optional, cuz there is default params in the shader
-                        ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
-                        ef.Parameters["AmbientIntensity"].SetValue(0.5f);
+                        //// For Fog - cant see no fog yo
+                        ef.Parameters["FogEnabled"].SetValue(1.0f);
+                        ef.Parameters["FogStart"].SetValue(0.0f); // Dunno vilket värde de ska ha här
+                        ef.Parameters["FogEnd"].SetValue(1.0f); // Dunno vilket värde de ska ha här
+                        ef.Parameters["FogColor"].SetValue(Color.Blue.ToVector3()); // väljs: Color.CornflowerBlue.ToVector3() så försvinner modellerna :S
+                        ef.Parameters["cameraPos"].SetValue(cam.Position);
+                        ////ef.Parameters["Texture"].SetValue(texture);
+
+
+                        // For DiffuseLight - dosent work :S
                         //Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * tc.World));
                         //ef.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
+
+
+
+
+                        // for Ambient
+                        //ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
+                        //ef.Parameters["AmbientIntensity"].SetValue(0.5f);
                     }
                     mesh.Draw();
                 }
