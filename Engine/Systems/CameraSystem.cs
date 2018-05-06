@@ -3,6 +3,7 @@ using Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Engine.Systems
 {
@@ -61,6 +62,7 @@ namespace Engine.Systems
                 {
                     camera.Position += Vector3.Up;
                 }
+                Console.WriteLine(camera.View);
             }
         }
 

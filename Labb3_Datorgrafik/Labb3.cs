@@ -60,7 +60,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new BoundingBoxSystem());
             
             //Create all entities            
-            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "checkerboard");
+            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
             int apa1 = EntityFactory.CreateModel("column");
             int apa2 = EntityFactory.CreateModel("roger");
 
