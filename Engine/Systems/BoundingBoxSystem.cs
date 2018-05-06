@@ -8,26 +8,36 @@ using System.Linq;
 
 namespace Engine.Systems
 {
-    public class BoundingBoxSystem : IRender, ILoad
+    public class BoundingBoxSystem : IRender, ILoad, IInit
     {
         ComponentManager cm = ComponentManager.GetInstance();
+        BasicEffect be;
+
+        public void Init(GraphicsDevice gd)
+        {
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            be = new BasicEffect(gd)
+            {
+                VertexColorEnabled = false,
+                TextureEnabled = true
+            };
+        }
 
         public void Load(ContentManager content)
         {
             foreach (var (key, mic, bbc) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
             {
-                Model model = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId).Model;
-                Matrix transform = mic.Instance;
-
-                //bbc.BoundingBox = CreateBoundingBoxForVeg(model, transform);
-                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId, transform);
+                bbc.BoundingBox = CreateBoundingBox(mic.ModelEntityId, mic.Instance);
                 CreateBoundingBoxBuffers(bbc);
                 CreateBoundingBoxIndices(bbc);
             }
         }
 
-        public void Render(GraphicsDevice gd, BasicEffect be)
+        public void Render(GraphicsDevice gd)
         {
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            be.View = cam.View;
+            be.Projection = cam.Projection;
             foreach (var (key, bb) in cm.GetComponentsOfType<BoundingBoxComponent>())
             {
                 if (!bb.Render)
@@ -221,11 +231,6 @@ namespace Engine.Systems
                 BufferUsage.WriteOnly);
             indexBuffer.SetData(Enumerable.Range(0, bbc.VertexCount).Select(i => (short)i).ToArray());
             bbc.Indices = indexBuffer;
-        }
-
-        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

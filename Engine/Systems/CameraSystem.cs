@@ -7,9 +7,25 @@ using System;
 
 namespace Engine.Systems
 {
-    public class CameraSystem : ISystem, IRender
+    public class CameraSystem : ISystem, IRender, IInit
     {
         ComponentManager cm = ComponentManager.GetInstance();
+
+        BasicEffect be;
+
+        public void Init(GraphicsDevice gd)
+        {    
+            be = new BasicEffect(gd)
+            {
+                Alpha = 1f,
+                // Want to see the colors of the vertices, this needs to be on
+                VertexColorEnabled = true,
+                //Lighting requires normal information which VertexPositionColor does not have
+                //If you want to use lighting and VPC you need to create a  custom def
+                LightingEnabled = false
+            };
+            
+        }
 
         public void Update(GameTime gametime)
         {
@@ -65,13 +81,13 @@ namespace Engine.Systems
             }
         }
 
-        public void Render(GraphicsDevice graphicsDevice, BasicEffect basicEffect)
+        public void Render(GraphicsDevice graphicsDevice)
         {
             foreach (var (_, cam) in cm.GetComponentsOfType<CameraComponent>())
             {
-                basicEffect.Projection = cam.Projection;
-                basicEffect.View = cam.View;
-                basicEffect.World = Matrix.Identity;
+                be.Projection = cam.Projection;
+                be.View = cam.View;
+                be.World = Matrix.Identity;
                 cam.BoundingFrustum = new BoundingFrustum(cam.View * cam.Projection);
             }
         }

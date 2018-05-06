@@ -2,8 +2,8 @@
 
 namespace Engine.Systems
 {
-    public interface IRender
+    public interface IInit
     {
-        void Render(GraphicsDevice gd);
+        void Init(GraphicsDevice gd);
     }
 }

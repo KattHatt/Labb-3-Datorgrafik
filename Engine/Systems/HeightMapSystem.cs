@@ -8,12 +8,25 @@ using System.Linq;
 
 namespace Engine.Systems
 {
-    public class HeightMapSystem : IRender, ILoad
+    public class HeightMapSystem : IRender, ILoad, IInit
     {
         ComponentManager cm = ComponentManager.GetInstance();
+        BasicEffect be;
 
-        public void Render(GraphicsDevice gd, BasicEffect be)
+        public void Init(GraphicsDevice gd)
         {
+            be = new BasicEffect(gd)
+            {
+                VertexColorEnabled = false,
+                TextureEnabled = true
+            };
+        }
+
+        public void Render(GraphicsDevice gd)
+        {
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            be.View = cam.View;
+            be.Projection = cam.Projection;
             BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
 
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
@@ -38,12 +51,12 @@ namespace Engine.Systems
 
                 foreach(var boundingBox in hmc.BoundingBoxes)
                 {
-                    Render(gd, be, boundingBox);
+                    DebugRender(gd, be, boundingBox);
                 }
             }
         }
 
-        private void Render(GraphicsDevice gd, BasicEffect be, BoundingBox box)
+        private void DebugRender(GraphicsDevice gd, BasicEffect be, BoundingBox box)
         {
             be.VertexColorEnabled = true;
             be.TextureEnabled = false;
@@ -104,43 +117,7 @@ namespace Engine.Systems
                 hmc.IndexBuffers = indexBuffers.ToArray();
                 hmc.Indices = indicesList.ToArray();
                 hmc.BoundingBoxes = boundingBoxes.ToArray();
-
-                // Get heightmap data
-                hmc.HeightData = GetHeightData(hmc.HeightMap);
             }
-        }
-
-        public float[,] GetHeightData(Texture2D heightmap)
-        {
-            float minimumHeight = 255;
-            float maximumHeight = 0;
-
-            int width = heightmap.Width;
-            int height = heightmap.Height;
-
-            Color[] heightMapColors = new Color[width * height];
-            heightmap.GetData<Color>(heightMapColors);
-
-            float[,] heightData = new float[width, height];
-
-            // kan vara fel här, kanske ta bort / lägga till vingar i denna forloop
-            for (int i = 0; i < width; i++)
-
-                for (int j = 0; j < height; j++)
-                {
-                    heightData[i, j] = heightMapColors[i + j * width].R;
-                    if (heightData[i, j] < minimumHeight) minimumHeight = heightData[i, j];
-                    if (heightData[i, j] > maximumHeight) maximumHeight = heightData[i, j];
-                }
-
-            for (int i = 0; i < width; i++)
-                for (int j = 0; j < height; j++)
-                {
-                    heightData[i, j] = (heightData[i, j] - minimumHeight) /
-                        (maximumHeight - minimumHeight) * 30.0f;
-                }
-
-            return heightData;
         }
 
         private Dictionary<Vector3, float[,]> Split(HeightMapComponent hmc)

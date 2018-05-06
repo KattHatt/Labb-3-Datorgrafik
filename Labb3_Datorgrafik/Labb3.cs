@@ -13,7 +13,6 @@ namespace Labb3_Datorgrafik
     public class Labb3 : Game
     {
         GraphicsDeviceManager graphics;
-        BasicEffect basicEffect;
         Effect ambient;
 
         SystemManager sm = SystemManager.GetInstance();
@@ -37,18 +36,6 @@ namespace Labb3_Datorgrafik
             
             ComponentManager cm = ComponentManager.GetInstance();
 
-            basicEffect = new BasicEffect(GraphicsDevice)
-            {
-                Alpha = 1f,
-                // Want to see the colors of the vertices, this needs to be on
-                VertexColorEnabled = true,
-                //Lighting requires normal information which VertexPositionColor does not have
-                //If you want to use lighting and VPC you need to create a  custom def
-                LightingEnabled = false
-            };
-
-            var effect_shadow1 = Content.Load<Effect>("shadow_pass1");
-
             ambient = Content.Load<Effect>("Ambient");
 
 
@@ -57,53 +44,42 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
-            sm.AddSystem(new RectangleSystem());
-            sm.AddSystem(new AnimationSystem());
-            sm.AddSystem(new PlayerSystem());
             sm.AddSystem(new ModelInstanceSystem());
             sm.AddSystem(new BoundingBoxSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
-            int apa1 = EntityFactory.CreateModel("column");
-            int apa2 = EntityFactory.CreateModel("roger");
+            int apa1 = EntityFactory.CreateModel("column", true);
+            int apa2 = EntityFactory.CreateModel("roger", true);
 
 
             EntityFactory.CreateVeggies(GraphicsDevice, apa1, 200);
             EntityFactory.CreateVeggies(GraphicsDevice, apa2, 200);
-            
             EntityFactory.CreateCamera(GraphicsDevice);
+
+
+            // Init all systems
+            sm.Init<CameraSystem>(GraphicsDevice);
+            sm.Init<HeightMapSystem>(GraphicsDevice);
+            sm.Init<ModelInstanceSystem>(GraphicsDevice);
+            sm.Init<BoundingBoxSystem>(GraphicsDevice);
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
             sm.Load<HeightMapSystem>(Content);
             sm.Load<ModelSystem>(Content);
-            sm.Load<RectangleSystem>(Content);
             sm.Load<ModelInstanceSystem>(Content);
-            sm.Load<BoundingBoxSystem>(Content);
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
+
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+       
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
@@ -113,17 +89,10 @@ namespace Labb3_Datorgrafik
 
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
-            sm.Update<RectangleSystem>(gameTime);
-            sm.Update<AnimationSystem>(gameTime);
-            sm.Update<PlayerSystem>(gameTime);
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -134,12 +103,10 @@ namespace Labb3_Datorgrafik
             rasterizerState.FillMode = FillMode.Solid;
             GraphicsDevice.RasterizerState = rasterizerState;
 
-            sm.Render<CameraSystem>(GraphicsDevice, basicEffect);
-            sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
-            sm.RenderWithEffect<ModelSystem>(GraphicsDevice, ambient);
-            sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
-            sm.RenderWithEffect<ModelInstanceSystem>(GraphicsDevice, ambient);
-            sm.Render<BoundingBoxSystem>(GraphicsDevice, basicEffect);
+            sm.Render<CameraSystem>(GraphicsDevice);
+            sm.Render<HeightMapSystem>(GraphicsDevice);
+            sm.Render<ModelSystem>(GraphicsDevice);
+            sm.Render<ModelInstanceSystem>(GraphicsDevice); 
 
             base.Draw(gameTime);
         }

@@ -9,13 +9,27 @@ using System.Linq;
 
 namespace Engine.Systems
 {
-    public class ModelInstanceSystem : IRender, ILoad
+    public class ModelInstanceSystem : IRender, ILoad, IInit
     {
         ComponentManager cm = ComponentManager.GetInstance();
+        BasicEffect be;
+        Effect ef;
+
+        public void Init(GraphicsDevice gd)
+        {
+            be = new BasicEffect(gd)
+            {
+                VertexColorEnabled = false,
+                TextureEnabled = true
+            };
+        }
 
         public void Load(ContentManager content)
         {
             HeightMapComponent hmc = cm.GetComponentsOfType<HeightMapComponent>().First().Item2;
+
+            // ambient effect
+            ef = content.Load<Effect>("Ambient");
 
             foreach (var (k, bbc, mic) in cm.GetComponentsOfType<BoundingBoxComponent, ModelInstanceComponent>())
             {
@@ -23,15 +37,36 @@ namespace Engine.Systems
             }
         }
 
-        public void Render(GraphicsDevice gd, BasicEffect be)
+        public void Render(GraphicsDevice gd)
         {
-            BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            BoundingFrustum frustum = new BoundingFrustum(cam.View * cam.Projection);
 
             foreach (var (_, mic, box) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
             {
                 ModelComponent mc = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId);
                 if (frustum.Contains(box.BoundingBox) != ContainmentType.Disjoint)
-                    ModelHelper.Render(be, mc, mic.Instance);
+                    if (!mc.IsActive)
+                        return;
+
+                Matrix[] transforms = new Matrix[mc.Model.Bones.Count];
+                mc.Model.CopyAbsoluteBoneTransformsTo(transforms);
+
+                foreach (ModelMesh mesh in mc.Model.Meshes)
+                {
+                    foreach (ModelMeshPart part in mesh.MeshParts)
+                    {
+                        part.Effect = ef;
+                        ef.Parameters["World"].SetValue(mic.Instance * mesh.ParentBone.Transform);
+                        ef.Parameters["View"].SetValue(cam.View);
+                        ef.Parameters["Projection"].SetValue(cam.Projection);
+
+                        // Optional, cuz there is default params in the shader
+                        ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
+                        ef.Parameters["AmbientIntensity"].SetValue(0.5f);
+                    }
+                    mesh.Draw();
+                }
             }
         }
 

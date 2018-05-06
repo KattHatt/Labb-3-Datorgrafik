@@ -15,11 +15,11 @@ namespace Engine.Components
             IsActive = false;
         }
 
-        public ModelComponent(string modelPath)
+        public ModelComponent(string modelPath, bool isActive)
         {
             Model = null;
             ModelPath = modelPath;
-            IsActive = true;
+            IsActive = isActive;
         }
     }
 }

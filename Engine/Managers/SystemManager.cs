@@ -41,6 +41,22 @@ namespace Engine.Managers
             ((ILoad)system)?.Load(content);
         }
 
+        public void Init<T>(GraphicsDevice gd)
+        {
+            object system;
+            systems.TryGetValue(typeof(T), out system);
+            ((IInit)system)?.Init(gd);
+        }
+
+        public void Init(GraphicsDevice gd)
+        {
+            foreach (var system in systems.Values)
+            {
+                if (system is IInit)
+                    ((IInit)system).Init(gd);
+            }
+        }
+
         public void Update<T>(GameTime gameTime)
         {
             object system;
@@ -48,18 +64,11 @@ namespace Engine.Managers
             ((ISystem)system)?.Update(gameTime);
         }
 
-        public void Render<T>(GraphicsDevice gd, BasicEffect be)
+        public void Render<T>(GraphicsDevice gd)
         {
             object system;
             systems.TryGetValue(typeof(T), out system);
-            ((IRender)system)?.Render(gd, be);
-        }
-
-        public void RenderWithEffect<T>(GraphicsDevice gd, Effect ef)
-        {
-            object system;
-            systems.TryGetValue(typeof(T), out system);
-            ((IRender)system)?.RenderWithEffect(gd, ef);
+            ((IRender)system)?.Render(gd);
         }
 
         public void AddSystem(object system)

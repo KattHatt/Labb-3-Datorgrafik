@@ -37,45 +37,18 @@ namespace Labb3_Datorgrafik.Tools
             return cm.AddEntityWithComponents(hmc);
         }
 
-        public static int CreateCube(GraphicsDevice gd, string path, Vector3 position, Vector3 corner1, Vector3 corner2, Vector3 scale, int? parent, string name)
-        {
-            NameComponent nameComp = new NameComponent(name);
-            RectangleComponent cubekid = new RectangleComponent(gd, false, corner1, corner2, path);
-            cubekid.Parent = parent;
-            TransformComponent trans = new TransformComponent()
-            {
-                Position = position
-            };
-
-            if (!parent.HasValue)
-                trans.Scale = scale;
-
-            int cube = cm.AddEntityWithComponents(cubekid, trans, nameComp);
-
-            return cube;
-        }
-
-        public static int CreateCube(GraphicsDevice gd, string path, Vector3 position, Vector3 corner1, Vector3 corner2, int? parent, string name)
-        {
-            return CreateCube(gd, path, position, corner1, corner2, Vector3.One, parent, name);
-        }
-
-        public static int CreateBoundingBoxForEnt(GraphicsDevice gd, int entity)
-        {
-            BoundingBoxComponent bbc = new BoundingBoxComponent(gd) { BelongsToID = entity, Render = true };
-
-            return cm.AddEntityWithComponents(bbc);
-        }
-
-        public static int CreateModel(string texure)
+        
+        public static int CreateModel(string texure, bool isActive)
         {
             ModelComponent m = new ModelComponent()
             {
-                IsActive = true,
+                IsActive = isActive,
                 ModelPath = texure
             };
 
-            return cm.AddEntityWithComponents(m);
+            TransformComponent t = new TransformComponent();
+
+            return cm.AddEntityWithComponents(m, t);
 
         }
         public static void CreateVeggies(GraphicsDevice gd, int model, int count)
