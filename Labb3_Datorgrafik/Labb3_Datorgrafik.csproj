@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Ambient.fx" />
+    <Content Include="Content\Blinn_Phong.fx" />
     <Content Include="Content\shadow_pass2.fx" />
     <Content Include="Content\shadow_pass1.fx" />
     <Content Include="Icon.ico" />
