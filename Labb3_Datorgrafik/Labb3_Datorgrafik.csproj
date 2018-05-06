@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Diffuse.fx" />
     <Content Include="Content\Ambient.fx" />
     <Content Include="Content\Blinn_Phong.fx" />
     <Content Include="Content\shadow_pass2.fx" />

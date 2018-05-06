@@ -46,8 +46,8 @@ namespace Labb3_Datorgrafik
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
 
 
-            int apa1 = EntityFactory.CreateModel("column", true, new Vector3(100, 100, 100));
-            int apa2 = EntityFactory.CreateModel("roger", true, new Vector3(100, 100, 120));
+            int apa1 = EntityFactory.CreateModel("column", "grass", true, new Vector3(100, 100, 100));
+            //int apa2 = EntityFactory.CreateModel("roger", "grass", true, new Vector3(100, 100, 120));
 
 
             EntityFactory.CreateCamera(GraphicsDevice);

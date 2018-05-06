@@ -7,6 +7,8 @@ namespace Engine.Components
         public Model Model { get; set; }
         public string ModelPath { get; set; }
         public bool IsActive { get; set; }
+        public Texture2D Texture { get; set; }
+        public string TexturePath { get; set; }
 
         public ModelComponent()
         {

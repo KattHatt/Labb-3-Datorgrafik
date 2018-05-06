@@ -30,6 +30,7 @@ namespace Engine.Systems
             foreach (var (_, modelComp) in cm.GetComponentsOfType<ModelComponent>())
             {
                 modelComp.Model = content.Load<Model>(modelComp.ModelPath);
+                modelComp.Texture = content.Load<Texture2D>(modelComp.TexturePath);
             }
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
@@ -58,10 +59,14 @@ namespace Engine.Systems
                         ef.Parameters["World"].SetValue(tc.World * mesh.ParentBone.Transform);
                         ef.Parameters["View"].SetValue(cam.View);
                         ef.Parameters["Projection"].SetValue(cam.Projection);
+                        //ef.Parameters["ViewVector"].SetValue(cam.View.Translation);
+                        //ef.Parameters["ModelTexture"].SetValue(mc.Texture);
 
                         // Optional, cuz there is default params in the shader
                         ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
                         ef.Parameters["AmbientIntensity"].SetValue(0.5f);
+                        //Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * tc.World));
+                        //ef.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
                     }
                     mesh.Draw();
                 }

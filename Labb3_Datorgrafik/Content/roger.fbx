@@ -414,16 +414,16 @@ Objects:  {
 	Video: 126833056, "Video::Map #0", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "C:\roger.jpg"
-			P: "RelPath", "KString", "XRefUrl", "", ".\roger.jpg"
+			P: "Path", "KString", "XRefUrl", "", "C:\rogert.jpg"
+			P: "RelPath", "KString", "XRefUrl", "", ".\rogert.jpg"
 			P: "Color", "ColorRGB", "Color", "",0.8,0.8,0.8
 			P: "ClipIn", "KTime", "Time", "",0
 			P: "ClipOut", "KTime", "Time", "",0
 			P: "Mute", "bool", "", "",0
 		}
 		UseMipMap: 0
-		Filename: "C:\roger.jpg"
-		RelativeFilename: "roger.jpg"
+		Filename: "C:\rogert.jpg"
+		RelativeFilename: "rogert.jpg"
 	}
 	Texture: 126917504, "Texture::Map #0", "" {
 		Type: "TextureVideoClip"
@@ -434,8 +434,8 @@ Objects:  {
 			P: "UseMaterial", "bool", "", "",1
 		}
 		Media: "Video::Map #0"
-		FileName: "C:\roger.jpg"
-		RelativeFilename: "roger.jpg"
+		FileName: "C:\rogert.jpg"
+		RelativeFilename: "rogert.jpg"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"

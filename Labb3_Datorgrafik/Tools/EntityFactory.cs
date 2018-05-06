@@ -38,12 +38,13 @@ namespace Labb3_Datorgrafik.Tools
         }
 
         
-        public static int CreateModel(string texure, bool isActive, Vector3 pos)
+        public static int CreateModel(string model, string texture, bool isActive, Vector3 pos)
         {
             ModelComponent m = new ModelComponent()
             {
                 IsActive = isActive,
-                ModelPath = texure
+                ModelPath = model,
+                TexturePath = texture
             };
 
             TransformComponent t = new TransformComponent()
