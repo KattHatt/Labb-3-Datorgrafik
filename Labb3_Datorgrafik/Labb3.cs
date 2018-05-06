@@ -138,7 +138,7 @@ namespace Labb3_Datorgrafik
             sm.Render<HeightMapSystem>(GraphicsDevice, basicEffect);
             sm.RenderWithEffect<ModelSystem>(GraphicsDevice, basicEffect);
             sm.Render<RectangleSystem>(GraphicsDevice, basicEffect);
-            sm.Render<ModelInstanceSystem>(GraphicsDevice, basicEffect);
+            sm.RenderWithEffect<ModelInstanceSystem>(GraphicsDevice, basicEffect);
             sm.Render<BoundingBoxSystem>(GraphicsDevice, basicEffect);
 
             base.Draw(gameTime);

@@ -56,8 +56,8 @@ namespace Engine.Tools
                     effect.Parameters["Projection"].SetValue(projection);
 
                     // Optional, cuz there is default params in the shader
-                    //effect.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
-                    //effect.Parameters["AmbientIntensity"].SetValue(0.5f);
+                    effect.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
+                    effect.Parameters["AmbientIntensity"].SetValue(0.5f);
                 }
                 mesh.Draw();
             }

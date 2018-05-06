@@ -27,7 +27,6 @@ namespace Engine.Systems
         {
             BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
 
-            ComponentManager cm = ComponentManager.GetInstance();
             foreach (var (_, mic, box) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
             {
                 ModelComponent mc = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId);
@@ -38,7 +37,15 @@ namespace Engine.Systems
 
         public void RenderWithEffect(GraphicsDevice gd, Effect ef)
         {
-            throw new NotImplementedException();
+            CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            BoundingFrustum frustum = new BoundingFrustum(cam.View * cam.Projection);
+            
+            foreach (var (_, mic, box) in cm.GetComponentsOfType<ModelInstanceComponent, BoundingBoxComponent>())
+            {
+                ModelComponent mc = cm.GetComponentForEntity<ModelComponent>(mic.ModelEntityId);
+                if (frustum.Contains(box.BoundingBox) != ContainmentType.Disjoint)
+                    ModelHelper.DrawModelWithAmbientEffect(mc.Model, mic.Instance, cam.View, cam.Projection, ef);
+            }
         }
 
         private Matrix GetRotation(Vector3 normal)

@@ -1,6 +1,6 @@
-﻿float4x4 World;
-float4x4 View;
-float4x4 Projection;
+﻿matrix World;
+matrix View;
+matrix Projection;
 
 float4 AmbientColor = float4(1, 1, 1, 1);
 float AmbientIntensity = 0.1;
