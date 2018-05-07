@@ -4,6 +4,7 @@ using Engine.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Engine.Systems
@@ -69,13 +70,11 @@ namespace Engine.Systems
 
                         foreach(EffectPass pass in ef.CurrentTechnique.Passes)
                         {
-                            pass.Apply();
-                            gd.SetVertexBuffer(part.VertexBuffer);
-
-                            VertexPositionNormalTexture[] vertices = new VertexPositionNormalTexture[part.NumVertices]; // <-- Wtf?
-                            part.VertexBuffer.GetData(vertices);
-
-                            gd.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 2);
+                            //pass.Apply();
+                            //gd.SetVertexBuffer(part.VertexBuffer);
+                            ////VertexPositionNormalTexture[] verts = new VertexPositionNormalTexture[part.ve]
+                          
+                            ////gd.DrawUserPrimitives(PrimitiveType.TriangleList, , 0, 2);
                         }
                         
                     }
