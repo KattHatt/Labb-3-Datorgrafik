@@ -37,7 +37,6 @@ namespace Engine.Systems
 
             //ef = content.Load<Effect>("Ambient");
             ef = content.Load<Effect>("Fog");
-            //ef = content.Load<Effect>("DiffuseLight");
 
             texture = content.Load<Texture2D>("grass");
 
@@ -70,20 +69,12 @@ namespace Engine.Systems
 
                         //// For Fog - cant see no fog yo
                         ef.Parameters["FogEnabled"].SetValue(1.0f);
-                        ef.Parameters["FogStart"].SetValue(0.0f); // Dunno vilket värde de ska ha här
-                        ef.Parameters["FogEnd"].SetValue(1.0f); // Dunno vilket värde de ska ha här
+                        ef.Parameters["FogStart"].SetValue(0.0f); // Dunno vilket värde de ska vara här
+                        ef.Parameters["FogEnd"].SetValue(1.0f); // Dunno vilket värde de ska vara här
                         ef.Parameters["FogColor"].SetValue(Color.Blue.ToVector3()); // väljs: Color.CornflowerBlue.ToVector3() så försvinner modellerna :S
                         ef.Parameters["cameraPos"].SetValue(cam.Position);
                         ////ef.Parameters["Texture"].SetValue(texture);
-
-
-                        // For DiffuseLight - dosent work :S
-                        //Matrix worldInverseTransposeMatrix = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * tc.World));
-                        //ef.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransposeMatrix);
-
-
-
-
+                        
                         // for Ambient
                         //ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
                         //ef.Parameters["AmbientIntensity"].SetValue(0.5f);
