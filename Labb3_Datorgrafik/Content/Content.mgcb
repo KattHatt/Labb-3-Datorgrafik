@@ -110,12 +110,6 @@
 /processorParam:DebugMode=Auto
 /build:Fog.fx
 
-#begin DiffuseLight.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:DiffuseLight.fx
-
 #begin lich_knight_sprite__by_epicspiderboss.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -133,4 +127,10 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:Diffuse.fx
+
+#begin ShaderXXX.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:ShaderXXX.fx
 

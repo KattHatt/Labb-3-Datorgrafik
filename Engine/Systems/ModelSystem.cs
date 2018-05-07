@@ -36,7 +36,7 @@ namespace Engine.Systems
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
             //ef = content.Load<Effect>("Ambient");
-            ef = content.Load<Effect>("Fog");
+            ef = content.Load<Effect>("ShaderXXX");
 
             texture = content.Load<Texture2D>("grass");
 
@@ -59,27 +59,27 @@ namespace Engine.Systems
                 {
                     foreach (ModelMeshPart part in mesh.MeshParts)
                     {
-                        // General stuff
+                        // VertexShader
                         part.Effect = ef;
-                        ef.Parameters["World"].SetValue(tc.World * mesh.ParentBone.Transform);
-                        ef.Parameters["View"].SetValue(cam.View);
-                        ef.Parameters["Projection"].SetValue(cam.Projection);
-                        //ef.Parameters["ViewVector"].SetValue(cam.View.Translation);
-                        //ef.Parameters["ModelTexture"].SetValue(mc.Texture);
+                        ef.CurrentTechnique = ef.Techniques["VertexShading"];
+                        ef.Parameters["xWorld"].SetValue(tc.World * mesh.ParentBone.Transform);
+                        ef.Parameters["xView"].SetValue(cam.View);
+                        ef.Parameters["xProjection"].SetValue(cam.Projection);
+                        ef.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
 
-                        //// For Fog - cant see no fog yo
-                        ef.Parameters["FogEnabled"].SetValue(1.0f);
-                        ef.Parameters["FogStart"].SetValue(0.0f); // Dunno vilket värde de ska vara här
-                        ef.Parameters["FogEnd"].SetValue(1.0f); // Dunno vilket värde de ska vara här
-                        ef.Parameters["FogColor"].SetValue(Color.Blue.ToVector3()); // väljs: Color.CornflowerBlue.ToVector3() så försvinner modellerna :S
-                        ef.Parameters["cameraPos"].SetValue(cam.Position);
-                        ////ef.Parameters["Texture"].SetValue(texture);
+                        foreach(EffectPass pass in ef.CurrentTechnique.Passes)
+                        {
+                            pass.Apply();
+                            gd.SetVertexBuffer(part.VertexBuffer);
+
+                            VertexPositionNormalTexture[] vertices = new VertexPositionNormalTexture[part.NumVertices]; // <-- Wtf?
+                            part.VertexBuffer.GetData(vertices);
+
+                            gd.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 2);
+                        }
                         
-                        // for Ambient
-                        //ef.Parameters["AmbientColor"].SetValue(Color.Green.ToVector4());
-                        //ef.Parameters["AmbientIntensity"].SetValue(0.5f);
                     }
-                    mesh.Draw();
+                    
                 }
             }
         }
