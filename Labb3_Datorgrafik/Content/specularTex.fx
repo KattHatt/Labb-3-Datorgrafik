@@ -8,11 +8,11 @@ float AmbientIntensity = 0.1;
  
 float3 DiffuseLightDirection = float3(1, 0, 0);
 float4 DiffuseColor = float4(1, 1, 1, 1);
-float DiffuseIntensity = 1.0;
+float DiffuseIntensity = 100.0;
  
 float Shininess = 200;
 float4 SpecularColor = float4(1, 1, 1, 1);
-float SpecularIntensity = 1;
+float SpecularIntensity = 10;
 float3 ViewVector = float3(1, 0, 0);
  
 texture ModelTexture;

@@ -3,6 +3,7 @@ using Engine.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -92,11 +93,18 @@ namespace Engine.Systems
                 //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
                 //}
 
+
                 // SpecularTex
+                Vector3 cameraLocation = 20 * new Vector3((float)Math.Sin(0), 0, (float)Math.Cos(0));
+                Vector3 cameraTarget = new Vector3(0, 0, 0);
+                Vector3 viewVector = Vector3.Transform(cameraTarget - cameraLocation, Matrix.CreateRotationY(0));
+                viewVector.Normalize();
+
                 ef4.CurrentTechnique = ef4.Techniques["Textured"];
                 ef4.Parameters["World"].SetValue(tc.World);
                 ef4.Parameters["View"].SetValue(cam.View);
                 ef4.Parameters["Projection"].SetValue(cam.Projection);
+                ef4.Parameters["ViewVector"].SetValue(viewVector);
 
                 ef4.Parameters["WorldInverseTranspose"].SetValue(wit);
                 ef4.Parameters["ModelTexture"].SetValue(rect.Texture);
@@ -106,13 +114,6 @@ namespace Engine.Systems
                     pass.Apply();
                     gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
                 }
-
-
-
-
-
-
-
             }
         }
 
