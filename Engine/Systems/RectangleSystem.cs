@@ -15,6 +15,7 @@ namespace Engine.Systems
         Effect ef1;
         Effect ef2;
         Effect ef3;
+        Effect ef4;
 
         public void Load(ContentManager content)
         {
@@ -32,6 +33,7 @@ namespace Engine.Systems
 
             }
 
+            ef4 = content.Load<Effect>("specularTex");
             ef1 = content.Load<Effect>("ShaderXXX");
             ef2 = content.Load<Effect>("Fog");
             ef3 = content.Load<Effect>("Ambient");
@@ -45,30 +47,21 @@ namespace Engine.Systems
 
             foreach (var (_, rect, tc) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
             {
-                // Ambient shader
-                ef3.CurrentTechnique = ef1.Techniques["Ambient"];
-                ef3.Parameters["World"].SetValue(tc.World);
-                ef3.Parameters["View"].SetValue(cam.View);
-                ef3.Parameters["Projection"].SetValue(cam.Projection);
 
-                foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
-                }
+                Matrix wit = Matrix.Transpose(Matrix.Invert(tc.World));
 
                 // VertexShader (ShaderXXX)
-                ef1.CurrentTechnique = ef1.Techniques["VertexShading"];
-                ef1.Parameters["xWorld"].SetValue(tc.World);
-                ef1.Parameters["xView"].SetValue(cam.View);
-                ef1.Parameters["xProjection"].SetValue(cam.Projection);
-                ef1.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
+                //ef1.CurrentTechnique = ef1.Techniques["VertexShading"];
+                //ef1.Parameters["xWorld"].SetValue(tc.World);
+                //ef1.Parameters["xView"].SetValue(cam.View);
+                //ef1.Parameters["xProjection"].SetValue(cam.Projection);
+                //ef1.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
 
-                foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
-                {
-                    pass.Apply();
-                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
-                }
+                //foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
+                //{
+                //    pass.Apply();
+                //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                //}
 
                 // Fog shader
                 //ef2.CurrentTechnique = ef2.Techniques["Fog"];
@@ -80,12 +73,46 @@ namespace Engine.Systems
                 //ef2.Parameters["FogEnd"].SetValue(0.4f);
                 //ef2.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
                 //ef2.Parameters["cameraPos"].SetValue(cam.Position);
-      
+
                 //foreach (EffectPass pass in ef2.CurrentTechnique.Passes)
                 //{
                 //    pass.Apply();
                 //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
                 //}
+
+                // Ambient shader
+                //ef3.CurrentTechnique = ef3.Techniques["Ambient"];
+                //ef3.Parameters["World"].SetValue(tc.World);
+                //ef3.Parameters["View"].SetValue(cam.View);
+                //ef3.Parameters["Projection"].SetValue(cam.Projection);
+
+                //foreach (EffectPass pass in ef3.CurrentTechnique.Passes)
+                //{
+                //    pass.Apply();
+                //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                //}
+
+                // SpecularTex
+                ef4.CurrentTechnique = ef4.Techniques["Textured"];
+                ef4.Parameters["World"].SetValue(tc.World);
+                ef4.Parameters["View"].SetValue(cam.View);
+                ef4.Parameters["Projection"].SetValue(cam.Projection);
+
+                ef4.Parameters["WorldInverseTranspose"].SetValue(wit);
+                ef4.Parameters["ModelTexture"].SetValue(rect.Texture);
+
+                foreach (EffectPass pass in ef4.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                }
+
+
+
+
+
+
+
             }
         }
 
