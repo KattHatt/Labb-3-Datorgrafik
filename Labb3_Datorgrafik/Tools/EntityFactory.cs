@@ -55,6 +55,32 @@ namespace Labb3_Datorgrafik.Tools
             return cm.AddEntityWithComponents(m, t);
         }
 
+        //public static int CreateModel(string model, bool isActive, Vector3 pos)
+        //{
+        //    ModelComponent m = new ModelComponent()
+        //    {
+        //        IsActive = isActive,
+        //        ModelPath = model
+        //    };
+
+        //    TransformComponent t = new TransformComponent()
+        //    {
+        //        Position = pos
+        //    };
+
+        //    return cm.AddEntityWithComponents(m, t);
+        //}
+
+        public static int CreateCube(GraphicsDevice gd, Vector3 position, Vector3 corner1, Vector3 corner2)
+        {
+            TransformComponent trans = new TransformComponent(){ Position = position };
+            RectangleComponent r = new RectangleComponent(gd, corner1, corner2);
+
+            int cube = cm.AddEntityWithComponents(trans, r);
+
+            return cube;
+        }
+
         private static  Matrix PlaceVegetation(HeightMapComponent hmc)
         {
             Random random = new Random();

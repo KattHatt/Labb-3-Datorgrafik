@@ -42,6 +42,7 @@
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
+    <Compile Include="Components\RectangleComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Systems\IRender.cs" />
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\ModelSystem.cs" />
+    <Compile Include="Systems\RectangleSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
     <Compile Include="Tools\Extentions.cs" />
     <Compile Include="Tools\ModelHelper.cs" />

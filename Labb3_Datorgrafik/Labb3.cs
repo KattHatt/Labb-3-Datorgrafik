@@ -46,9 +46,10 @@ namespace Labb3_Datorgrafik
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
 
 
-            int apa1 = EntityFactory.CreateModel("lab/Zeppelin_NT", "grass", true, new Vector3(100, 100, 100));
+            //int apa1 = EntityFactory.CreateModel("lab/Zf_balloon", true, new Vector3(100, 100, 100));
             //int apa2 = EntityFactory.CreateModel("roger", "grass", true, new Vector3(100, 100, 120));
 
+            int hejsan = EntityFactory.CreateCube(GraphicsDevice, new Vector3(100, 100, 100), new Vector3(10, 10, 10), new Vector3(10, 10, 10));
 
             EntityFactory.CreateCamera(GraphicsDevice);
 
@@ -64,7 +65,8 @@ namespace Labb3_Datorgrafik
         protected override void LoadContent()
         {
             sm.Load<HeightMapSystem>(Content);
-            sm.Load<ModelSystem>(Content);
+            //sm.Load<ModelSystem>(Content);
+            sm.Load<RectangleSystem>(Content);
         }
 
 
@@ -98,7 +100,8 @@ namespace Labb3_Datorgrafik
 
             sm.Render<CameraSystem>(GraphicsDevice);
             sm.Render<HeightMapSystem>(GraphicsDevice);
-            sm.Render<ModelSystem>(GraphicsDevice);
+            sm.Render<RectangleSystem>(GraphicsDevice);
+            //sm.Render<ModelSystem>(GraphicsDevice);
 
             base.Draw(gameTime);
         }

@@ -24,7 +24,7 @@ namespace Engine.Systems
                 VertexColorEnabled = false,
                 TextureEnabled = true
             };
-            
+
         }
 
         public void Load(ContentManager content)
@@ -32,7 +32,7 @@ namespace Engine.Systems
             foreach (var (_, modelComp) in cm.GetComponentsOfType<ModelComponent>())
             {
                 modelComp.Model = content.Load<Model>(modelComp.ModelPath);
-                modelComp.Texture = content.Load<Texture2D>(modelComp.TexturePath);
+                //modelComp.Texture = content.Load<Texture2D>(modelComp.TexturePath);
             }
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
@@ -40,7 +40,6 @@ namespace Engine.Systems
             ef = content.Load<Effect>("ShaderXXX");
 
             texture = content.Load<Texture2D>("grass");
-
         }
 
         public void Render(GraphicsDevice gd)
@@ -68,17 +67,17 @@ namespace Engine.Systems
                         ef.Parameters["xProjection"].SetValue(cam.Projection);
                         ef.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
 
-                        foreach(EffectPass pass in ef.CurrentTechnique.Passes)
+                        foreach (EffectPass pass in ef.CurrentTechnique.Passes)
                         {
-                            //pass.Apply();
-                            //gd.SetVertexBuffer(part.VertexBuffer);
-                            ////VertexPositionNormalTexture[] verts = new VertexPositionNormalTexture[part.ve]
-                          
-                            ////gd.DrawUserPrimitives(PrimitiveType.TriangleList, , 0, 2);
+                            VertexPositionNormalTexture[] vpnt = new VertexPositionNormalTexture[part.NumVertices];
+                            part.VertexBuffer.GetData(vpnt);
+
+                            pass.Apply();
+                            gd.DrawUserPrimitives(PrimitiveType.TriangleList, vpnt, 0, part.NumVertices / 3);
                         }
-                        
+
                     }
-                    
+
                 }
             }
         }
