@@ -35,10 +35,10 @@ namespace Engine.Components
         public IndexBuffer indexBuffers;
 
         // Textures
-        public List<Texture2D> Textures;
+        public Texture2D Texture;
 
         // Texture paths
-        public List<string> TexturePaths;
+        public string TexturePath;
 
         // Rectangle normals
         public Vector3 RIGHT = new Vector3(1, 0, 0); // +X
@@ -47,6 +47,12 @@ namespace Engine.Components
         public Vector3 DOWN = new Vector3(0, -1, 0); // -Y
         public Vector3 FORWARD = new Vector3(0, 0, 1); // +Z
         public Vector3 BACKWARD = new Vector3(0, 0, -1); // -Z
+
+
+        public RectangleComponent(GraphicsDevice gd)
+        {
+            graphicsDevice = gd;
+        }
 
         // Custom Rectangle with one texture
         public RectangleComponent(
@@ -75,23 +81,10 @@ namespace Engine.Components
             float height,
             float width,
             float depth,
-            string frontTP,
-            string rightTP,
-            string leftTP,
-            string topTP,
-            string botTP,
-            string backTP)
+            string texturePath)
         {
             graphicsDevice = gd;
-            TexturePaths = new List<string>
-            {
-                frontTP,
-                rightTP,
-                leftTP,
-                topTP,
-                botTP,
-                backTP
-            };
+            TexturePath = texturePath;
 
             FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
             FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2);
@@ -103,4 +96,6 @@ namespace Engine.Components
             BACK_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, -depth / 2);
         }
     }
+
+
 }

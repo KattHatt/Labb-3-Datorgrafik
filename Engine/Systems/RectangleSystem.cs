@@ -11,7 +11,10 @@ namespace Engine.Systems
     public class RectangleSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
-        Effect ef;
+
+        Effect ef1;
+        Effect ef2;
+        Effect ef3;
 
         public void Load(ContentManager content)
         {
@@ -24,13 +27,15 @@ namespace Engine.Systems
                 rect.indexBuffers = new IndexBuffer(rect.graphicsDevice, typeof(short), rect.indices.Length, BufferUsage.WriteOnly);
                 rect.indexBuffers.SetData(rect.indices);
 
-                foreach (string tp in rect.TexturePaths)
-                {
-                    rect.Textures.Add(content.Load<Texture2D>(tp));
-                }
+
+                rect.Texture = content.Load<Texture2D>(rect.TexturePath);
+
             }
 
-            ef = content.Load<Effect>("ShaderXXX");
+            ef1 = content.Load<Effect>("ShaderXXX");
+            ef2 = content.Load<Effect>("Fog");
+            ef3 = content.Load<Effect>("Ambient");
+
         }
 
         public void Render(GraphicsDevice gd)
@@ -40,21 +45,47 @@ namespace Engine.Systems
 
             foreach (var (_, rect, tc) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
             {
-                // VertexShader
-                UpdateNormals(rect);
-                
-                ef.CurrentTechnique = ef.Techniques["VertexShading"];
-                ef.Parameters["xWorld"].SetValue(tc.World);
-                ef.Parameters["xView"].SetValue(cam.View);
-                ef.Parameters["xProjection"].SetValue(cam.Projection);
-                ef.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
+                // Ambient shader
+                ef3.CurrentTechnique = ef1.Techniques["Ambient"];
+                ef3.Parameters["World"].SetValue(tc.World);
+                ef3.Parameters["View"].SetValue(cam.View);
+                ef3.Parameters["Projection"].SetValue(cam.Projection);
 
-                foreach (EffectPass pass in ef.CurrentTechnique.Passes)
+                foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                     gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
                 }
 
+                // VertexShader (ShaderXXX)
+                ef1.CurrentTechnique = ef1.Techniques["VertexShading"];
+                ef1.Parameters["xWorld"].SetValue(tc.World);
+                ef1.Parameters["xView"].SetValue(cam.View);
+                ef1.Parameters["xProjection"].SetValue(cam.Projection);
+                ef1.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
+
+                foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                }
+
+                // Fog shader
+                //ef2.CurrentTechnique = ef2.Techniques["Fog"];
+                //ef2.Parameters["World"].SetValue(tc.World);
+                //ef2.Parameters["View"].SetValue(cam.View);
+                //ef2.Parameters["Projection"].SetValue(cam.Projection);
+                //ef2.Parameters["FogEnabled"].SetValue(1.0f);
+                //ef2.Parameters["FogStart"].SetValue(0.0f);
+                //ef2.Parameters["FogEnd"].SetValue(0.4f);
+                //ef2.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
+                //ef2.Parameters["cameraPos"].SetValue(cam.Position);
+      
+                //foreach (EffectPass pass in ef2.CurrentTechnique.Passes)
+                //{
+                //    pass.Apply();
+                //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                //}
             }
         }
 

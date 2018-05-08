@@ -102,7 +102,7 @@ float4 PSBasicTx(VertexLightingPSInputTx pin) : COLOR
 	return color;
 }
 
-technique NoInstancing
+technique Fog
 {
 	pass Pass0
 	{

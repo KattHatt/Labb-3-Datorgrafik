@@ -4,6 +4,7 @@ using Engine.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 
 namespace Labb3_Datorgrafik.Tools
 {
@@ -75,6 +76,29 @@ namespace Labb3_Datorgrafik.Tools
         {
             TransformComponent trans = new TransformComponent(){ Position = position };
             RectangleComponent r = new RectangleComponent(gd, corner1, corner2);
+
+            int cube = cm.AddEntityWithComponents(trans, r);
+
+            return cube;
+        }
+
+        public static int CreateGrassCube(GraphicsDevice gd, Vector3 position, int height, int width, int depth)
+        {
+            TransformComponent trans = new TransformComponent() { Position = position };
+            RectangleComponent r = new RectangleComponent(gd)
+            {
+                FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2),
+                FRONT_TOP_RIGHT = new Vector3(width / 2, height / 2, depth / 2),
+                FRONT_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, depth / 2),
+                FRONT_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, depth / 2),
+                BACK_TOP_LEFT = new Vector3(-width / 2, height / 2, -depth / 2),
+                BACK_TOP_RIGHT = new Vector3(width / 2, height / 2, -depth / 2),
+                BACK_BOTTOM_LEFT = new Vector3(-width / 2, -height / 2, -depth / 2),
+                BACK_BOTTOM_RIGHT = new Vector3(width / 2, -height / 2, -depth / 2),
+
+                TexturePath = "grass"
+        };
+         
 
             int cube = cm.AddEntityWithComponents(trans, r);
 

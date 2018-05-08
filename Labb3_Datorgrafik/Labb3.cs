@@ -41,15 +41,12 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new BoundingBoxSystem());
+            sm.AddSystem(new RectangleSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
 
-
-            //int apa1 = EntityFactory.CreateModel("lab/Zf_balloon", true, new Vector3(100, 100, 100));
-            //int apa2 = EntityFactory.CreateModel("roger", "grass", true, new Vector3(100, 100, 120));
-
-            int hejsan = EntityFactory.CreateCube(GraphicsDevice, new Vector3(100, 100, 100), new Vector3(10, 10, 10), new Vector3(10, 10, 10));
+            int hejsan = EntityFactory.CreateGrassCube(GraphicsDevice, new Vector3(-155, 270, -287), 20, 20, 20);
 
             EntityFactory.CreateCamera(GraphicsDevice);
 
