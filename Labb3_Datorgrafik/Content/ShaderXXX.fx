@@ -3,7 +3,7 @@ float4x4 xWorld;
 float4x4 xView;
 float4x4 xProjection;
 float xAmbient;
-float3 xLightDirection;
+float3 xLightPosition;
 
 struct VSVertexToPixel
 {
@@ -28,7 +28,13 @@ VSVertexToPixel VSVertexShader(float4 inPos : POSITION0, float3 inNormal : NORMA
 	float3x3 rotMatrix = (float3x3)xWorld;
 	float rotNormal = mul(normal, rotMatrix);
 
-	Output.LightingFactor = dot(rotNormal, -xLightDirection);
+	float3 final3DPosition = mul(inPos, xWorld);
+	float3 lightDirection = final3DPosition - xLightPosition;
+	float distance = length(lightDirection);
+	lightDirection = normalize(lightDirection);
+
+	Output.LightingFactor = dot(rotNormal, -lightDirection);
+	Output.LightingFactor /= distance;
 
 	return Output;
 }

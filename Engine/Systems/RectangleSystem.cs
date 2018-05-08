@@ -52,17 +52,17 @@ namespace Engine.Systems
                 Matrix wit = Matrix.Transpose(Matrix.Invert(tc.World));
 
                 // VertexShader (ShaderXXX)
-                //ef1.CurrentTechnique = ef1.Techniques["VertexShading"];
-                //ef1.Parameters["xWorld"].SetValue(tc.World);
-                //ef1.Parameters["xView"].SetValue(cam.View);
-                //ef1.Parameters["xProjection"].SetValue(cam.Projection);
-                //ef1.Parameters["xLightDirection"].SetValue(new Vector3(1, 0, 0));
+                ef1.CurrentTechnique = ef1.Techniques["VertexShading"];
+                ef1.Parameters["xWorld"].SetValue(tc.World);
+                ef1.Parameters["xView"].SetValue(cam.View);
+                ef1.Parameters["xProjection"].SetValue(cam.Projection);
+                ef1.Parameters["xLightPosition"].SetValue(new Vector3(1, 5, 0));
 
-                //foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
-                //{
-                //    pass.Apply();
-                //    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
-                //}
+                foreach (EffectPass pass in ef1.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.vertices, 0, rect.vertices.Length / 3);
+                }
 
                 // Fog shader
                 //ef2.CurrentTechnique = ef2.Techniques["Fog"];
