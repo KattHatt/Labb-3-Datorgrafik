@@ -12,6 +12,19 @@ namespace Labb3_Datorgrafik.Tools
     {
         static ComponentManager cm = ComponentManager.GetInstance();
 
+        public static int CreateSpotLight()
+        {
+            TransformComponent trans = new TransformComponent() { Position = new Vector3(-70, 315, -340) };
+            SpotLightComponent spot = new SpotLightComponent()
+            {
+                LightStrength = 0.2f,
+                Angle = 45.0f
+
+            };
+
+            return cm.AddEntityWithComponents(trans, spot);
+        }
+
         public static int CreateCamera(GraphicsDevice gd)
         {
             CameraComponent camera = new CameraComponent()

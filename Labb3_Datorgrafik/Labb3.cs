@@ -42,6 +42,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new BoundingBoxSystem());
             sm.AddSystem(new RectangleSystem());
+            sm.AddSystem(new SpotLightSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "grass");
@@ -51,6 +52,8 @@ namespace Labb3_Datorgrafik
             int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
             EntityFactory.CreateCamera(GraphicsDevice);
+
+            EntityFactory.CreateSpotLight();
 
 
             // Init all systems
@@ -66,6 +69,7 @@ namespace Labb3_Datorgrafik
             sm.Load<HeightMapSystem>(Content);
             //sm.Load<ModelSystem>(Content);
             sm.Load<RectangleSystem>(Content);
+            sm.Load<SpotLightSystem>(Content);
         }
 
 
@@ -89,7 +93,7 @@ namespace Labb3_Datorgrafik
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             //Turn off culling so we see both sides of our rendered triangle
             RasterizerState rasterizerState = new RasterizerState();
@@ -101,6 +105,7 @@ namespace Labb3_Datorgrafik
             sm.Render<HeightMapSystem>(GraphicsDevice);
             sm.Render<RectangleSystem>(GraphicsDevice);
             //sm.Render<ModelSystem>(GraphicsDevice);
+            sm.Render<SpotLightSystem>(GraphicsDevice);
 
             base.Draw(gameTime);
         }

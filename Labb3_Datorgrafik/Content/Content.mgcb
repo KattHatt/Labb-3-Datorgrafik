@@ -98,12 +98,6 @@
 /processorParam:TextureFormat=Color
 /build:flatmap.png
 
-#begin Ambient.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:Ambient.fx
-
 #begin Fog.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -134,9 +128,9 @@
 /processorParam:DebugMode=Auto
 /build:specularTex.fx
 
-#begin Light.fx
+#begin SpotLight.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:Light.fx
+/build:SpotLight.fx
 
