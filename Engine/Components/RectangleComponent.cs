@@ -7,7 +7,7 @@ namespace Engine.Components
     public class RectangleComponent : IComponent
     {
         // Graphics device
-        public GraphicsDevice graphicsDevice;
+        public GraphicsDevice GraphicsDevice;
 
         // Rectangle vertex positions
         public Vector3 FRONT_TOP_LEFT;
@@ -20,19 +20,13 @@ namespace Engine.Components
         public Vector3 BACK_BOTTOM_RIGHT;
 
         // Bounding box
-        public BoundingBox boundingBox;
+        public BoundingBox BoundingBox;
 
         // Vertices
-        public VertexPositionNormalTexture[] vertices;
+        public VertexPositionNormalTexture[] Vertices;
 
         // Vetrex buffer
-        public VertexBuffer vertexBuffer;
-
-        // Indices
-        public short[] indices;
-
-        // Index buffer
-        public IndexBuffer indexBuffers;
+        public VertexBuffer VertexBuffer;
 
         // Textures
         public Texture2D Texture;
@@ -51,7 +45,7 @@ namespace Engine.Components
 
         public RectangleComponent(GraphicsDevice gd)
         {
-            graphicsDevice = gd;
+            GraphicsDevice = gd;
         }
 
         // Custom Rectangle with one texture
@@ -60,10 +54,10 @@ namespace Engine.Components
             Vector3 corner1,
             Vector3 corner2)
         {
-            graphicsDevice = gd;
+            GraphicsDevice = gd;
 
-            boundingBox = new BoundingBox(corner1, corner2);
-            Vector3[] corners = boundingBox.GetCorners();
+            BoundingBox = new BoundingBox(corner1, corner2);
+            Vector3[] corners = BoundingBox.GetCorners();
 
             FRONT_TOP_LEFT = corners[0];
             FRONT_TOP_RIGHT = corners[1];
@@ -83,7 +77,7 @@ namespace Engine.Components
             float depth,
             string texturePath)
         {
-            graphicsDevice = gd;
+            GraphicsDevice = gd;
             TexturePath = texturePath;
 
             FRONT_TOP_LEFT = new Vector3(-width / 2, height / 2, depth / 2);
