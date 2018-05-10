@@ -108,13 +108,6 @@ namespace Engine.Systems
             cc.View = Matrix.CreateLookAt(cc.Position, cc.Position + cc.Direction, cc.Up);
         }
 
-        public static void Yaw(this CameraComponent cc, float angle)
-        {
-            Matrix rotation = Matrix.CreateFromAxisAngle(cc.Up, MathHelper.ToRadians(angle));
-            cc.Direction = Vector3.Transform(cc.Direction, rotation);
-            cc.View = Matrix.CreateLookAt(cc.Position, cc.Position + cc.Direction, cc.Up);
-        }
-
         public static void RotateY(this CameraComponent cc, float angle)
         {
             Matrix rotation = Matrix.CreateRotationY(MathHelper.ToRadians(angle));
