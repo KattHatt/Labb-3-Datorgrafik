@@ -115,25 +115,6 @@ namespace Engine.Systems
             }
         }
 
-        private void UpdateNormals(RectangleComponent r)
-        {
-            //generate normals
-            for (int i = 0; i < r.indices.Length / 3; i++)
-            {
-                Vector3 firstvec = r.vertices[r.indices[i * 3 + 1]].Position - r.vertices[r.indices[i * 3]].Position;
-                Vector3 secondvec = r.vertices[r.indices[i * 3]].Position - r.vertices[r.indices[i * 3 + 2]].Position;
-                Vector3 normal = Vector3.Cross(firstvec, secondvec);
-                normal.Normalize();
-                r.vertices[r.indices[i * 3]].Normal += normal;
-                r.vertices[r.indices[i * 3 + 1]].Normal += normal;
-                r.vertices[r.indices[i * 3 + 2]].Normal += normal;
-            }
-
-            // normalize normals
-            for (int i = 0; i < r.vertices.Length; i++)
-                r.vertices[i].Normal.Normalize();
-        }
-
         // Fill rectangle vertex list
         private void SetupVertices(RectangleComponent r)
         {
