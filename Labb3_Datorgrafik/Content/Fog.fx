@@ -1,9 +1,7 @@
-﻿// Camera settings.
-float4x4 World;
+﻿float4x4 World;
 float4x4 View;
 float4x4 Projection;
 
-// This sample uses a simple Lambert lighting model.
 float3 LightDirection = normalize(float3(-1, -1, -1));
 float3 DiffuseLight = 1.25;
 float3 AmbientLight = 0.25;
@@ -14,13 +12,11 @@ uniform const float3    SpecularColor = 1;
 uniform const float     SpecularPower = 16;
 uniform const float3    EyePosition;
 
-// FOG attribut
 uniform const float     FogEnabled;
 uniform const float     FogStart;
 uniform const float     FogEnd;
 uniform const float3    FogColor;
 float3 cameraPos : CAMERAPOS;
-
 texture Texture;
 
 sampler Sampler = sampler_state
@@ -39,7 +35,7 @@ struct CommonVSOutput
 
 struct VertexLightingVSOutputTx
 {
-	float4  PositionPS  : POSITION;    
+	float4  PositionPS  : POSITION;
 	float4  Diffuse     : COLOR0;
 	float4  Specular    : COLOR1;
 	float2  TexCoord    : TEXCOORD0;
@@ -102,9 +98,10 @@ float4 PSBasicTx(VertexLightingPSInputTx pin) : COLOR
 	return color;
 }
 
+// For rendering without instancing.
 technique Fog
 {
-	pass Pass0
+	pass Pass1
 	{
 		VertexShader = compile vs_4_0 VSBasicTx();
 		PixelShader = compile ps_4_0 PSBasicTx();

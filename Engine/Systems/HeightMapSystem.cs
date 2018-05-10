@@ -34,6 +34,7 @@ namespace Engine.Systems
                 be.VertexColorEnabled = false;
                 be.TextureEnabled = true;
                 be.Texture = hmc.Texture;
+                be.LightingEnabled = false;
                 be.CurrentTechnique.Passes[0].Apply();
 
                 for (int i = 0; i < hmc.VertexBuffers.Length; i++)
@@ -49,7 +50,7 @@ namespace Engine.Systems
                 if (!hmc.RenderBoundingBoxes)
                     return;
 
-                foreach(var boundingBox in hmc.BoundingBoxes)
+                foreach (var boundingBox in hmc.BoundingBoxes)
                 {
                     DebugRender(gd, be, boundingBox);
                 }

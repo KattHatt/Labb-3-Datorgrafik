@@ -44,7 +44,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new RectangleSystem());
             
             //Create all entities            
-            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
+            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "grass");
 
             Vector3 corner1 = new Vector3(-155, 270, -287);
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
