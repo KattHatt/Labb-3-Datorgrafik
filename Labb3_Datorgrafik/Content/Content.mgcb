@@ -128,15 +128,15 @@
 /processorParam:DebugMode=Auto
 /build:Diffuse.fx
 
-#begin ShaderXXX.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:ShaderXXX.fx
-
 #begin specularTex.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:specularTex.fx
+
+#begin Light.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Light.fx
 
