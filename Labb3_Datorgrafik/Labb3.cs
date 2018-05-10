@@ -46,7 +46,9 @@ namespace Labb3_Datorgrafik
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
 
-            int hejsan = EntityFactory.CreateGrassCube(GraphicsDevice, new Vector3(-155, 270, -287), 20, 20, 20);
+            Vector3 corner1 = new Vector3(-155, 270, -287);
+            Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
+            int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
             EntityFactory.CreateCamera(GraphicsDevice);
 
