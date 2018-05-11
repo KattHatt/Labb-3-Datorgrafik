@@ -8,51 +8,30 @@ using System.Linq;
 
 namespace Engine.Systems
 {
-    public class HeightMapSystem : IRender, ILoad, IInit
+    public class HeightMapSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
-        BasicEffect be;
-
-        public void Init(GraphicsDevice gd)
-        {
-            be = new BasicEffect(gd)
-            {
-                VertexColorEnabled = false,
-                TextureEnabled = true
-            };
-        }
 
         public void Render(GraphicsDevice gd)
         {
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
-            be.View = cam.View;
-            be.Projection = cam.Projection;
-            BoundingFrustum frustum = new BoundingFrustum(be.View * be.Projection);
+            SpotLightComponent spot = cm.GetComponentsOfType<SpotLightComponent>().First().Item2;
+            
 
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
-                be.VertexColorEnabled = false;
-                be.TextureEnabled = true;
-                be.Texture = hmc.Texture;
-                be.LightingEnabled = false;
-                be.CurrentTechnique.Passes[0].Apply();
-
-                for (int i = 0; i < hmc.VertexBuffers.Length; i++)
+                foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
                 {
-                    if (frustum.Contains(hmc.BoundingBoxes[i]) == ContainmentType.Disjoint)
-                        continue;
+                    pass.Apply();
+                    for (int i = 0; i < hmc.VertexBuffers.Length; i++)
+                    {
+                        //if (cam.BoundingFrustum.Contains(hmc.BoundingBoxes[i]) == ContainmentType.Disjoint)
+                        //    continue;
 
-                    gd.SetVertexBuffer(hmc.VertexBuffers[i]);
-                    gd.Indices = hmc.IndexBuffers[i];
-                    gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
-                }
-
-                if (!hmc.RenderBoundingBoxes)
-                    return;
-
-                foreach (var boundingBox in hmc.BoundingBoxes)
-                {
-                    DebugRender(gd, be, boundingBox);
+                        gd.SetVertexBuffer(hmc.VertexBuffers[i]);
+                        gd.Indices = hmc.IndexBuffers[i];
+                        gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
+                    }
                 }
             }
         }
@@ -77,7 +56,7 @@ namespace Engine.Systems
 
         public void Load(ContentManager content)
         {
-            foreach(var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
+            foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 List<VertexBuffer> vertexBuffers = new List<VertexBuffer>();
                 List<IndexBuffer> indexBuffers = new List<IndexBuffer>();
@@ -95,15 +74,17 @@ namespace Engine.Systems
                     VertexPositionTexture[] vertices = CreateVertices(heights.Value, heights.Key);
                     int[] indices = CreateIndices(heights.Value.GetLength(0), heights.Value.GetLength(1));
 
-                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionTexture.VertexDeclaration, heights.Value.Length, BufferUsage.None);
-                    vertexBuffer.SetData(vertices);
+                    VertexPositionNormalTexture[] vertexPNT = CreateNormals(vertices, indices);
+
+                    VertexBuffer vertexBuffer = new VertexBuffer(hmc.GraphicsDevice, VertexPositionNormalTexture.VertexDeclaration, heights.Value.Length, BufferUsage.None);
+                    vertexBuffer.SetData(vertexPNT);
                     vertexBuffers.Add(vertexBuffer);
-                    verticesList.Add((from vertex in vertices select vertex.Position).ToArray());
+                    verticesList.Add((from vertex in vertexPNT select vertex.Position).ToArray());
                     IndexBuffer indexBuffer = new IndexBuffer(hmc.GraphicsDevice, IndexElementSize.ThirtyTwoBits, heights.Value.Length * 6, BufferUsage.None);
                     indexBuffer.SetData(indices);
                     indexBuffers.Add(indexBuffer);
                     indicesList.Add(indices);
-                    BoundingBox boundingBox = CreateBoundingBox(vertices);
+                    BoundingBox boundingBox = CreateBoundingBox(vertexPNT);
                     boundingBoxes.Add(boundingBox);
                 }
 
@@ -175,6 +156,32 @@ namespace Engine.Systems
             return vertices;
         }
 
+        // Creates VertexPositionNormalTexture from VertexPositionTexture and indices
+        private VertexPositionNormalTexture[] CreateNormals(VertexPositionTexture[] vertices, int[] indices)
+        {
+            VertexPositionNormalTexture[] vertexPNT = new VertexPositionNormalTexture[vertices.Length];
+
+            for (int i = 0; i < vertexPNT.Length; i++)
+            {
+                vertexPNT[i].Position = vertices[i].Position;
+                vertexPNT[i].TextureCoordinate = vertices[i].TextureCoordinate;
+
+                Vector3 firstvec = vertices[indices[i * 3 + 1]].Position - vertices[indices[i * 3]].Position;
+                Vector3 secondvec = vertices[indices[i * 3]].Position - vertices[indices[i * 3 + 2]].Position;
+                Vector3 normal = Vector3.Cross(firstvec, secondvec);
+                normal.Normalize();
+                vertexPNT[indices[i * 3]].Normal += normal;
+                vertexPNT[indices[i * 3 + 1]].Normal += normal;
+                vertexPNT[indices[i * 3 + 2]].Normal += normal;
+            }
+
+            // normalize normals
+            for (int i = 0; i < vertexPNT.Length; i++)
+                vertexPNT[i].Normal.Normalize();
+
+            return vertexPNT;
+        }
+
         private int[] CreateIndices(int width, int height)
         {
             List<int> indices = new List<int>();
@@ -201,14 +208,9 @@ namespace Engine.Systems
             return indices.ToArray();
         }
 
-        private BoundingBox CreateBoundingBox(VertexPositionTexture[] vertices)
+        private BoundingBox CreateBoundingBox(VertexPositionNormalTexture[] vertices)
         {
             return BoundingBox.CreateFromPoints(from vertex in vertices select vertex.Position);
-        }
-
-        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

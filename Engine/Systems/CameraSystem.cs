@@ -1,38 +1,24 @@
 ﻿using Engine.Components;
 using Engine.Managers;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace Engine.Systems
 {
-    public class CameraSystem : ISystem, IRender, IInit
+    public class CameraSystem : ISystem
     {
         ComponentManager cm = ComponentManager.GetInstance();
 
-        BasicEffect be;
-
-        public void Init(GraphicsDevice gd)
-        {    
-            be = new BasicEffect(gd)
-            {
-                Alpha = 1f,
-                // Want to see the colors of the vertices, this needs to be on
-                VertexColorEnabled = true,
-                //Lighting requires normal information which VertexPositionColor does not have
-                //If you want to use lighting and VPC you need to create a  custom def
-                LightingEnabled = false
-            };
-            
-        }
-
         public void Update(GameTime gametime)
         {
+            
             foreach (var (_, camera) in cm.GetComponentsOfType<CameraComponent>())
             {
                 camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(camera.FieldOfView), camera.AspectRatio, camera.NearPlaneDistance, camera.FarPlaneDistance);
                 camera.View = Matrix.CreateLookAt(camera.Position, camera.Position + camera.Direction, camera.Up);
+
+                //Console.WriteLine(camera.Position);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
@@ -78,23 +64,9 @@ namespace Engine.Systems
                 {
                     camera.Position += Vector3.Up;
                 }
-            }
-        }
 
-        public void Render(GraphicsDevice graphicsDevice)
-        {
-            foreach (var (_, cam) in cm.GetComponentsOfType<CameraComponent>())
-            {
-                be.Projection = cam.Projection;
-                be.View = cam.View;
-                be.World = Matrix.Identity;
-                cam.BoundingFrustum = new BoundingFrustum(cam.View * cam.Projection);
+                camera.BoundingFrustum = new BoundingFrustum(camera.View * camera.Projection);
             }
-        }
-
-        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
-        {
-            throw new NotImplementedException();
         }
     }
 

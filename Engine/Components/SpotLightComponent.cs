@@ -12,7 +12,8 @@ namespace Engine.Components
         public float LightStrength;
         public string EffectName;
         public Effect Effect;
-        public VertexPositionNormalTexture[] VertexPNT; 
+        public VertexPositionNormalTexture[] VertexPNT;
+        public int Key;
 
         public SpotLightComponent()
         {

@@ -3,8 +3,6 @@ using Engine.Managers;
 using Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace Labb3_Datorgrafik.Tools
 {
@@ -14,13 +12,8 @@ namespace Labb3_Datorgrafik.Tools
 
         public static int CreateSpotLight()
         {
-            TransformComponent trans = new TransformComponent() { Position = new Vector3(-70, 315, -340) };
-            SpotLightComponent spot = new SpotLightComponent()
-            {
-                LightStrength = 0.2f,
-                Angle = 45.0f
-
-            };
+            TransformComponent trans = new TransformComponent() { Position = new Vector3(-97.40422f, 628.7715f, -375.7787f) };
+            SpotLightComponent spot = new SpotLightComponent(){};
 
             return cm.AddEntityWithComponents(trans, spot);
         }
@@ -78,7 +71,9 @@ namespace Labb3_Datorgrafik.Tools
             corner2 = (corner2 - corner1) / 2;
             corner1 = -corner2;
 
-            TransformComponent transform = new TransformComponent() { Position = position };
+            //TransformComponent transform = new TransformComponent() { Position = position };
+            TransformComponent transform = new TransformComponent() { Position = new Vector3(97.03926f, 259.7693f, -371.4293f) };
+
             RectangleComponent r = new RectangleComponent(gd, corner1, corner2) { TexturePath = "grass" };
             int cube = cm.AddEntityWithComponents(transform, r);
             return cube;

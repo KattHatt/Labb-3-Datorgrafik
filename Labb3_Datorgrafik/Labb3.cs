@@ -45,7 +45,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new SpotLightSystem());
             
             //Create all entities            
-            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "grass");
+            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "grass");
 
             Vector3 corner1 = new Vector3(-155, 270, -287);
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
@@ -55,19 +55,12 @@ namespace Labb3_Datorgrafik
 
             EntityFactory.CreateSpotLight();
 
-
-            // Init all systems
-            sm.Init<CameraSystem>(GraphicsDevice);
-            sm.Init<HeightMapSystem>(GraphicsDevice);
-            sm.Init<BoundingBoxSystem>(GraphicsDevice);
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             sm.Load<HeightMapSystem>(Content);
-            //sm.Load<ModelSystem>(Content);
             sm.Load<RectangleSystem>(Content);
             sm.Load<SpotLightSystem>(Content);
         }
@@ -87,6 +80,7 @@ namespace Labb3_Datorgrafik
 
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
+            sm.Update<SpotLightSystem>(gameTime);
 
             base.Update(gameTime);
         }
@@ -101,11 +95,8 @@ namespace Labb3_Datorgrafik
             rasterizerState.FillMode = FillMode.Solid;
             GraphicsDevice.RasterizerState = rasterizerState;
 
-            sm.Render<CameraSystem>(GraphicsDevice);
             sm.Render<HeightMapSystem>(GraphicsDevice);
             sm.Render<RectangleSystem>(GraphicsDevice);
-            //sm.Render<ModelSystem>(GraphicsDevice);
-            sm.Render<SpotLightSystem>(GraphicsDevice);
 
             base.Draw(gameTime);
         }
