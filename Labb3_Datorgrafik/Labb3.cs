@@ -83,10 +83,17 @@ namespace Labb3_Datorgrafik
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //Turn off culling so we see both sides of our rendered triangle
-            RasterizerState rasterizerState = new RasterizerState();
-            rasterizerState.CullMode = CullMode.None;
-            rasterizerState.FillMode = FillMode.Solid;
-            GraphicsDevice.RasterizerState = rasterizerState;
+            GraphicsDevice.RasterizerState = new RasterizerState
+            {
+                CullMode = CullMode.None,
+                FillMode = FillMode.Solid
+            };
+
+            GraphicsDevice.SamplerStates[0] = new SamplerState {
+                AddressU = TextureAddressMode.Wrap,
+                AddressV = TextureAddressMode.Wrap,
+                AddressW = TextureAddressMode.Wrap
+            };
 
             sm.Render<CameraSystem>(GraphicsDevice);
             sm.Render<RectangleSystem>(GraphicsDevice);
