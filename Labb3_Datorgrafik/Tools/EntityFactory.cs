@@ -31,34 +31,6 @@ namespace Labb3_Datorgrafik.Tools
             return cm.AddEntityWithComponents(camera);
         }
 
-        public static int CreateTerrain(GraphicsDevice gd, string heightMapFile, string heightMapTextureFile)
-        {
-            HeightMapComponent hmc = new HeightMapComponent(gd)
-            {
-                HeightMapFilePath = heightMapFile,
-                TextureFilePath = heightMapTextureFile,
-            };
-            return cm.AddEntityWithComponents(hmc);
-        }
-
-        
-        public static int CreateModel(string model, string texture, bool isActive, Vector3 pos)
-        {
-            ModelComponent m = new ModelComponent()
-            {
-                IsActive = isActive,
-                ModelPath = model,
-                TexturePath = texture
-            };
-
-            TransformComponent t = new TransformComponent()
-            {
-                Position = pos
-            };
-
-            return cm.AddEntityWithComponents(m, t);
-        }
-
         public static int CreateGrassBox(GraphicsDevice gd, Vector3 corner1, Vector3 corner2)
         {
             Vector3 position = Vector3.Lerp(corner1, corner2, 0.5f);
@@ -66,7 +38,7 @@ namespace Labb3_Datorgrafik.Tools
             corner1 = -corner2;
 
             TransformComponent transform = new TransformComponent() { Position = position };
-            RectangleComponent r = new RectangleComponent(gd, corner1, corner2) { TexturePath = "grass" };
+            BoxComponent r = new BoxComponent(gd, corner1, corner2) { TexturePath = "grass" };
             int cube = cm.AddEntityWithComponents(transform, r);
             return cube;
         }
