@@ -8,9 +8,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Labb3_Datorgrafik
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Labb3 : Game
     {
         GraphicsDeviceManager graphics;
@@ -23,13 +20,6 @@ namespace Labb3_Datorgrafik
             Content.RootDirectory = "Content";
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
 
         protected override void Initialize()
         {

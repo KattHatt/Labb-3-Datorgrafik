@@ -3,8 +3,6 @@ using Engine.Managers;
 using Engine.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace Labb3_Datorgrafik.Tools
 {
