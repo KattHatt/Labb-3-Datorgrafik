@@ -1,4 +1,5 @@
-﻿using Engine.Managers;
+﻿using Engine.Components;
+using Engine.Managers;
 using Engine.Systems;
 using Labb3_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
@@ -38,13 +39,11 @@ namespace Labb3_Datorgrafik
             //Create all systems
             sm.AddSystem(new TransformSystem());
             sm.AddSystem(new CameraSystem());
-            sm.AddSystem(new HeightMapSystem());
-            sm.AddSystem(new ModelSystem());
-            sm.AddSystem(new BoundingBoxSystem());
+            sm.AddSystem(new BoxSystem());
             sm.AddSystem(new RectangleSystem());
-            
-            //Create all entities            
-            int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "flatmap", "checkerboard");
+
+            //Create all entities
+            cm.AddEntityWithComponents(new RectangleComponent(new Vector3(0, 0, 0), 2000, 2000));
 
             Vector3 corner1 = new Vector3(-155, 270, -287);
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
@@ -55,24 +54,16 @@ namespace Labb3_Datorgrafik
 
             // Init all systems
             sm.Init<CameraSystem>(GraphicsDevice);
-            sm.Init<HeightMapSystem>(GraphicsDevice);
-            sm.Init<BoundingBoxSystem>(GraphicsDevice);
+            sm.Init<RectangleSystem>(GraphicsDevice);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            sm.Load<HeightMapSystem>(Content);
-            //sm.Load<ModelSystem>(Content);
+            sm.Load<BoxSystem>(Content);
             sm.Load<RectangleSystem>(Content);
         }
-
-
-        protected override void UnloadContent()
-        {
-        }
-
        
         protected override void Update(GameTime gameTime)
         {
@@ -98,9 +89,8 @@ namespace Labb3_Datorgrafik
             GraphicsDevice.RasterizerState = rasterizerState;
 
             sm.Render<CameraSystem>(GraphicsDevice);
-            sm.Render<HeightMapSystem>(GraphicsDevice);
             sm.Render<RectangleSystem>(GraphicsDevice);
-            //sm.Render<ModelSystem>(GraphicsDevice);
+            sm.Render<BoxSystem>(GraphicsDevice);
 
             base.Draw(gameTime);
         }

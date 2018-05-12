@@ -91,11 +91,6 @@ namespace Engine.Systems
                 cam.BoundingFrustum = new BoundingFrustum(cam.View * cam.Projection);
             }
         }
-
-        public void RenderWithEffect(GraphicsDevice gd, Effect ef)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public static class CameraComponentMethods
