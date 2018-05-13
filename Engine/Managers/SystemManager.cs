@@ -41,6 +41,15 @@ namespace Engine.Managers
             ((ILoad)system)?.Load(content);
         }
 
+        public void Load(ContentManager content)
+        {
+            foreach (var system in systems.Values)
+            {
+                if (system is ILoad)
+                    ((ILoad)system).Load(content);
+            }
+        }
+
         public void Init<T>(GraphicsDevice gd)
         {
             object system;
@@ -64,11 +73,45 @@ namespace Engine.Managers
             ((ISystem)system)?.Update(gameTime);
         }
 
+        public void Update(GameTime gameTime)
+        {
+            foreach (var system in systems.Values)
+            {
+                if (system is ISystem)
+                    ((ISystem)system).Update(gameTime);
+            }
+        }
+
         public void Render<T>(GraphicsDevice gd)
         {
             object system;
             systems.TryGetValue(typeof(T), out system);
             ((IRender)system)?.Render(gd);
+        }
+
+        public void Render(GraphicsDevice gd)
+        {
+            foreach (var system in systems.Values)
+            {
+                if (system is IRender)
+                    ((IRender)system).Render(gd);
+            }
+        }
+
+        public void RenderShadow<T>(GraphicsDevice gd, Effect e)
+        {
+            object system;
+            systems.TryGetValue(typeof(T), out system);
+            ((IRender)system)?.RenderShadow(gd, e);
+        }
+
+        public void RenderShadow(GraphicsDevice gd, Effect e)
+        {
+            foreach (var system in systems.Values)
+            {
+                if (system is IRender)
+                    ((IRender)system).RenderShadow(gd, e);
+            }
         }
 
         public void AddSystem(object system)
