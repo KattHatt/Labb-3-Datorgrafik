@@ -80,12 +80,6 @@
 /processorParam:TextureFormat=Compressed
 /build:column.FBX
 
-#begin shadow_pass1.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:shadow_pass1.fx
-
 #begin flatmap.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -139,4 +133,10 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:specularTex.fx
+
+#begin Shader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Debug
+/build:Shader.fx
 

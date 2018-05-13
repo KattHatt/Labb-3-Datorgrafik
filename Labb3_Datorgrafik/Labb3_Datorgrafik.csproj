@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -55,14 +56,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Shader.fx" />
     <Content Include="Content\specularTex.fx" />
     <Content Include="Content\Diffuse.fx" />
     <Content Include="Content\Ambient.fx" />
     <Content Include="Content\Blinn_Phong.fx" />
     <Content Include="Content\Fog.fx" />
     <Content Include="Content\ShaderXXX.fx" />
-    <Content Include="Content\shadow_pass2.fx" />
-    <Content Include="Content\shadow_pass1.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,6 @@ namespace Labb3_Datorgrafik
     public class Labb3 : Game
     {
         GraphicsDeviceManager graphics;
-
         SystemManager sm = SystemManager.GetInstance();
 
         public Labb3()
@@ -21,10 +20,14 @@ namespace Labb3_Datorgrafik
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
+        RenderTarget2D shadowMap;
+        Effect shadowShader;
+
         protected override void Initialize()
         {
-            
             ComponentManager cm = ComponentManager.GetInstance();
+            shadowMap = new RenderTarget2D(GraphicsDevice, 2048, 2048, false, SurfaceFormat.Single, DepthFormat.Depth24Stencil8, 1, RenderTargetUsage.DiscardContents);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Create all systems
             sm.AddSystem(new TransformSystem());
@@ -43,16 +46,15 @@ namespace Labb3_Datorgrafik
 
 
             // Init all systems
-            sm.Init<CameraSystem>(GraphicsDevice);
-            sm.Init<RectangleSystem>(GraphicsDevice);
+            sm.Init(GraphicsDevice);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            sm.Load<BoxSystem>(Content);
-            sm.Load<RectangleSystem>(Content);
+            shadowShader = Content.Load<Effect>("Shader");
+            sm.Load(Content);
         }
        
         protected override void Update(GameTime gameTime)
@@ -62,16 +64,15 @@ namespace Labb3_Datorgrafik
                 Keys.Escape))
                 Exit();
 
-            sm.Update<TransformSystem>(gameTime);
-            sm.Update<CameraSystem>(gameTime);
+            sm.Update(gameTime);
 
             base.Update(gameTime);
         }
 
+        SpriteBatch spriteBatch;
+
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
             //Turn off culling so we see both sides of our rendered triangle
             GraphicsDevice.RasterizerState = new RasterizerState
             {
@@ -79,15 +80,18 @@ namespace Labb3_Datorgrafik
                 FillMode = FillMode.Solid
             };
 
-            GraphicsDevice.SamplerStates[0] = new SamplerState {
-                AddressU = TextureAddressMode.Wrap,
-                AddressV = TextureAddressMode.Wrap,
-                AddressW = TextureAddressMode.Wrap
-            };
+            /*GraphicsDevice.SetRenderTarget(shadowMap);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
+            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            GraphicsDevice.BlendState = BlendState.Opaque;
+            sm.RenderShadow(GraphicsDevice, shadowShader);
 
-            sm.Render<CameraSystem>(GraphicsDevice);
-            sm.Render<RectangleSystem>(GraphicsDevice);
-            sm.Render<BoxSystem>(GraphicsDevice);
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            sm.Render(GraphicsDevice);*/
+
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            sm.RenderShadow(GraphicsDevice, shadowShader);
 
             base.Draw(gameTime);
         }

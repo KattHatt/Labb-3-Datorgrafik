@@ -43,7 +43,6 @@ namespace Engine.Systems
 
             foreach (var (_, rect, tc) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
-
                 Matrix wit = Matrix.Transpose(Matrix.Invert(tc.World));
 
                 // VertexShader (ShaderXXX)
@@ -109,6 +108,22 @@ namespace Engine.Systems
                     pass.Apply();
                     gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.Vertices, 0, rect.Vertices.Length / 3);
                 }
+            }
+        }
+
+        public void RenderShadow(GraphicsDevice gd, Effect e)
+        {
+            ComponentManager cm = ComponentManager.GetInstance();
+            CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+
+            e.Parameters["LightView"].SetValue(camera.View);
+            e.Parameters["LightProjection"].SetValue(camera.Projection);
+            e.Techniques["Render"].Passes[0].Apply();
+
+            foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
+            {
+                e.Parameters["World"].SetValue(transform.World);
+                gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
             }
         }
 
