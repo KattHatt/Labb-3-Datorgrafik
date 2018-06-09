@@ -125,6 +125,7 @@ namespace Engine.Systems
 
             foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
+                e.Parameters["Texture"].SetValue(box.Texture);
                 e.Parameters["World"].SetValue(transform.World);
                 e.Techniques["Render"].Passes[0].Apply();
                 gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
