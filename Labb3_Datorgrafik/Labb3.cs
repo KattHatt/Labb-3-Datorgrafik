@@ -36,7 +36,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new RectangleSystem());
 
             //Create all entities
-            cm.AddEntityWithComponents(new RectangleComponent(new Vector3(0, 0, 0), 2000, 2000));
+            cm.AddEntityWithComponents(new RectangleComponent(new Vector3(0, 0, 0), 4000, 4000));
 
             Vector3 corner1 = new Vector3(-155, 270, -287);
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
@@ -92,6 +92,7 @@ namespace Labb3_Datorgrafik
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             sm.RenderShadow(GraphicsDevice, shadowShader);
+            //sm.Render(GraphicsDevice);
 
             base.Draw(gameTime);
         }

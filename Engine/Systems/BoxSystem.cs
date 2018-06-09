@@ -118,11 +118,15 @@ namespace Engine.Systems
 
             e.Parameters["LightView"].SetValue(camera.View);
             e.Parameters["LightProjection"].SetValue(camera.Projection);
-            e.Techniques["Render"].Passes[0].Apply();
+            e.Parameters["FogStart"].SetValue(100f);
+            e.Parameters["FogEnd"].SetValue(1000f);
+            e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
+            e.Parameters["EyePosition"].SetValue(camera.Position);
 
             foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
                 e.Parameters["World"].SetValue(transform.World);
+                e.Techniques["Render"].Passes[0].Apply();
                 gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
             }
         }

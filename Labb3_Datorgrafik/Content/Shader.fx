@@ -4,6 +4,20 @@ uniform float4x4 World;
 uniform float4x4 View;
 uniform float4x4 Projection;
 
+uniform float4 EyePosition;
+
+uniform float3 DiffuseColor;
+uniform float3 SpecularColor;
+uniform float3 SpecularPower;
+
+uniform float ShadowPower;
+
+uniform float3 AmbientColor;
+
+uniform float FogStart;
+uniform float FogEnd;
+uniform float3 FogColor;
+
 uniform float4x4 LightView;
 uniform float4x4 LightProjection;
 
@@ -66,30 +80,37 @@ SamplerState TextureSampler
     AddressV = Wrap;
 };
 
-struct PS_INPUT
-{
-	float4 Position : POSITION;
-	float2 UV : TEXCOORD;
-};
-
 struct VS_INPUT
 {
 	float4 Position : POSITION;
 	float2 UV : TEXCOORD;
 };
 
-PS_INPUT RenderVS(VS_INPUT input)
+struct VS_OUTPUT
 {
-	PS_INPUT output;
+	// Projection space position
+	float4 Position : POSITION0;
+	// World space position
+	float4 wPosition : POSITION1;
+	float2 UV : TEXCOORD;
+};
+
+VS_OUTPUT RenderVS(VS_INPUT input)
+{
+	VS_OUTPUT output;
 	float4x4 WorldViewProjection = mul(mul(World, LightView), LightProjection);
 	output.Position = mul(input.Position, WorldViewProjection);
+	output.wPosition = mul(input.Position, World);
 	output.UV = input.UV;
 	return output;
 }
 
-float4 RenderPS(PS_INPUT input) : COLOR
+float4 RenderPS(VS_OUTPUT input) : COLOR
 {
+	float fogFactor = saturate((length(EyePosition - input.wPosition) - FogStart) / (FogEnd - FogStart));
+
 	float4 color = Texture.Sample(TextureSampler, input.UV);
+	color.rgb = lerp(color.rgb, FogColor, fogFactor);
 	return color;
 }
 
