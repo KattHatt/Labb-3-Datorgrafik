@@ -72,12 +72,12 @@ namespace Engine.Systems
             VertexPositionNormalTexture[] vertices =
             {
                 new VertexPositionNormalTexture(BottomLeft, Vector3.Up, new Vector2(0, 0)),
-                new VertexPositionNormalTexture(BottomRight, Vector3.Up, new Vector2(1, 0)),
-                new VertexPositionNormalTexture(TopLeft, Vector3.Up, new Vector2(0, 1)),
+                new VertexPositionNormalTexture(BottomRight, Vector3.Up, new Vector2(20, 0)),
+                new VertexPositionNormalTexture(TopLeft, Vector3.Up, new Vector2(0, 20)),
 
-                new VertexPositionNormalTexture(TopLeft, Vector3.Up, new Vector2(0, 1)),
-                new VertexPositionNormalTexture(TopRight, Vector3.Up, new Vector2(1, 1)),
-                new VertexPositionNormalTexture(BottomRight, Vector3.Up, new Vector2(1, 0)),
+                new VertexPositionNormalTexture(TopLeft, Vector3.Up, new Vector2(0, 20)),
+                new VertexPositionNormalTexture(TopRight, Vector3.Up, new Vector2(20, 20)),
+                new VertexPositionNormalTexture(BottomRight, Vector3.Up, new Vector2(20, 0)),
             };
 
             rectangle.VertexBuffer = new VertexBuffer(gd, VertexPositionNormalTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
