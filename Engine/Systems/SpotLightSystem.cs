@@ -18,7 +18,7 @@ namespace Engine.Systems
             foreach (var (k, spot) in cm.GetComponentsOfType<SpotLightComponent>())
             {
                 spot.Effect = content.Load<Effect>(spot.EffectName);
-                spot.Key = k;
+                spot.Texture = content.Load<Texture2D>(spot.TextureName);
             }
         }
 
@@ -27,46 +27,39 @@ namespace Engine.Systems
             float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 1000.0f;
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
            
-            foreach (var (k, spot, trans) in cm.GetComponentsOfType<SpotLightComponent, TransformComponent>())
+            foreach (var (k, spot) in cm.GetComponentsOfType<SpotLightComponent>())
             {
                 // Teststuff
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
                 {
-                    spot.LightStrength += 0.1f;
-                    Console.WriteLine(spot.LightStrength);
+                    spot.LightPower += 0.1f;
+                    Console.WriteLine(spot.LightPower);
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.O))
                 {
-                    spot.LightStrength -= 0.1f;
-                    Console.WriteLine(spot.LightStrength);
+                    spot.LightPower -= 0.1f;
+                    Console.WriteLine(spot.LightPower);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.L))
                 {
-                    spot.ConeDecay += 0.1f;
-                    Console.WriteLine(spot.ConeDecay);
+                    spot.AmbientPower += 0.1f;
+                    Console.WriteLine(spot.AmbientPower);
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.K))
                 {
-                    spot.ConeDecay -= 0.1f;
-                    Console.WriteLine(spot.ConeDecay);
+                    spot.AmbientPower -= 0.1f;
+                    Console.WriteLine(spot.AmbientPower);
                 }
-
-
-                //spot.LightStrength = (float)Math.Sin(time) * 8.0f;
 
                 // Effect update
                 spot.Effect.CurrentTechnique = spot.Effect.Techniques["SpotLight"];
+                spot.Effect.Parameters["xWorldViewProjection"].SetValue(cam.View * cam.Projection);
+                spot.Effect.Parameters["xTexture"].SetValue(spot.Texture);
 
                 spot.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
-                spot.Effect.Parameters["xView"].SetValue(cam.View);
-                spot.Effect.Parameters["xProjection"].SetValue(cam.Projection);
-
-                spot.Effect.Parameters["xAmbient"].SetValue(spot.Ambient);
-                spot.Effect.Parameters["xLightPosition"].SetValue(trans.Position);
-                spot.Effect.Parameters["xConeDirection"].SetValue(spot.ConeDirection);
-                spot.Effect.Parameters["xConeAngle"].SetValue(spot.Angle);
-                spot.Effect.Parameters["xConeDecay"].SetValue(spot.ConeDecay);
-                spot.Effect.Parameters["xLightStrength"].SetValue(spot.LightStrength);
+                spot.Effect.Parameters["xLightPos"].SetValue(spot.LightPos);
+                spot.Effect.Parameters["xLightPower"].SetValue(spot.LightPower);
+                spot.Effect.Parameters["xAmbient"].SetValue(spot.AmbientPower);
             }
         }
       

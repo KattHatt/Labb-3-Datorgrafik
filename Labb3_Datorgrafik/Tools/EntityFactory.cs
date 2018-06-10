@@ -19,10 +19,9 @@ namespace Labb3_Datorgrafik.Tools
 
         public static int CreateSpotLight()
         {
-            TransformComponent trans = new TransformComponent() { Position = new Vector3(-97.40422f, 628.7715f, -375.7787f) };
-            SpotLightComponent spot = new SpotLightComponent(){};
+            SpotLightComponent spot = new SpotLightComponent("SpotLight", "grass");
 
-            return cm.AddEntityWithComponents(trans, spot);
+            return cm.AddEntityWithComponents(spot);
         }
 
         public static int CreateCamera(GraphicsDevice gd)

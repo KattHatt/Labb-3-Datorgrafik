@@ -17,7 +17,7 @@ namespace Engine.Systems
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
             SpotLightComponent spot = cm.GetComponentsOfType<SpotLightComponent>().First().Item2;
             ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
-            
+
 
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {

@@ -1,64 +1,56 @@
-﻿
+﻿float4x4 xWorldViewProjection;
+
 float4x4 xWorld;
-float4x4 xView;
-float4x4 xProjection;
-float3 xLightPosition;
-float3 xConeDirection;
-float xLightStrength;
+float3 xLightPos;
+float xLightPower;
 float xAmbient;
-float xConeAngle;
-float xConeDecay;
 
 
-struct SLVertexToPixel
+Texture xTexture;
+
+sampler TextureSampler = sampler_state { texture = <xTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = mirror; AddressV = mirror; };
+struct VertexToPixel
 {
-	float4 Position: POSITION;
-	float3 Normal: TEXCOORD0;
-	float LightDirection : TEXCOORD1;
+	float4 Position     : POSITION;
+	float2 TexCoords    : TEXCOORD0;
+	float3 Normal        : TEXCOORD1;
+	float3 Position3D    : TEXCOORD2;
 };
 
-struct SLPixelToFrame 
+struct PixelToFrame
 {
-	float4 Color : COLOR0;
+	float4 Color        : COLOR0;
 };
 
-SLVertexToPixel SLVertexShader(float4 inPos: POSITION0, float3 inNormal : NORMAL0)
+float DotProduct(float3 lightPos, float3 pos3D, float3 normal)
 {
-	SLVertexToPixel Output = (SLVertexToPixel)0;
+	float3 lightDir = normalize(pos3D - lightPos);
+	return dot(-lightDir, normal);
+}
 
-	float4x4 preViewProjection = mul(xView, xProjection);
-	float4x4 preWorldViewProjection = mul(xWorld, preViewProjection);
-	float3 final3DPos = mul(inPos, xWorld);
-	float3x3 rotMatrix = (float3x3)xWorld;
-	float3 rotNormal = mul(inNormal, rotMatrix);
+VertexToPixel SimplestVertexShader(float4 inPos : POSITION0, float3 inNormal : NORMAL0, float2 inTexCoords : TEXCOORD0)
+{
+	VertexToPixel Output = (VertexToPixel)0;
 
-	Output.Position = mul(inPos, preWorldViewProjection);
-	Output.LightDirection = final3DPos - xLightPosition;
-	Output.Normal = rotNormal;
+	Output.Position = mul(inPos, xWorldViewProjection);
+	Output.TexCoords = inTexCoords;
+	Output.Normal = normalize(mul(inNormal, (float3x3)xWorld));
+	Output.Position3D = mul(inPos, xWorld);
 
 	return Output;
 }
 
-
-SLPixelToFrame SLPixelShader(SLVertexToPixel PSIn) : COLOR0
+PixelToFrame OurFirstPixelShader(VertexToPixel PSIn)
 {
-	SLPixelToFrame Output = (SLPixelToFrame)0;
+	PixelToFrame Output = (PixelToFrame)0;
 
-	float4 baseColor = float4(0, 0, 1, 1);
-	float3 normal = normalize(PSIn.Normal);
-	float3 lightDirection = normalize(PSIn.LightDirection);
-	float coneDot = dot(lightDirection, normalize(xConeDirection));
-	float shading = 0;
-	
-	if (coneDot > xConeAngle)
-	{
-		float coneAttenuation = pow(coneDot, xConeDecay);
-		shading = dot(normal, -lightDirection);
-		shading *= xLightStrength;
-		shading *= coneAttenuation;
-	}
+	float diffuseLightingFactor = DotProduct(xLightPos, PSIn.Position3D, PSIn.Normal);
+	diffuseLightingFactor = saturate(diffuseLightingFactor);
+	diffuseLightingFactor *= xLightPower;
 
-	Output.Color = baseColor * (shading + xAmbient);
+	PSIn.TexCoords.y--;
+	float4 baseColor = tex2D(TextureSampler, PSIn.TexCoords);
+	Output.Color = baseColor * (diffuseLightingFactor + xAmbient);
 
 	return Output;
 }
@@ -67,7 +59,7 @@ technique SpotLight
 {
 	pass Pass0
 	{
-		VertexShader = compile vs_4_0 SLVertexShader();
-		PixelShader = compile ps_4_0 SLPixelShader();
+		VertexShader = compile vs_4_0 SimplestVertexShader();
+		PixelShader = compile ps_4_0 OurFirstPixelShader();
 	}
 }

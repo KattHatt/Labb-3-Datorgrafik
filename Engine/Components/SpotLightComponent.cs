@@ -5,34 +5,21 @@ namespace Engine.Components
 {
     public class SpotLightComponent : IComponent
     {
-        public float Ambient;
-        public Vector3 ConeDirection;
-        public float Angle;
-        public float ConeDecay;
-        public float LightStrength;
+        public float AmbientPower;
+        public float LightPower;
         public string EffectName;
         public Effect Effect;
-        public VertexPositionNormalTexture[] VertexPNT;
-        public int Key;
+        public Vector3 LightPos;
+        public Texture2D Texture;
+        public string TextureName;
 
-        public SpotLightComponent()
+        public SpotLightComponent(string effectName, string textureName)
         {
-            Ambient = 0.2f;
-            ConeDirection = Vector3.Down;
-            Angle = 0.5f;
-            ConeDecay = 2.0f;
-            LightStrength = 0.7f;
-            EffectName = "SpotLight";
-        }
-
-        public SpotLightComponent(float ambient, Vector3 coneDir, float angle, float coneDecay, float lightStrenght, string effectName)
-        {
-            Ambient = ambient;
-            ConeDirection = coneDir;
-            Angle = angle;
-            ConeDecay = coneDecay;
-            LightStrength = lightStrenght;
             EffectName = effectName;
+            LightPos = new Vector3(-97.40422f, 628.7715f, -375.7787f);
+            LightPower = 1.0f;
+            AmbientPower = 0.2f;
+            TextureName = textureName;
         }
     }
 }
