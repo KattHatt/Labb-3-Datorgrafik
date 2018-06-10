@@ -122,6 +122,12 @@ namespace Engine.Systems
             e.Parameters["FogEnd"].SetValue(1000f);
             e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
             e.Parameters["EyePosition"].SetValue(camera.Position);
+            e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
+
+            e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
+            e.Parameters["DiffuseColor"].SetValue(Vector3.One);
+            e.Parameters["SpecularColor"].SetValue(Vector3.One);
+            e.Parameters["SpecularPower"].SetValue(120f);
 
             foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
