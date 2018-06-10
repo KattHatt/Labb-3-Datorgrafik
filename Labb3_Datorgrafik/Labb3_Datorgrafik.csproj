@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ShadowMap.fx" />
     <Content Include="Content\specularTex.fx" />
     <Content Include="Content\Diffuse.fx" />
     <Content Include="Content\Fog.fx" />

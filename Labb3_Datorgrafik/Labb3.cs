@@ -43,6 +43,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new BoundingBoxSystem());
             sm.AddSystem(new RectangleSystem());
             sm.AddSystem(new SpotLightSystem());
+            sm.AddSystem(new ShadowMapSystem());
             
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "grass");
@@ -54,6 +55,7 @@ namespace Labb3_Datorgrafik
             EntityFactory.CreateCamera(GraphicsDevice);
 
             EntityFactory.CreateSpotLight();
+            EntityFactory.CreateShadowMap();
 
             base.Initialize();
         }
@@ -63,6 +65,7 @@ namespace Labb3_Datorgrafik
             sm.Load<HeightMapSystem>(Content);
             sm.Load<RectangleSystem>(Content);
             sm.Load<SpotLightSystem>(Content);
+            sm.Load<ShadowMapSystem>(Content);
         }
 
 
@@ -81,6 +84,7 @@ namespace Labb3_Datorgrafik
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
             sm.Update<SpotLightSystem>(gameTime);
+            sm.Update<ShadowMapSystem>(gameTime);
 
             base.Update(gameTime);
         }

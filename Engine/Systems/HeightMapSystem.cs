@@ -16,11 +16,26 @@ namespace Engine.Systems
         {
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
             SpotLightComponent spot = cm.GetComponentsOfType<SpotLightComponent>().First().Item2;
+            ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
             
 
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
                 foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    for (int i = 0; i < hmc.VertexBuffers.Length; i++)
+                    {
+                        //if (cam.BoundingFrustum.Contains(hmc.BoundingBoxes[i]) == ContainmentType.Disjoint)
+                        //    continue;
+
+                        gd.SetVertexBuffer(hmc.VertexBuffers[i]);
+                        gd.Indices = hmc.IndexBuffers[i];
+                        gd.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, hmc.IndexBuffers[i].IndexCount / 3);
+                    }
+                }
+
+                foreach (EffectPass pass in shadow.Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                     for (int i = 0; i < hmc.VertexBuffers.Length; i++)

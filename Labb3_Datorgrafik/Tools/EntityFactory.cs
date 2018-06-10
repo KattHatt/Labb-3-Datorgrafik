@@ -10,6 +10,13 @@ namespace Labb3_Datorgrafik.Tools
     {
         static ComponentManager cm = ComponentManager.GetInstance();
 
+        public static void CreateShadowMap()
+        {
+            ShadowMapComponent shadow = new ShadowMapComponent("ShadowMap", "grass");
+
+            cm.AddEntityWithComponents(shadow);
+        }
+
         public static int CreateSpotLight()
         {
             TransformComponent trans = new TransformComponent() { Position = new Vector3(-97.40422f, 628.7715f, -375.7787f) };
