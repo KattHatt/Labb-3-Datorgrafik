@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace Engine.Systems
 {
-    public class SpotLightSystem : ILoad, ISystem
+    public class DirLightSystem : ILoad, ISystem
     {       
         ComponentManager cm = ComponentManager.GetInstance();
 
         public void Load(ContentManager content)
         {
-            foreach (var (k, spot) in cm.GetComponentsOfType<SpotLightComponent>())
+            foreach (var (k, spot) in cm.GetComponentsOfType<DirLightComponent>())
             {
                 spot.Effect = content.Load<Effect>(spot.EffectName);
                 spot.Texture = content.Load<Texture2D>(spot.TextureName);
@@ -27,39 +27,40 @@ namespace Engine.Systems
             float time = (float)gameTime.TotalGameTime.TotalMilliseconds / 1000.0f;
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
            
-            foreach (var (k, spot) in cm.GetComponentsOfType<SpotLightComponent>())
+            foreach (var (k, dl) in cm.GetComponentsOfType<DirLightComponent>())
             {
                 // Teststuff
                 if (Keyboard.GetState().IsKeyDown(Keys.P))
                 {
-                    spot.LightPower += 0.1f;
-                    Console.WriteLine(spot.LightPower);
+                    dl.LightPower += 0.1f;
+                    Console.WriteLine(dl.LightPower);
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.O))
                 {
-                    spot.LightPower -= 0.1f;
-                    Console.WriteLine(spot.LightPower);
+                    dl.LightPower -= 0.1f;
+                    Console.WriteLine(dl.LightPower);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.L))
                 {
-                    spot.AmbientPower += 0.1f;
-                    Console.WriteLine(spot.AmbientPower);
+                    dl.AmbientPower += 0.1f;
+                    Console.WriteLine(dl.AmbientPower);
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.K))
                 {
-                    spot.AmbientPower -= 0.1f;
-                    Console.WriteLine(spot.AmbientPower);
+                    dl.AmbientPower -= 0.1f;
+                    Console.WriteLine(dl.AmbientPower);
                 }
 
                 // Effect update
-                spot.Effect.CurrentTechnique = spot.Effect.Techniques["SpotLight"];
-                spot.Effect.Parameters["xWorldViewProjection"].SetValue(cam.View * cam.Projection);
-                spot.Effect.Parameters["xTexture"].SetValue(spot.Texture);
+                dl.Effect.CurrentTechnique = dl.Effect.Techniques["DirLight"];
 
-                spot.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
-                spot.Effect.Parameters["xLightPos"].SetValue(spot.LightPos);
-                spot.Effect.Parameters["xLightPower"].SetValue(spot.LightPower);
-                spot.Effect.Parameters["xAmbient"].SetValue(spot.AmbientPower);
+                dl.Effect.Parameters["xWorldViewProjection"].SetValue(cam.View * cam.Projection);
+                dl.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
+                dl.Effect.Parameters["xLightPos"].SetValue(dl.LightPos);
+
+                dl.Effect.Parameters["xLightPower"].SetValue(dl.LightPower);
+                dl.Effect.Parameters["xAmbient"].SetValue(dl.AmbientPower);
+                dl.Effect.Parameters["xTexture"].SetValue(dl.Texture);
             }
         }
       

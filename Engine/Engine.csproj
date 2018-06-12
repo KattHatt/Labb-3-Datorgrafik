@@ -41,7 +41,7 @@
     <Compile Include="Components\HeightMapComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\ShadowMapComponent.cs" />
-    <Compile Include="Components\SpotLightComponent.cs" />
+    <Compile Include="Components\DirLightComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\RectangleComponent.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="Systems\IRender.cs" />
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\ShadowMapSystem.cs" />
-    <Compile Include="Systems\SpotLightSystem.cs" />
+    <Compile Include="Systems\DirLightSystem.cs" />
     <Compile Include="Systems\ModelSystem.cs" />
     <Compile Include="Systems\RectangleSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />

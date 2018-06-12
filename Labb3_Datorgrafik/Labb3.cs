@@ -36,26 +36,30 @@ namespace Labb3_Datorgrafik
             ComponentManager cm = ComponentManager.GetInstance();
 
             //Create all systems
-            sm.AddSystem(new TransformSystem());
             sm.AddSystem(new CameraSystem());
+            sm.AddSystem(new TransformSystem());
+
             sm.AddSystem(new HeightMapSystem());
             sm.AddSystem(new ModelSystem());
             sm.AddSystem(new BoundingBoxSystem());
             sm.AddSystem(new RectangleSystem());
-            sm.AddSystem(new SpotLightSystem());
+            sm.AddSystem(new DirLightSystem());
             sm.AddSystem(new ShadowMapSystem());
-            
+
+
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "grass");
 
-            Vector3 corner1 = new Vector3(-155, 270, -287);
-            Vector3 corner2 = corner1 + new Vector3(2000, 2000, 2000);
+            //Vector3 corner1 = new Vector3(-200, 270, -287);
+            //Vector3 corner2 = corner1 + new Vector3(2000, 2000, 2000);
+            //int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
-            int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
+            //EntityFactory.CreateGround(GraphicsDevice);
+            //EntityFactory.CreateCubeR(GraphicsDevice, 10, 10, 10);
 
             EntityFactory.CreateCamera(GraphicsDevice);
 
-            EntityFactory.CreateSpotLight();
+            EntityFactory.CreateDirLight();
             EntityFactory.CreateShadowMap();
 
             base.Initialize();
@@ -65,16 +69,14 @@ namespace Labb3_Datorgrafik
         {
             sm.Load<HeightMapSystem>(Content);
             sm.Load<RectangleSystem>(Content);
-            sm.Load<SpotLightSystem>(Content);
+            sm.Load<DirLightSystem>(Content);
             sm.Load<ShadowMapSystem>(Content);
         }
-
 
         protected override void UnloadContent()
         {
         }
 
-       
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
@@ -84,7 +86,7 @@ namespace Labb3_Datorgrafik
 
             sm.Update<TransformSystem>(gameTime);
             sm.Update<CameraSystem>(gameTime);
-            sm.Update<SpotLightSystem>(gameTime);
+            sm.Update<DirLightSystem>(gameTime);
             sm.Update<ShadowMapSystem>(gameTime);
 
             base.Update(gameTime);

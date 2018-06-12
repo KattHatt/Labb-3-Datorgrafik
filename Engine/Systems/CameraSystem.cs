@@ -18,8 +18,6 @@ namespace Engine.Systems
                 camera.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(camera.FieldOfView), camera.AspectRatio, camera.NearPlaneDistance, camera.FarPlaneDistance);
                 camera.View = Matrix.CreateLookAt(camera.Position, camera.Position + camera.Direction, camera.Up);
 
-                //Console.WriteLine(camera.Position);
-
                 if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
                     camera.Pitch(1);
@@ -66,6 +64,8 @@ namespace Engine.Systems
                 }
 
                 camera.BoundingFrustum = new BoundingFrustum(camera.View * camera.Projection);
+
+                //Console.WriteLine(camera.Position);
             }
         }
     }

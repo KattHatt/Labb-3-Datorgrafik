@@ -25,16 +25,23 @@ namespace Engine.Systems
 
         public void Render(GraphicsDevice gd)
         {
-            ////SpotLightComponent spot = cm.GetComponentsOfType<SpotLightComponent>().First().Item2;
+            DirLightComponent spot = cm.GetComponentsOfType<DirLightComponent>().First().Item2;
+            ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
-            //foreach (var (_, rect, tc) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
-            //{
-            //    foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
-            //    {
-            //        pass.Apply(); 
-            //        gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.Vertices, 0, rect.Vertices.Length / 3);
-            //    }
-            //}
+            foreach (var (_, rect, tc) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
+            {
+                foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.Vertices, 0, rect.Vertices.Length / 3);
+                }
+
+                foreach (EffectPass pass in shadow.Effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.Vertices, 0, rect.Vertices.Length / 3);
+                }
+            }
         }
 
         // Fill rectangle vertex list

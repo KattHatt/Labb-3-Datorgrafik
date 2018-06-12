@@ -29,16 +29,13 @@ namespace Engine.Systems
 
                 shadow.Effect.CurrentTechnique = shadow.Effect.Techniques["ShadowMap"];
 
-                shadow.Effect.Parameters["xWorldViewProjection"].SetValue(cam.View * cam.Projection);
-                shadow.Effect.Parameters["xTexture"].SetValue(shadow.Texture);
+                shadow.Effect.Parameters["xWorldViewProjection"].SetValue(Matrix.Identity * cam.View * cam.Projection);
+                shadow.Effect.Parameters["xLightsWorldViewProjection"].SetValue(shadow.LightsView * shadow.LightsProjection);
                 shadow.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
-
                 shadow.Effect.Parameters["xLightPos"].SetValue(shadow.LightPos);
                 shadow.Effect.Parameters["xLightPower"].SetValue(shadow.LightPower);
                 shadow.Effect.Parameters["xAmbient"].SetValue(shadow.Ambient);
-                shadow.Effect.Parameters["xLightsWorldViewProjection"].SetValue(shadow.LightsView * shadow.LightsProjection);
-
-
+                shadow.Effect.Parameters["xTexture"].SetValue(shadow.Texture);
             }
         }
     }

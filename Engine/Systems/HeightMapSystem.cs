@@ -15,13 +15,13 @@ namespace Engine.Systems
         public void Render(GraphicsDevice gd)
         {
             CameraComponent cam = cm.GetComponentsOfType<CameraComponent>().First().Item2;
-            SpotLightComponent spot = cm.GetComponentsOfType<SpotLightComponent>().First().Item2;
+            DirLightComponent dirLight = cm.GetComponentsOfType<DirLightComponent>().First().Item2;
             ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
 
             foreach (var (_, hmc) in cm.GetComponentsOfType<HeightMapComponent>())
             {
-                foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in dirLight.Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                     for (int i = 0; i < hmc.VertexBuffers.Length; i++)

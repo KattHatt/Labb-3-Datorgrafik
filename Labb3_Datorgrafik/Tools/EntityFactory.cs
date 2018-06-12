@@ -12,14 +12,30 @@ namespace Labb3_Datorgrafik.Tools
 
         public static void CreateShadowMap()
         {
-            ShadowMapComponent shadow = new ShadowMapComponent("ShadowMap", "grass");
+            ShadowMapComponent shadow = new ShadowMapComponent()
+            {
+                EffectName = "ShadowMap",
+                TextureName = "grass",
+                Ambient = 0.2f,
+                LightPos = new Vector3(0, 100, 0),
+                LightPower = 1.0f
+            };
+            shadow.LightsView = Matrix.CreateLookAt(shadow.LightPos, new Vector3(-2, 3, -10), new Vector3(0, 1, 0));
+            shadow.LightsProjection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1f, 5f, 100f);
 
             cm.AddEntityWithComponents(shadow);
         }
 
-        public static int CreateSpotLight()
+        public static int CreateDirLight()
         {
-            SpotLightComponent spot = new SpotLightComponent("SpotLight", "grass");
+            DirLightComponent spot = new DirLightComponent()
+            {
+                TextureName = "grass",
+                EffectName = "DirLight",
+                LightPos = new Vector3(0, 100, 0),
+                LightPower = 1.0f,
+                AmbientPower = 0.2f,
+            };
 
             return cm.AddEntityWithComponents(spot);
         }
@@ -28,7 +44,7 @@ namespace Labb3_Datorgrafik.Tools
         {
             CameraComponent camera = new CameraComponent()
             {
-                Position = new Vector3(-70, 315, -340),
+                Position = new Vector3(0, 20, 0),
                 Up = Vector3.Up,
                 Direction = Vector3.Left,
                 FieldOfView = 45,
@@ -83,6 +99,18 @@ namespace Labb3_Datorgrafik.Tools
             RectangleComponent r = new RectangleComponent(gd, corner1, corner2) { TexturePath = "grass" };
             int cube = cm.AddEntityWithComponents(transform, r);
             return cube;
+        }
+
+        public static void CreateGround(GraphicsDevice gd)
+        {
+            TransformComponent t = new TransformComponent() { Position = new Vector3(0, 0, 0) };
+            RectangleComponent ground = new RectangleComponent(gd, 200, 200, 200, "grass");
+        }
+
+        public static void CreateCubeR(GraphicsDevice gd, int height, int width, int depth)
+        {
+            TransformComponent t = new TransformComponent() { Position = new Vector3(0, 10, 0) };
+            RectangleComponent cube1 = new RectangleComponent(gd, height, width, depth, "rogert");
         }
     }
 }
