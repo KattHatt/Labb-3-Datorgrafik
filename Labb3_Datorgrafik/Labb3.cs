@@ -50,9 +50,9 @@ namespace Labb3_Datorgrafik
             //Create all entities            
             int heightmap = EntityFactory.CreateTerrain(GraphicsDevice, "US_Canyon", "grass");
 
-            //Vector3 corner1 = new Vector3(-200, 270, -287);
-            //Vector3 corner2 = corner1 + new Vector3(2000, 2000, 2000);
-            //int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
+            Vector3 corner1 = new Vector3(0, 0, 0);
+            Vector3 corner2 = corner1 + new Vector3(200, 200, 200);
+            EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
             //EntityFactory.CreateGround(GraphicsDevice);
             //EntityFactory.CreateCubeR(GraphicsDevice, 10, 10, 10);

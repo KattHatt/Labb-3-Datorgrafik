@@ -27,15 +27,17 @@ namespace Engine.Systems
         {
             DirLightComponent spot = cm.GetComponentsOfType<DirLightComponent>().First().Item2;
             ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
-
+            
             foreach (var (_, rect, tc) in cm.GetComponentsOfType<RectangleComponent, TransformComponent>())
             {
+                spot.Effect.Parameters["xTexture"].SetValue(rect.Texture);
                 foreach (EffectPass pass in spot.Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                     gd.DrawUserPrimitives(PrimitiveType.TriangleList, rect.Vertices, 0, rect.Vertices.Length / 3);
                 }
 
+                shadow.Effect.Parameters["xTexture"].SetValue(rect.Texture);
                 foreach (EffectPass pass in shadow.Effect.CurrentTechnique.Passes)
                 {
                     pass.Apply();

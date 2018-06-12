@@ -30,9 +30,9 @@ namespace Labb3_Datorgrafik.Tools
         {
             DirLightComponent spot = new DirLightComponent()
             {
-                TextureName = "grass",
+                TextureName = "lich_knight_sprite__by_epicspiderboss",
                 EffectName = "DirLight",
-                LightPos = new Vector3(0, 100, 0),
+                LightPos = new Vector3(0, 300, 0),
                 LightPower = 1.0f,
                 AmbientPower = 0.2f,
             };
@@ -94,7 +94,7 @@ namespace Labb3_Datorgrafik.Tools
             corner1 = -corner2;
 
             //TransformComponent transform = new TransformComponent() { Position = position };
-            TransformComponent transform = new TransformComponent() { Position = new Vector3(97.03926f, 259.7693f, -371.4293f) };
+            TransformComponent transform = new TransformComponent() { Position = new Vector3(0, 0, 0) };
 
             RectangleComponent r = new RectangleComponent(gd, corner1, corner2) { TexturePath = "grass" };
             int cube = cm.AddEntityWithComponents(transform, r);
