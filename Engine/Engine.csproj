@@ -39,6 +39,7 @@
     <Compile Include="Components\CameraComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\BoxComponent.cs" />
+    <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\RectangleComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Systems\IRender.cs" />
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\BoxSystem.cs" />
+    <Compile Include="Systems\ModelSystem.cs" />
     <Compile Include="Systems\RectangleSystem.cs" />
     <Compile Include="Systems\TransformSystem.cs" />
   </ItemGroup>

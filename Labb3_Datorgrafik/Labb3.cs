@@ -34,6 +34,7 @@ namespace Labb3_Datorgrafik
             sm.AddSystem(new CameraSystem());
             sm.AddSystem(new BoxSystem());
             sm.AddSystem(new RectangleSystem());
+            sm.AddSystem(new ModelSystem());
 
             //Create all entities
             cm.AddEntityWithComponents(new RectangleComponent(new Vector3(0, 0, 0), 4000, 4000));
@@ -42,8 +43,8 @@ namespace Labb3_Datorgrafik
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
             int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
+            EntityFactory.CreateModel("column", "checkerboard", Vector3.Lerp(corner1, corner2, 0.5f));
             EntityFactory.CreateCamera(GraphicsDevice);
-
 
             // Init all systems
             sm.Init(GraphicsDevice);
