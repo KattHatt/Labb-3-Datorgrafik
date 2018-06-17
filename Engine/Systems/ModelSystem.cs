@@ -34,34 +34,34 @@ namespace Engine.Systems
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
-            e.Parameters["LightView"].SetValue(camera.View);
-            e.Parameters["LightProjection"].SetValue(camera.Projection);
-            e.Parameters["FogStart"].SetValue(100f);
-            e.Parameters["FogEnd"].SetValue(1000f);
-            e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
-            e.Parameters["EyePosition"].SetValue(camera.Position);
-            e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
-
-            e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
-            e.Parameters["DiffuseColor"].SetValue(Vector3.One);
-            e.Parameters["SpecularColor"].SetValue(Vector3.One);
-            e.Parameters["SpecularPower"].SetValue(120f);
-
             foreach (var (_, model, trans) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
-                DrawModel(model.Model, model.Texture, trans.World, e);
+                DrawModel(model.Model, model.Texture, trans.World, camera);
             }
         }
 
-        private void DrawModel(Model model, Texture2D texture, Matrix wMatrix, Effect e)
+        private void DrawModel(Model model, Texture2D texture, Matrix wMatrix, CameraComponent camera)
         {
             Matrix[] modelTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(modelTransforms);
             foreach (ModelMesh mesh in model.Meshes)
             {
-                foreach (Effect currentEffect in mesh.Effects)
+                foreach (Effect e in mesh.Effects)
                 {
                     Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
+                    e.Parameters["LightView"].SetValue(camera.View);
+                    e.Parameters["LightProjection"].SetValue(camera.Projection);
+                    e.Parameters["FogStart"].SetValue(100f);
+                    e.Parameters["FogEnd"].SetValue(1000f);
+                    e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
+                    e.Parameters["EyePosition"].SetValue(camera.Position);
+                    e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
+
+                    e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
+                    e.Parameters["DiffuseColor"].SetValue(Vector3.One);
+                    e.Parameters["SpecularColor"].SetValue(Vector3.One);
+                    e.Parameters["SpecularPower"].SetValue(120f);
+                   
                     e.Parameters["Texture"].SetValue(texture);
                     e.Parameters["World"].SetValue(worldMatrix);
                     e.Techniques["Render"].Passes[0].Apply();
