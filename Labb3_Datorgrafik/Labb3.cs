@@ -43,7 +43,7 @@ namespace Labb3_Datorgrafik
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
             int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
-            EntityFactory.CreateModel("models/moffett-hangar2", new Vector3(0,0,0));// Vector3.Lerp(corner1, corner2, 0.5f));
+            EntityFactory.CreateModel("models/wolf", new Vector3(0, 0 ,0));
             EntityFactory.CreateCamera(GraphicsDevice);
 
             // Init all systems
@@ -80,16 +80,6 @@ namespace Labb3_Datorgrafik
                 CullMode = CullMode.None,
                 FillMode = FillMode.Solid
             };
-
-            /*GraphicsDevice.SetRenderTarget(shadowMap);
-            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.White, 1.0f, 0);
-            GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            GraphicsDevice.BlendState = BlendState.Opaque;
-            sm.RenderShadow(GraphicsDevice, shadowShader);
-
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            sm.Render(GraphicsDevice);*/
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             sm.RenderShadow(GraphicsDevice, shadowShader);

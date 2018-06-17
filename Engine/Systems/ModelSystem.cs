@@ -14,7 +14,7 @@ namespace Engine.Systems
         public void Load(ContentManager content)
         {
             Effect effect = content.Load<Effect>("shader");
-            Texture2D defaultTexture = content.Load<Texture2D>("grass");
+            Texture2D defaultTexture = content.Load<Texture2D>("checkerboard");
 
             foreach (var (_, m) in cm.GetComponentsOfType<ModelComponent>())
             {
