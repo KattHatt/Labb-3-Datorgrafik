@@ -43,7 +43,7 @@ namespace Labb3_Datorgrafik
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
             int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
-            EntityFactory.CreateModel("models/moffett-hangar2", Vector3.Lerp(corner1, corner2, 0.5f));
+            EntityFactory.CreateModel("models/moffett-hangar2", new Vector3(0,0,0));// Vector3.Lerp(corner1, corner2, 0.5f));
             EntityFactory.CreateCamera(GraphicsDevice);
 
             // Init all systems
