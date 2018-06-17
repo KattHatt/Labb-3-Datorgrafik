@@ -1,16 +1,18 @@
-﻿uniform float4x4 cameraMatrix;
-
-uniform float4x4 World;
+﻿uniform float4x4 World;
 uniform float4x4 View;
 uniform float4x4 Projection;
+uniform float4x4 LightView;
+uniform float4x4 LightProjection;
 
 uniform float3 EyePosition;
 
 uniform float3 DiffuseColor;
 uniform float DiffuseIntensity;
+
 uniform float3 SpecularColor;
 uniform float SpecularIntensity;
 uniform float SpecularPower;
+
 uniform float3 AmbientColor;
 
 uniform float3 LightDirection;
@@ -21,9 +23,6 @@ uniform float FogStart;
 uniform float FogEnd;
 uniform float3 FogColor;
 uniform float FogEnabled;
-
-uniform float4x4 LightView;
-uniform float4x4 LightProjection;
 
 struct VS_SHADOW_OUTPUT
 {

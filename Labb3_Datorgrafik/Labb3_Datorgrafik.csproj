@@ -47,6 +47,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\EntityFactory.cs" />
+    <Compile Include="Tools\ShadowEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Shader.fx" />
+    <Content Include="Content\ShadowMap.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
