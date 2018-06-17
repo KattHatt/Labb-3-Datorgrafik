@@ -14,7 +14,10 @@ namespace Engine.Systems
         public void Load(ContentManager content)
         {
             Effect effect = content.Load<Effect>("shader");
-            Texture2D defaultTexture = content.Load<Texture2D>("checkerboard");
+            Texture2D defaultTexture = content.Load<Texture2D>("grass");
+            ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
+
+            shadow.Effect = content.Load<Effect>(shadow.EffectName);
 
             foreach (var (_, m) in cm.GetComponentsOfType<ModelComponent>())
             {
@@ -54,10 +57,24 @@ namespace Engine.Systems
             Matrix[] modelTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(modelTransforms);
 
+            ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
+
+            shadow.Effect.CurrentTechnique = shadow.Effect.Techniques["ShadowMap"];
+
+            shadow.Effect.Parameters["xWorldViewProjection"].SetValue(camera.View * camera.Projection);
+            shadow.Effect.Parameters["xLightsWorldViewProjection"].SetValue(shadow.LightsView * shadow.LightsProjection);
+            shadow.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
+            shadow.Effect.Parameters["xLightPos"].SetValue(shadow.LightPos);
+            shadow.Effect.Parameters["xLightPower"].SetValue(shadow.LightPower);
+            shadow.Effect.Parameters["xAmbient"].SetValue(shadow.Ambient);
+            
+
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect e in mesh.Effects)
                 {
+                    shadow.Effect.Parameters["xTexture"].SetValue(textures[i++]);
+                    shadow.Effect.CurrentTechnique.Passes[0].Apply();
                     Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
                     e.CurrentTechnique = e.Techniques["Render"];
                     e.Parameters["LightView"].SetValue(camera.View);
@@ -73,7 +90,7 @@ namespace Engine.Systems
                     e.Parameters["SpecularColor"].SetValue(Vector3.One);
                     e.Parameters["SpecularPower"].SetValue(120f);
                    
-                    e.Parameters["Texture"].SetValue(textures[i++]);
+                    e.Parameters["Texture"].SetValue(shadow.Effect.Parameters["xTexture"].GetValueTexture2D());
                     e.Parameters["World"].SetValue(worldMatrix);
                     e.Parameters["DiffuseIntensity"].SetValue(1f);
                     e.Parameters["SpecularIntensity"].SetValue(1f);

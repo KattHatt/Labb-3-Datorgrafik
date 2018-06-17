@@ -48,5 +48,21 @@ namespace Labb3_Datorgrafik.Tools
 
             cm.AddEntityWithComponents(transform, modelComp);
         }
+
+        public static void CreateShadowMap()
+        {
+            ShadowMapComponent shadow = new ShadowMapComponent()
+            {
+                EffectName = "ShadowMap",
+                TextureName = "grass",
+                Ambient = 0.2f,
+                LightPos = new Vector3(0, 100, 0),
+                LightPower = 1.0f
+            };
+            shadow.LightsView = Matrix.CreateLookAt(shadow.LightPos, new Vector3(-2, 3, -10), new Vector3(0, 1, 0));
+            shadow.LightsProjection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver2, 1f, 5f, 100f);
+
+            cm.AddEntityWithComponents(shadow);
+        }
     }
 }

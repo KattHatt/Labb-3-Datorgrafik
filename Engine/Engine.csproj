@@ -41,6 +41,7 @@
     <Compile Include="Components\BoxComponent.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\RectangleComponent.cs" />
+    <Compile Include="Components\ShadowMapComponent.cs" />
     <Compile Include="Components\TransformComponent.cs" />
     <Compile Include="Managers\ComponentManager.cs" />
     <Compile Include="Managers\SystemManager.cs" />

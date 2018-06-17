@@ -45,6 +45,7 @@ namespace Labb3_Datorgrafik
 
             EntityFactory.CreateModel("models/wolf", new Vector3(0, 0 ,0));
             EntityFactory.CreateCamera(GraphicsDevice);
+            EntityFactory.CreateShadowMap();
 
             // Init all systems
             sm.Init(GraphicsDevice);
