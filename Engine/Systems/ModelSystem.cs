@@ -14,15 +14,23 @@ namespace Engine.Systems
         public void Load(ContentManager content)
         {
             Effect effect = content.Load<Effect>("shader");
+            Texture2D defaultTexture = content.Load<Texture2D>("grass");
 
             foreach (var (_, m) in cm.GetComponentsOfType<ModelComponent>())
             {
                 m.Model = content.Load<Model>(m.ModelFile);
-               
+
                 foreach (ModelMesh mesh in m.Model.Meshes)
                     foreach (BasicEffect currentEffect in mesh.Effects)
-                        m.Textures.Add(currentEffect.Texture);
-
+                        if (currentEffect.Texture == null)
+                        {
+                            m.Textures.Add(defaultTexture);
+                        }
+                        else
+                        {
+                            m.Textures.Add(currentEffect.Texture);
+                        }
+                            
                 foreach (ModelMesh mesh in m.Model.Meshes)
                     foreach (ModelMeshPart meshPart in mesh.MeshParts)
                         meshPart.Effect = effect.Clone();
@@ -67,7 +75,7 @@ namespace Engine.Systems
                    
                     e.Parameters["Texture"].SetValue(textures[i++]);
                     e.Parameters["World"].SetValue(worldMatrix);
-                    e.Techniques["Render"].Passes[0].Apply();
+                    //e.Techniques["Render"].Passes[0].Apply();
                 }
                 mesh.Draw();
             }
