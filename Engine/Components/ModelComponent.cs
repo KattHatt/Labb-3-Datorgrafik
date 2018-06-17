@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Engine.Components
 {
     public class ModelComponent : IComponent
     {
         public Model Model;
-        public Texture2D Texture;
+        public List<Texture2D> Textures;
         public string ModelFile;
-        public string TextureFile;
 
-        public ModelComponent(string modelFile, string textureFile)
+        public ModelComponent(string modelFile)
         {
             ModelFile = modelFile;
-            TextureFile = textureFile;
+            Textures = new List<Texture2D>();
         }
     }
 }

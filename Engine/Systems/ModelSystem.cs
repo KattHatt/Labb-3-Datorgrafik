@@ -18,10 +18,10 @@ namespace Engine.Systems
             foreach (var (_, m) in cm.GetComponentsOfType<ModelComponent>())
             {
                 m.Model = content.Load<Model>(m.ModelFile);
-                
+               
                 foreach (ModelMesh mesh in m.Model.Meshes)
                     foreach (BasicEffect currentEffect in mesh.Effects)
-                        m.Texture = currentEffect.Texture;
+                        m.Textures.Add(currentEffect.Texture);
 
                 foreach (ModelMesh mesh in m.Model.Meshes)
                     foreach (ModelMeshPart meshPart in mesh.MeshParts)
@@ -29,26 +29,29 @@ namespace Engine.Systems
             }
         }
 
-
+      
         public void RenderShadow(GraphicsDevice gd, Effect e)
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
             foreach (var (_, model, trans) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
-                DrawModel(model.Model, model.Texture, trans.World, camera);
+                DrawModel(model.Model, model.Textures.ToArray(), trans.World, camera);
             }
         }
 
-        private void DrawModel(Model model, Texture2D texture, Matrix wMatrix, CameraComponent camera)
+        private void DrawModel(Model model, Texture2D[] textures, Matrix wMatrix, CameraComponent camera)
         {
+            int i = 0;
             Matrix[] modelTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(modelTransforms);
+
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect e in mesh.Effects)
                 {
                     Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
+                    e.CurrentTechnique = e.Techniques["Render"];
                     e.Parameters["LightView"].SetValue(camera.View);
                     e.Parameters["LightProjection"].SetValue(camera.Projection);
                     e.Parameters["FogStart"].SetValue(100f);
@@ -62,7 +65,7 @@ namespace Engine.Systems
                     e.Parameters["SpecularColor"].SetValue(Vector3.One);
                     e.Parameters["SpecularPower"].SetValue(120f);
                    
-                    e.Parameters["Texture"].SetValue(texture);
+                    e.Parameters["Texture"].SetValue(textures[i++]);
                     e.Parameters["World"].SetValue(worldMatrix);
                     e.Techniques["Render"].Passes[0].Apply();
                 }

@@ -41,10 +41,10 @@ namespace Labb3_Datorgrafik.Tools
             return cube;
         }
 
-        public static void CreateModel(string model, string texture, Vector3 position)
+        public static void CreateModel(string model, Vector3 position)
         {
             TransformComponent transform = new TransformComponent() { Position = position };
-            ModelComponent modelComp = new ModelComponent(model, texture);
+            ModelComponent modelComp = new ModelComponent(model);
 
             cm.AddEntityWithComponents(transform, modelComp);
         }
