@@ -69,7 +69,7 @@ namespace Engine.Systems
                     e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
 
                     e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
-                    e.Parameters["DiffuseColor"].SetValue(Vector3.One);
+                    e.Parameters["DiffuseColor"].SetValue(Vector3.One * 0.2f);
                     e.Parameters["SpecularColor"].SetValue(Vector3.One);
                     e.Parameters["SpecularPower"].SetValue(120f);
                    
