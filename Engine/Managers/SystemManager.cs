@@ -82,35 +82,19 @@ namespace Engine.Managers
             }
         }
 
-        public void Render<T>(GraphicsDevice gd)
+        public void Render<T>(GraphicsDevice gd, Effect e, string technique)
         {
             object system;
             systems.TryGetValue(typeof(T), out system);
-            ((IRender)system)?.Render(gd);
+            ((IRender)system)?.Render(gd, e, technique);
         }
 
-        public void Render(GraphicsDevice gd)
+        public void Render(GraphicsDevice gd, Effect e, string technique)
         {
             foreach (var system in systems.Values)
             {
                 if (system is IRender)
-                    ((IRender)system).Render(gd);
-            }
-        }
-
-        public void RenderShadow<T>(GraphicsDevice gd, Effect e)
-        {
-            object system;
-            systems.TryGetValue(typeof(T), out system);
-            ((IRender)system)?.RenderShadow(gd, e);
-        }
-
-        public void RenderShadow(GraphicsDevice gd, Effect e)
-        {
-            foreach (var system in systems.Values)
-            {
-                if (system is IRender)
-                    ((IRender)system).RenderShadow(gd, e);
+                    ((IRender)system).Render(gd, e, technique);
             }
         }
 

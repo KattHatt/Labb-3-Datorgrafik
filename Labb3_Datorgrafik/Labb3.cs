@@ -49,7 +49,7 @@ namespace Labb3_Datorgrafik
             // Init all systems
             sm.Init(GraphicsDevice);
 
-            target2D = new RenderTarget2D(GraphicsDevice, 2048, 2048, false, SurfaceFormat.Single, DepthFormat.Depth24Stencil8);
+            target2D = new RenderTarget2D(GraphicsDevice, 2048, 2048, false, SurfaceFormat.Single, DepthFormat.None);
 
             base.Initialize();
         }
@@ -85,17 +85,31 @@ namespace Labb3_Datorgrafik
                 FillMode = FillMode.Solid
             };
 
-            GraphicsDevice.SetRenderTarget(target2D);
-            GraphicsDevice.Clear(Color.Black);
-            sm.RenderShadow(GraphicsDevice, shadowShader);
-            shadowMap = target2D;
-
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            sm.RenderShadow(GraphicsDevice, shadowShader);
-            //sm.Render(GraphicsDevice);
+            RenderDepthMap();
+            Render();
 
             base.Draw(gameTime);
+        }
+
+        private void RenderDepthMap()
+        {
+            Vector3 lightDirection = shadowShader.Parameters["LightDirection"].GetValueVector3();
+            Matrix lightView = Matrix.CreateLookAt(lightDirection, lightDirection * 0.1f, Vector3.Up);
+            Matrix lightProjection = Matrix.CreateOrthographic(2048, 2048, 0, 1000);
+            shadowShader.Parameters["LightView"].SetValue(lightView);
+            shadowShader.Parameters["LightProjection"].SetValue(lightProjection);
+
+            GraphicsDevice.SetRenderTarget(target2D);
+            GraphicsDevice.Clear(Color.Black);
+            sm.Render(GraphicsDevice, shadowShader, "RenderDepthMap");
+            shadowMap = target2D;
+        }
+
+        private void Render()
+        {
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            sm.Render(GraphicsDevice, shadowShader, "Render");
         }
     }
 }

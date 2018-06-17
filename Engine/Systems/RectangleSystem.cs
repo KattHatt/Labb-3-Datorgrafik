@@ -25,26 +25,21 @@ namespace Engine.Systems
             texture = content.Load<Texture2D>("grass");
         }
 
-        public void RenderShadow(GraphicsDevice gd, Effect e)
+        public void Render(GraphicsDevice gd, Effect e, string technique)
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
-            e.Parameters["LightView"].SetValue(camera.View);
-            e.Parameters["LightProjection"].SetValue(camera.Projection);
+            e.Parameters["View"].SetValue(camera.View);
+            e.Parameters["Projection"].SetValue(camera.Projection);
             e.Parameters["World"].SetValue(Matrix.Identity);
             e.Parameters["Texture"].SetValue(texture);
-            e.Techniques["Render"].Passes[0].Apply();
+            e.Techniques[technique].Passes[0].Apply();
 
             foreach (var (_, rectangle) in cm.GetComponentsOfType<RectangleComponent>())
             {
                 gd.SetVertexBuffer(rectangle.VertexBuffer);
                 gd.DrawPrimitives(PrimitiveType.TriangleList, 0, rectangle.VertexBuffer.VertexCount / 3);
             }
-        }
-
-        public void Render(GraphicsDevice gd)
-        {
-            // TODO?
         }
 
         private void CreateVertices(GraphicsDevice gd, RectangleComponent rectangle)

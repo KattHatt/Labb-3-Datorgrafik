@@ -29,12 +29,12 @@ namespace Engine.Systems
             // TODO?
         }
 
-        public void RenderShadow(GraphicsDevice gd, Effect e)
+        public void Render(GraphicsDevice gd, Effect e, string technique)
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
-            e.Parameters["LightView"].SetValue(camera.View);
-            e.Parameters["LightProjection"].SetValue(camera.Projection);
+            e.Parameters["View"].SetValue(camera.View);
+            e.Parameters["Projection"].SetValue(camera.Projection);
             e.Parameters["FogStart"].SetValue(100f);
             e.Parameters["FogEnd"].SetValue(1000f);
             e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
@@ -52,7 +52,7 @@ namespace Engine.Systems
             {
                 e.Parameters["Texture"].SetValue(box.Texture);
                 e.Parameters["World"].SetValue(transform.World);
-                e.Techniques["Render"].Passes[0].Apply();
+                e.Techniques[technique].Passes[0].Apply();
                 gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
             }
         }

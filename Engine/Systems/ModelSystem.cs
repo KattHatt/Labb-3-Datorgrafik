@@ -41,7 +41,7 @@ namespace Engine.Systems
         }
 
       
-        public void RenderShadow(GraphicsDevice gd, Effect e)
+        public void Render(GraphicsDevice gd, Effect e, string technique)
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
 
@@ -60,13 +60,6 @@ namespace Engine.Systems
             ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
             shadow.Effect.CurrentTechnique = shadow.Effect.Techniques["ShadowMap"];
-
-            shadow.Effect.Parameters["xWorldViewProjection"].SetValue(camera.View * camera.Projection);
-            shadow.Effect.Parameters["xLightsWorldViewProjection"].SetValue(shadow.LightsView * shadow.LightsProjection);
-            shadow.Effect.Parameters["xWorld"].SetValue(Matrix.Identity);
-            shadow.Effect.Parameters["xLightPos"].SetValue(shadow.LightPos);
-            shadow.Effect.Parameters["xLightPower"].SetValue(shadow.LightPower);
-            shadow.Effect.Parameters["xAmbient"].SetValue(shadow.Ambient);
             
 
             foreach (ModelMesh mesh in model.Meshes)
@@ -77,8 +70,8 @@ namespace Engine.Systems
                     shadow.Effect.CurrentTechnique.Passes[0].Apply();
                     Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
                     e.CurrentTechnique = e.Techniques["Render"];
-                    e.Parameters["LightView"].SetValue(camera.View);
-                    e.Parameters["LightProjection"].SetValue(camera.Projection);
+                    e.Parameters["View"].SetValue(camera.View);
+                    e.Parameters["Projection"].SetValue(camera.Projection);
                     e.Parameters["FogStart"].SetValue(100f);
                     e.Parameters["FogEnd"].SetValue(1000f);
                     e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
@@ -98,11 +91,6 @@ namespace Engine.Systems
                 }
                 mesh.Draw();
             }
-        }
-
-        public void Render(GraphicsDevice gd)
-        {
-            // TODO?
         }
     }
 }
