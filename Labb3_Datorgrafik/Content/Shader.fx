@@ -7,7 +7,9 @@ uniform float4x4 Projection;
 uniform float3 EyePosition;
 
 uniform float3 DiffuseColor;
+uniform float DiffuseIntensity;
 uniform float3 SpecularColor;
+uniform float SpecularIntensity;
 uniform float SpecularPower;
 uniform float3 AmbientColor;
 
@@ -107,8 +109,8 @@ float3 CalculateLightning(float4 position, float3 normal)
 	float3 H = normalize(L + V);
 
 	float3 ambient = AmbientColor;
-	float3 diffuse = saturate(dot(N, L)) * DiffuseColor.rgb;
-	float3 specular = pow(saturate(dot(N, H)), SpecularPower) * SpecularColor;
+	float3 diffuse = saturate(dot(N, L)) * DiffuseColor.rgb * DiffuseIntensity;
+	float3 specular = pow(saturate(dot(N, H)), SpecularPower) * SpecularColor * SpecularIntensity;
 
 	return ambient + specular + diffuse;
 }

@@ -60,7 +60,6 @@
     <Content Include="Content\specularTex.fx" />
     <Content Include="Content\Diffuse.fx" />
     <Content Include="Content\Ambient.fx" />
-    <Content Include="Content\Blinn_Phong.fx" />
     <Content Include="Content\Fog.fx" />
     <Content Include="Content\ShaderXXX.fx" />
     <Content Include="Icon.ico" />

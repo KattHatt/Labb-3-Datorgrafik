@@ -75,6 +75,8 @@ namespace Engine.Systems
                    
                     e.Parameters["Texture"].SetValue(textures[i++]);
                     e.Parameters["World"].SetValue(worldMatrix);
+                    e.Parameters["DiffuseIntensity"].SetValue(1f);
+                    e.Parameters["SpecularIntensity"].SetValue(1f);
                     //e.Techniques["Render"].Passes[0].Apply();
                 }
                 mesh.Draw();

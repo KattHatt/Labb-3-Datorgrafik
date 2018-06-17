@@ -128,6 +128,8 @@ namespace Engine.Systems
             e.Parameters["DiffuseColor"].SetValue(Vector3.One * 0.2f);
             e.Parameters["SpecularColor"].SetValue(Vector3.One);
             e.Parameters["SpecularPower"].SetValue(120f);
+            e.Parameters["DiffuseIntensity"].SetValue(1f);
+            e.Parameters["SpecularIntensity"].SetValue(1f);
 
             foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
