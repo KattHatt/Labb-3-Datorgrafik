@@ -87,6 +87,9 @@ namespace Engine.Systems
                     e.Parameters["World"].SetValue(worldMatrix);
                     e.Parameters["DiffuseIntensity"].SetValue(1f);
                     e.Parameters["SpecularIntensity"].SetValue(1f);
+                //    LightPos = new Vector3(0, 300, 0),
+                //LightPower = 1.0f,
+                //AmbientPower = 0.2f,
                     //e.Techniques["Render"].Passes[0].Apply();
                 }
                 mesh.Draw();
