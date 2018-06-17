@@ -44,7 +44,7 @@ namespace Labb3_Datorgrafik.Tools
         {
             CameraComponent camera = new CameraComponent()
             {
-                Position = new Vector3(0, 20, 0),
+                Position = new Vector3(0, 0, 0),
                 Up = Vector3.Up,
                 Direction = Vector3.Left,
                 FieldOfView = 45,

@@ -56,6 +56,7 @@ namespace Labb3_Datorgrafik
 
             //EntityFactory.CreateGround(GraphicsDevice);
             //EntityFactory.CreateCubeR(GraphicsDevice, 10, 10, 10);
+            EntityFactory.CreateModel("wolf", "grass", true, new Vector3(0, 0, 0));
 
             EntityFactory.CreateCamera(GraphicsDevice);
 
@@ -71,6 +72,7 @@ namespace Labb3_Datorgrafik
             sm.Load<RectangleSystem>(Content);
             sm.Load<DirLightSystem>(Content);
             sm.Load<ShadowMapSystem>(Content);
+            sm.Load<ModelSystem>(Content);
         }
 
         protected override void UnloadContent()
@@ -104,6 +106,7 @@ namespace Labb3_Datorgrafik
 
             sm.Render<HeightMapSystem>(GraphicsDevice);
             sm.Render<RectangleSystem>(GraphicsDevice);
+            sm.Render<ModelSystem>(GraphicsDevice);
 
             base.Draw(gameTime);
         }
