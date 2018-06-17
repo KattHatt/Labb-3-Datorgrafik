@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Shader.fx" />
-    <Content Include="Content\Blinn_Phong.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

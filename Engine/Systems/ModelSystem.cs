@@ -85,7 +85,7 @@ namespace Engine.Systems
 
         public void Render(GraphicsDevice gd)
         {
-            throw new System.NotImplementedException();
+            // TODO?
         }
     }
 }

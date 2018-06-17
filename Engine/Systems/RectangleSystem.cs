@@ -10,15 +10,10 @@ namespace Engine.Systems
     public class RectangleSystem : IInit, IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
-        BasicEffect be;
         Texture2D texture;
 
         public void Init(GraphicsDevice gd)
         {
-            be = new BasicEffect(gd)
-            {
-                TextureEnabled = true
-            };
             foreach (var (_, rectangle) in cm.GetComponentsOfType<RectangleComponent>())
             {
                 CreateVertices(gd, rectangle);
@@ -28,21 +23,6 @@ namespace Engine.Systems
         public void Load(ContentManager content)
         {
             texture = content.Load<Texture2D>("grass");
-        }
-
-        public void Render(GraphicsDevice gd)
-        {
-            CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
-            be.View = camera.View;
-            be.Projection = camera.Projection;
-            be.Texture = texture;
-            be.CurrentTechnique.Passes[0].Apply();
-
-            foreach (var (_, rectangle) in cm.GetComponentsOfType<RectangleComponent>())
-            {
-                gd.SetVertexBuffer(rectangle.VertexBuffer);
-                gd.DrawPrimitives(PrimitiveType.TriangleList, 0, rectangle.VertexBuffer.VertexCount / 3);
-            }
         }
 
         public void RenderShadow(GraphicsDevice gd, Effect e)
@@ -60,6 +40,11 @@ namespace Engine.Systems
                 gd.SetVertexBuffer(rectangle.VertexBuffer);
                 gd.DrawPrimitives(PrimitiveType.TriangleList, 0, rectangle.VertexBuffer.VertexCount / 3);
             }
+        }
+
+        public void Render(GraphicsDevice gd)
+        {
+            // TODO?
         }
 
         private void CreateVertices(GraphicsDevice gd, RectangleComponent rectangle)
