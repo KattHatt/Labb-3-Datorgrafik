@@ -10,7 +10,6 @@ namespace Engine.Systems
     public class ModelSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
-        
 
         public void Load(ContentManager content)
         {
@@ -50,22 +49,23 @@ namespace Engine.Systems
 
             foreach (var (_, model, trans) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
-                DrawModel(model.Model, model.Texture, trans.World, "Render", e);
+                DrawModel(model.Model, model.Texture, trans.World, e);
             }
         }
 
-        private void DrawModel(Model model, Texture2D texture, Matrix wMatrix, string technique, Effect e)
+        private void DrawModel(Model model, Texture2D texture, Matrix wMatrix, Effect e)
         {
             Matrix[] modelTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(modelTransforms);
             foreach (ModelMesh mesh in model.Meshes)
             {
-                Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
-
-                e.Parameters["Texture"].SetValue(texture);
-                e.Parameters["World"].SetValue(worldMatrix);
-                e.Techniques[technique].Passes[0].Apply();
-
+                foreach (Effect currentEffect in mesh.Effects)
+                {
+                    Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
+                    e.Parameters["Texture"].SetValue(texture);
+                    e.Parameters["World"].SetValue(worldMatrix);
+                    e.Techniques["Render"].Passes[0].Apply();
+                }
                 mesh.Draw();
             }
         }
