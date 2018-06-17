@@ -20,7 +20,6 @@ namespace Labb3_Datorgrafik
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
         }
 
-        RenderTarget2D shadowMap;
         Effect shadowShader;
 
         protected override void Initialize()
@@ -50,6 +49,8 @@ namespace Labb3_Datorgrafik
             // Init all systems
             sm.Init(GraphicsDevice);
 
+            target2D = new RenderTarget2D(GraphicsDevice, 2048, 2048, false, SurfaceFormat.Single, DepthFormat.Depth24Stencil8);
+
             base.Initialize();
         }
 
@@ -72,6 +73,8 @@ namespace Labb3_Datorgrafik
         }
 
         SpriteBatch spriteBatch;
+        RenderTarget2D target2D;
+        Texture2D shadowMap;
 
         protected override void Draw(GameTime gameTime)
         {
@@ -82,6 +85,12 @@ namespace Labb3_Datorgrafik
                 FillMode = FillMode.Solid
             };
 
+            GraphicsDevice.SetRenderTarget(target2D);
+            GraphicsDevice.Clear(Color.Black);
+            sm.RenderShadow(GraphicsDevice, shadowShader);
+            shadowMap = target2D;
+
+            GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(Color.CornflowerBlue);
             sm.RenderShadow(GraphicsDevice, shadowShader);
             //sm.Render(GraphicsDevice);
