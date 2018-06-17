@@ -56,7 +56,7 @@ namespace Labb3_Datorgrafik
 
         protected override void LoadContent()
         {
-            shadowShader = Content.Load<Effect>("Shader");
+            shadowShader = Content.Load<Effect>("ShaderLight");
             sm.Load(Content);
         }
        

@@ -173,3 +173,9 @@
 /processorParam:TextureFormat=Color
 /build:models/textures/Wolf_Fur.jpg
 
+#begin ShaderLight.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:ShaderLight.fx
+
