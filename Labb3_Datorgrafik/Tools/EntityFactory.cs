@@ -16,7 +16,7 @@ namespace Labb3_Datorgrafik.Tools
             {
                 Position = new Vector3(-70, 315, -340),
                 Up = Vector3.Up,
-                Direction = Vector3.Left,
+                Direction = Vector3.Right,
                 FieldOfView = 45,
                 NearPlaneDistance = 1,
                 FarPlaneDistance = 10000,
