@@ -5,6 +5,7 @@ using Labb3_Datorgrafik.Tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Linq;
 
 namespace Labb3_Datorgrafik
 {
@@ -12,6 +13,13 @@ namespace Labb3_Datorgrafik
     {
         GraphicsDeviceManager graphics;
         SystemManager sm = SystemManager.GetInstance();
+
+        Vector3 lightPos;
+        float lightPower;
+        float ambientPower;
+        Matrix lightsViewProjectionMatrix;
+        Texture2D grass;
+        BoundingFrustum cameraFrustum = new BoundingFrustum(Matrix.Identity);
 
         public Labb3()
         {
@@ -42,7 +50,8 @@ namespace Labb3_Datorgrafik
             Vector3 corner2 = corner1 + new Vector3(20, 20, 20);
             int cube = EntityFactory.CreateGrassBox(GraphicsDevice, corner1, corner2);
 
-            EntityFactory.CreateModel("models/wolf", new Vector3(0, 0 ,0));
+            EntityFactory.CreateModel("models/wolf", new Vector3(0, 20 ,-350));
+            EntityFactory.CreateModel("models/moffett-hangar2", new Vector3(0, 20, -500));
             EntityFactory.CreateCamera(GraphicsDevice);
             EntityFactory.CreateShadowMap();
 
@@ -56,10 +65,11 @@ namespace Labb3_Datorgrafik
 
         protected override void LoadContent()
         {
-            shadowShader = Content.Load<Effect>("ShaderLight");
+            shadowShader = Content.Load<Effect>("Shader");
+            grass = Content.Load<Texture2D>("Grass");
             sm.Load(Content);
         }
-       
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back ==
@@ -78,6 +88,7 @@ namespace Labb3_Datorgrafik
 
         protected override void Draw(GameTime gameTime)
         {
+            CameraComponent camera = ComponentManager.GetInstance().GetComponentsOfType<CameraComponent>().First().Item2;
             //Turn off culling so we see both sides of our rendered triangle
             GraphicsDevice.RasterizerState = new RasterizerState
             {
@@ -87,6 +98,9 @@ namespace Labb3_Datorgrafik
 
             RenderDepthMap();
             Render();
+            shadowMap = null;
+
+            cameraFrustum.Matrix = camera.View * camera.Projection;
 
             base.Draw(gameTime);
         }
@@ -94,22 +108,29 @@ namespace Labb3_Datorgrafik
         private void RenderDepthMap()
         {
             Vector3 lightDirection = shadowShader.Parameters["LightDirection"].GetValueVector3();
-            Matrix lightView = Matrix.CreateLookAt(lightDirection, lightDirection * 0.1f, Vector3.Up);
+            Matrix lightView = Matrix.CreateLookAt(lightDirection, lightDirection * 0.5f, Vector3.Up);
             Matrix lightProjection = Matrix.CreateOrthographic(2048, 2048, 0, 1000);
             shadowShader.Parameters["LightView"].SetValue(lightView);
             shadowShader.Parameters["LightProjection"].SetValue(lightProjection);
+            shadowShader.Parameters["AmbientPower"].SetValue(1f);
 
             GraphicsDevice.SetRenderTarget(target2D);
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.CornflowerBlue, 1.0f, 0);
+
+            //GraphicsDevice.Clear(Color.Black);
             sm.Render(GraphicsDevice, shadowShader, "RenderDepthMap");
             shadowMap = target2D;
+            ShadowMapComponent shadow = ComponentManager.GetInstance().GetComponentsOfType<ShadowMapComponent>().First().Item2;
+            shadow.Texture = shadowMap;
         }
 
         private void Render()
         {
             GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            sm.Render(GraphicsDevice, shadowShader, "Render");
+            GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.CornflowerBlue, 1.0f, 0);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
+            shadowShader.Parameters["xShadowMap"].SetValue(shadowMap);
+            sm.Render(GraphicsDevice, shadowShader, "ShadowedScene");
         }
     }
 }

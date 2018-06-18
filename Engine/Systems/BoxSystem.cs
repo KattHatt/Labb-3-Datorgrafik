@@ -32,7 +32,9 @@ namespace Engine.Systems
         public void Render(GraphicsDevice gd, Effect e, string technique)
         {
             CameraComponent camera = cm.GetComponentsOfType<CameraComponent>().First().Item2;
+            ShadowMapComponent shadow = ComponentManager.GetInstance().GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
+            e.CurrentTechnique = e.Techniques[technique];
             e.Parameters["View"].SetValue(camera.View);
             e.Parameters["Projection"].SetValue(camera.Projection);
             e.Parameters["FogStart"].SetValue(100f);
@@ -41,19 +43,31 @@ namespace Engine.Systems
             e.Parameters["EyePosition"].SetValue(camera.Position);
             e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
 
+            //Vector3 lightDirection = e.Parameters["LightDirection"].GetValueVector3();
+            //Matrix lightView = Matrix.CreateLookAt(lightDirection, lightDirection * 0.5f, Vector3.Up);
+            //Matrix lightProjection = Matrix.CreateOrthographic(2048, 2048, 0, 1000);
+            //e.Parameters["LightView"].SetValue(lightView);
+            //e.Parameters["LightProjection"].SetValue(lightProjection);
+            e.Parameters["AmbientPower"].SetValue(1f);
+
             e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
             e.Parameters["DiffuseColor"].SetValue(Vector3.One * 0.2f);
             e.Parameters["SpecularColor"].SetValue(Vector3.One);
             e.Parameters["SpecularPower"].SetValue(120f);
             e.Parameters["DiffuseIntensity"].SetValue(1f);
             e.Parameters["SpecularIntensity"].SetValue(1f);
+            e.Parameters["xShadowMap"].SetValue(shadow.Texture);
+            
 
             foreach (var (_, box, transform) in cm.GetComponentsOfType<BoxComponent, TransformComponent>())
             {
                 e.Parameters["Texture"].SetValue(box.Texture);
                 e.Parameters["World"].SetValue(transform.World);
-                e.Techniques[technique].Passes[0].Apply();
-                gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
+                foreach (EffectPass pass in e.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    gd.DrawUserPrimitives(PrimitiveType.TriangleList, box.Vertices, 0, box.Vertices.Length / 3);
+                }
             }
         }
 

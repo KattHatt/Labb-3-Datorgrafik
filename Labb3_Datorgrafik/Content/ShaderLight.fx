@@ -30,7 +30,7 @@ float3 xLightPos;
 float xLightPower;
 float xAmbient;
 
-SamplerState TextureSampler = sampler_state { texture = <xTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = Wrap; AddressV = Wrap; };
+SamplerState TextureSampler = sampler_state { texture = <xTexture>; magfilter = LINEAR; minfilter = LINEAR; mipfilter = LINEAR; AddressU = mirror; AddressV = mirror; };
 
 struct VS_SHADOW_OUTPUT
 {

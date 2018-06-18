@@ -10,11 +10,12 @@ namespace Engine.Systems
     public class ModelSystem : IRender, ILoad
     {
         ComponentManager cm = ComponentManager.GetInstance();
+        Texture2D defaultTexture;
 
         public void Load(ContentManager content)
         {
-            Effect effect = content.Load<Effect>("shader");
-            Texture2D defaultTexture = content.Load<Texture2D>("grass");
+            Effect effect = content.Load<Effect>("ShaderLight");
+            defaultTexture = content.Load<Texture2D>("grass");
             ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
             shadow.Effect = content.Load<Effect>(shadow.EffectName);
@@ -47,6 +48,13 @@ namespace Engine.Systems
 
             foreach (var (_, model, trans) in cm.GetComponentsOfType<ModelComponent, TransformComponent>())
             {
+                foreach (ModelMesh mesh in model.Model.Meshes)
+                {
+                    foreach (ModelMeshPart meshPart in mesh.MeshParts)
+                        meshPart.Effect = e;
+                }
+                    
+                        
                 DrawModel(model.Model, model.Textures.ToArray(), trans.World, camera);
             }
         }
@@ -56,41 +64,32 @@ namespace Engine.Systems
             int i = 0;
             Matrix[] modelTransforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(modelTransforms);
-
-            ShadowMapComponent shadow = cm.GetComponentsOfType<ShadowMapComponent>().First().Item2;
-
-            shadow.Effect.CurrentTechnique = shadow.Effect.Techniques["ShadowMap"];
-            
+            ShadowMapComponent shadow = ComponentManager.GetInstance().GetComponentsOfType<ShadowMapComponent>().First().Item2;
 
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (Effect e in mesh.Effects)
                 {
-                    shadow.Effect.Parameters["xTexture"].SetValue(textures[i++]);
-                    shadow.Effect.CurrentTechnique.Passes[0].Apply();
                     Matrix worldMatrix = modelTransforms[mesh.ParentBone.Index] * wMatrix;
-                    e.CurrentTechnique = e.Techniques["Render"];
                     e.Parameters["View"].SetValue(camera.View);
                     e.Parameters["Projection"].SetValue(camera.Projection);
                     e.Parameters["FogStart"].SetValue(100f);
                     e.Parameters["FogEnd"].SetValue(1000f);
                     e.Parameters["FogColor"].SetValue(Color.CornflowerBlue.ToVector3());
                     e.Parameters["EyePosition"].SetValue(camera.Position);
-                    e.Parameters["LightDirection"].SetValue(new Vector3(-0.5265408f, -0.5735765f, -0.6275069f));
+                    e.Parameters["LightDirection"].SetValue(new Vector3(0.6f, 0.6f, 0.7f)); //new Vector3(-0.5265408f, -0.5735765f, -0.6275069f)
 
                     e.Parameters["AmbientColor"].SetValue(Vector3.Zero);
                     e.Parameters["DiffuseColor"].SetValue(Vector3.One * 0.2f);
                     e.Parameters["SpecularColor"].SetValue(Vector3.One);
                     e.Parameters["SpecularPower"].SetValue(120f);
-                   
-                    e.Parameters["Texture"].SetValue(shadow.Effect.Parameters["xTexture"].GetValueTexture2D());
+                    e.Parameters["AmbientPower"].SetValue(1f);
+
+                    e.Parameters["Texture"].SetValue(textures[i++]);
                     e.Parameters["World"].SetValue(worldMatrix);
                     e.Parameters["DiffuseIntensity"].SetValue(1f);
                     e.Parameters["SpecularIntensity"].SetValue(1f);
-                //    LightPos = new Vector3(0, 300, 0),
-                //LightPower = 1.0f,
-                //AmbientPower = 0.2f,
-                    //e.Techniques["Render"].Passes[0].Apply();
+                    e.Parameters["xShadowMap"].SetValue(shadow.Texture);
                 }
                 mesh.Draw();
             }

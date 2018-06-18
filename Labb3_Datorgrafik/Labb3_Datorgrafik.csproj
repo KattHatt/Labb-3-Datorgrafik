@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Shader.fx" />
+    <Content Include="Content\ShaderLight.fx" />
     <Content Include="Content\ShadowMap.fx" />
     <Content Include="Icon.ico" />
   </ItemGroup>

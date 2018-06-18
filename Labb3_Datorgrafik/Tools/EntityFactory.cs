@@ -31,7 +31,7 @@ namespace Labb3_Datorgrafik.Tools
 
         public static int CreateGrassBox(GraphicsDevice gd, Vector3 corner1, Vector3 corner2)
         {
-            Vector3 position = Vector3.Lerp(corner1, corner2, 0.5f);
+            Vector3 position = Vector3.Lerp(corner1, corner2, 0.5f) + new Vector3(100, -270, 1000);
             corner2 = (corner2 - corner1) / 2;
             corner1 = -corner2;
 
